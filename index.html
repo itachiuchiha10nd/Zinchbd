@@ -3,131 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Birthday 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display&family=Lato&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Playfair+Display&family=Lato&display=swap" rel="stylesheet">
 
 <style>
-
-html{scroll-behavior:smooth;}
 
 body{
 margin:0;
 font-family:'Lato',sans-serif;
 background:url("assets/bg.jpg") no-repeat center/cover fixed;
-overflow-x:hidden;
+overflow:hidden;
 }
 
 /* overlay */
 body::before{
 content:"";
 position:fixed;
-width:100%;height:100%;
+width:100%;
+height:100%;
 background:rgba(255,240,245,0.3);
+backdrop-filter:blur(3px);
 z-index:-1;
 }
 
 /* pages */
 .page{
-display:none;
-min-height:100vh;
+position:absolute;
+inset:0;
 display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-text-align:center;
+opacity:0;
+transition:0.6s;
+pointer-events:none;
+}
+.page.active{
+opacity:1;
+pointer-events:auto;
+}
+
+/* 💌 envelope */
+.envelope img{
+width:280px;
+cursor:pointer;
+transition:0.3s;
+}
+.envelope img:hover{
+transform:scale(1.05);
+}
+
+/* 📜 letter */
+.paper{
+width:90%;
+max-width:420px;
+height:550px;
+background:url("assets/paper.png") no-repeat center/contain;
+display:flex;
+align-items:center;
+justify-content:center;
 padding:20px;
 }
-.page.active{display:flex}
 
-/* 💌 ENVELOPE */
-.envelope-container{position:relative;cursor:pointer;}
-.envelope-img{width:300px;}
-
-/* letter */
-.letter{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,60px);
-opacity:0;
-transition:1s;
+/* ✨ handwriting text */
+.text{
+width:75%;
+font-family:'Dancing Script', cursive;
+font-size:20px;
+line-height:1.8;
+color:#5a3e3e;
+text-align:center;
 }
-.envelope-container.open .letter{
-transform:translate(-50%,-140px);
-opacity:1;
+
+/* button */
+.btn{
+margin-top:20px;
+padding:12px 28px;
+background:#ff6eb4;
+border:none;
+color:white;
+border-radius:25px;
+cursor:pointer;
+transition:0.3s;
+}
+.btn:hover{
+transform:scale(1.05);
 }
 
 /* 📖 BOOK */
 .book{
-width:300px;height:400px;
-perspective:1000px;
+width:300px;
+height:400px;
 position:relative;
+perspective:1200px;
 }
+
 .page-flip{
 position:absolute;
-width:100%;height:100%;
-background:#fff;color:#000;
+width:100%;
+height:100%;
+background:white;
+border-radius:10px;
 display:flex;
 align-items:center;
 justify-content:center;
-border-radius:10px;
+padding:20px;
 backface-visibility:hidden;
-transition:1s;
-padding:20px;
-}
-.page2{transform:rotateY(180deg);background:#ffe6f0;}
-.book.open .page1{transform:rotateY(180deg);}
-.book.open .page2{transform:rotateY(360deg);}
-
-/* 🎁 gifts */
-.gifts{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-}
-.gift{
-background:#fff;
-padding:20px;
-border-radius:10px;
-cursor:pointer;
+transition:1s ease;
+font-family:'Playfair Display';
 }
 
-/* popup */
-.popup{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.6);
-display:none;
-justify-content:center;
-align-items:center;
-}
-.popup.active{display:flex}
-.popup-box{
-background:#fff;
-padding:20px;
-border-radius:10px;
+.page2{
+transform:rotateY(180deg);
+background:#ffe6f0;
 }
 
-/* buttons */
-.btn{
-margin-top:20px;
-padding:10px 20px;
-background:#ff6eb4;
-border:none;
-color:#fff;
-border-radius:20px;
-cursor:pointer;
+.book.open .page1{
+transform:rotateY(180deg);
 }
-
-/* 🌸 falling flowers */
-.flower{
-position:fixed;
-top:-10px;
-animation:fall linear forwards;
-}
-@keyframes fall{
-to{transform:translateY(110vh);opacity:0;}
+.book.open .page2{
+transform:rotateY(360deg);
 }
 
 </style>
@@ -136,124 +133,67 @@ to{transform:translateY(110vh);opacity:0;}
 <body>
 
 <!-- 💌 PAGE 1 -->
-<section class="page active" id="p1">
-<div class="envelope-container" onclick="openEnvelope()">
-<img src="assets/envelope.png" class="envelope-img">
-<div class="letter">
-<img src="assets/paper.png" width="250">
-</div>
+<div class="page active" id="p1">
+<div class="envelope" onclick="goTo(2)">
+<img src="assets/envelope.png">
 </div>
 <p>Tap to open 💌</p>
-</section>
+</div>
 
-<!-- 📖 PAGE 2 -->
-<section class="page" id="p2">
+<!-- 📜 PAGE 2 -->
+<div class="page" id="p2">
+
+<div class="paper">
+<div class="text">
+
+Happy Birthday, Zinc! 🎉✨<br><br>
+
+Why I did that? Cuz you're Zinc — you do whatever you want 😌🔥<br><br>
+
+Stay bold, stay crazy (the good kind), and never let anyone dim that wild energy of yours.<br><br>
+
+Hope your day is full of chaos, laughter, and exactly the kind of madness you enjoy 😏<br><br>
+
+Enjoy every moment — you deserve it! 💙🎂
+
+</div>
+</div>
+
+<button class="btn" onclick="goTo(3)">Open Book 📖</button>
+
+</div>
+
+<!-- 📖 PAGE 3 -->
+<div class="page" id="p3">
+
 <div class="book" id="book">
-<div class="page-flip page1">Happy Birthday 💖</div>
-<div class="page-flip page2">You are special 🌸</div>
+
+<div class="page-flip page1">
+💖 Happy Birthday 💖<br><br>
+Click to flip →
 </div>
-<button class="btn" onclick="flipBook()">Open Book</button>
-<button class="btn" onclick="goTo(3)">Next</button>
-</section>
 
-<!-- 🎂 PAGE 3 -->
-<section class="page" id="p3">
-<h2>Make a Wish 🎂</h2>
-<button class="btn" onclick="makeWish()">Make Wish</button>
-</section>
-
-<!-- 🎁 PAGE 4 -->
-<section class="page" id="p4">
-<h2>🎁 Gifts 🎁</h2>
-<div class="gifts">
-<div class="gift" onclick="openGift('🍫 Chocolate for you')">Gift 1</div>
-<div class="gift" onclick="openGift('💖 Love message')">Gift 2</div>
-<div class="gift" onclick="openGift('🌸 Flowers')">Gift 3</div>
-<div class="gift" onclick="openGift('🎉 Surprise!')">Gift 4</div>
+<div class="page-flip page2">
+🌸 You are amazing 🌸<br><br>
+Always smile ✨
 </div>
-<button class="btn" onclick="goTo(5)">Final</button>
-</section>
 
-<!-- 💌 FINAL -->
-<section class="page" id="p5">
-<h1>Happy Birthday 💖</h1>
-<button class="btn" onclick="restart()">Restart</button>
-</section>
+</div>
 
-<!-- popup -->
-<div class="popup" id="popup">
-<div class="popup-box" id="popupText"></div>
+<button class="btn" onclick="flipBook()">Flip Page</button>
+
 </div>
 
 <script>
 
-/* navigation */
 function goTo(n){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById('p'+n).classList.add('active');
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById("p"+n).classList.add("active");
 }
 
-/* envelope */
-function openEnvelope(){
-document.querySelector(".envelope-container").classList.add("open");
-setTimeout(()=>goTo(2),1200);
-}
-
-/* book */
 function flipBook(){
 document.getElementById("book").classList.toggle("open");
 }
-
-/* wish */
-function makeWish(){
-fireworks();
-setTimeout(()=>goTo(4),800);
-}
-
-/* gifts */
-function openGift(text){
-let p=document.getElementById("popup");
-document.getElementById("popupText").innerText=text;
-p.classList.add("active");
-setTimeout(()=>p.classList.remove("active"),2000);
-}
-
-/* restart */
-function restart(){
-goTo(1);
-}
-
-/* fireworks */
-function fireworks(){
-for(let i=0;i<15;i++){
-let f=document.createElement("div");
-f.style.position="fixed";
-f.style.width="6px";
-f.style.height="6px";
-f.style.background="pink";
-f.style.left=Math.random()*100+"%";
-f.style.top=Math.random()*100+"%";
-f.style.borderRadius="50%";
-f.style.transition="1s";
-document.body.appendChild(f);
-setTimeout(()=>{
-f.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
-f.style.opacity="0";
-},50);
-setTimeout(()=>f.remove(),1000);
-}
-}
-
-/* flowers */
-setInterval(()=>{
-let f=document.createElement("div");
-f.className="flower";
-f.innerText="🌸";
-f.style.left=Math.random()*100+"vw";
-f.style.animationDuration=(3+Math.random()*3)+"s";
-document.body.appendChild(f);
-setTimeout(()=>f.remove(),6000);
-},400);
 
 </script>
 
