@@ -3,13 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday Story 💖</title>
+<title>Love Letter 💌</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-margin:0;
 font-family:sans-serif;
 overflow:hidden;
+}
+
+/* 🌸 SAME BACKGROUND FOR ALL */
+.bg{
+position:fixed;
+width:100%;
+height:100%;
+background:url("https://i.imgur.com/8Qf6K0H.png");
+background-size:cover;
+background-position:center;
+z-index:-1;
 }
 
 /* pages */
@@ -24,59 +35,53 @@ flex-direction:column;
 transition:1s;
 }
 
-/* hidden */
 .hidden{
 opacity:0;
 pointer-events:none;
 }
 
-/* ❤️ PAGE 1 */
-#page1{
-background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-color:#000;
-}
-
-.heart{
-font-size:80px;
+/* 💌 ENVELOPE */
+.envelope{
+width:250px;
+height:160px;
+background:#fff;
+position:relative;
+border-radius:10px;
 cursor:pointer;
-animation:beat 1s infinite;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
-@keyframes beat{
-50%{transform:scale(1.2);}
+.envelope:before{
+content:"";
+position:absolute;
+top:0;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+clip-path:polygon(0 0,100% 0,50% 50%);
 }
 
-/* 🎂 PAGE 2 */
-#page2{
-background:#fff0f5;
+/* 🎂 CARD */
+.card{
+background:#fff;
+padding:30px;
+border-radius:20px;
 text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
-.cake{
-font-size:80px;
-}
-
+/* button */
 .btn{
 margin-top:20px;
 padding:12px 20px;
 border:none;
-border-radius:10px;
+border-radius:20px;
 background:#ff6b81;
 color:#fff;
 cursor:pointer;
 }
 
-/* 🌌 PAGE 3 */
-#page3{
-background:linear-gradient(#0f2027,#203a43,#2c5364);
-color:#fff;
-}
-
-/* 🎁 PAGE 4 */
-#page4{
-background:#ffe0f0;
-}
-
+/* 🎁 gifts */
 .gifts{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -95,63 +100,112 @@ transition:.3s;
 .gift:hover{
 transform:scale(1.1);
 }
+
+/* popup */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.popup-content{
+background:#fff;
+padding:20px;
+border-radius:15px;
+max-width:300px;
+text-align:center;
+}
 </style>
 </head>
 
 <body>
 
-<!-- ❤️ PAGE 1 -->
-<div class="page" id="page1">
-<h1>💌 Open Me</h1>
-<div class="heart" onclick="next(1)">❤️</div>
+<div class="bg"></div>
+
+<!-- 💌 PAGE 1 -->
+<div class="page" id="p1">
+<h2>a love letter to you my love</h2>
+<div class="envelope" onclick="next(1)"></div>
 </div>
 
 <!-- 🎂 PAGE 2 -->
-<div class="page hidden" id="page2">
-<h1>🎂 Happy Birthday 🎂</h1>
-<div class="cake">🎂🕯️</div>
-
-<button class="btn" onclick="blowCandle()">Blow Candle 🕯️</button>
+<div class="page hidden" id="p2">
+<div class="card">
+<h1>Happy Birthday 💖</h1>
+<p>You are special ✨</p>
+<button class="btn" onclick="next(2)">Open</button>
+</div>
 </div>
 
-<!-- 🌌 PAGE 3 -->
-<div class="page hidden" id="page3">
-<h2>✨ A Special Day ✨</h2>
-<p>Today is all about you 💖</p>
-
+<!-- 💌 PAGE 3 -->
+<div class="page hidden" id="p3">
+<div class="card">
+<h2>My Letter to You 💌</h2>
+<p>You are the best thing in my life... 💖</p>
 <button class="btn" onclick="next(3)">🎁 Surprise</button>
+</div>
 </div>
 
 <!-- 🎁 PAGE 4 -->
-<div class="page hidden" id="page4">
+<div class="page hidden" id="p4">
 <h2>🎁 Your Gifts 🎁</h2>
 
 <div class="gifts">
-<div class="gift" onclick="alert('Gift 1 🎁')">🎁</div>
-<div class="gift" onclick="alert('Gift 2 🎁')">🎁</div>
-<div class="gift" onclick="alert('Gift 3 🎁')">🎁</div>
-<div class="gift" onclick="alert('Gift 4 🎁')">🎁</div>
-<div class="gift" onclick="alert('Gift 5 🎁')">🎁</div>
-<div class="gift" onclick="alert('Gift 6 🎁')">🎁</div>
+<div class="gift" onclick="gift('Photo','https://files.catbox.moe/p6mdkp.jpg')">🎁</div>
+<div class="gift" onclick="gift('Message','You are amazing 💖')">🎁</div>
+<div class="gift" onclick="gift('Audio','audio')">🎁</div>
+<div class="gift" onclick="gift('Memory','Best moments ❤️')">🎁</div>
+<div class="gift" onclick="gift('Secret','Surprise 😏')">🎁</div>
+<div class="gift" onclick="gift('Love','I love you 💕')">🎁</div>
 </div>
 
 </div>
+
+<!-- popup -->
+<div class="popup" id="pop">
+<div class="popup-content" id="content"></div>
+</div>
+
+<audio id="audio" src="assets/audio1.mp3"></audio>
 
 <script>
 
 /* next page */
 function next(n){
-document.getElementById("page"+n).classList.add("hidden");
-document.getElementById("page"+(n+1)).classList.remove("hidden");
+document.getElementById("p"+n).classList.add("hidden");
+document.getElementById("p"+(n+1)).classList.remove("hidden");
 }
 
-/* candle blow */
-function blowCandle(){
-document.querySelector(".cake").innerHTML="🎂✨";
-setTimeout(()=>{
-next(2);
-},1000);
+/* gift open */
+function gift(title,data){
+
+let pop=document.getElementById("pop");
+let box=document.getElementById("content");
+
+if(data==="audio"){
+document.getElementById("audio").play();
+box.innerHTML=`<h2>${title}</h2><p>🎵 Playing...</p>`;
 }
+else if(data.startsWith("http")){
+box.innerHTML=`<h2>${title}</h2><img src="${data}" style="width:100%">`;
+}
+else{
+box.innerHTML=`<h2>${title}</h2><p>${data}</p>`;
+}
+
+pop.style.display="flex";
+}
+
+/* close popup */
+document.getElementById("pop").onclick=()=>{
+pop.style.display="none";
+};
 
 </script>
 
