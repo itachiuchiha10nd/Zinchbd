@@ -6,7 +6,7 @@
 
 <title>HAPPY BIRTHDAY ZNIC 🎉</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Lato&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lato&display=swap" rel="stylesheet">
 
 <style>
 
@@ -15,28 +15,32 @@ body{
 margin:0;
 font-family:'Lato',sans-serif;
 overflow:hidden;
-background:#fff;
 }
 
-/* 🌸 BACKGROUND IMAGE */
+/* 🌸 BACKGROUND IMAGE (NO BLUR) */
 .bg{
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
-background:url("assets/bg.jpg") repeat;
-background-size:250px;
-opacity:0.25;
+background:url("assets/bg.jpg") no-repeat center center;
+background-size:cover;
 z-index:-2;
 }
 
-/* blur layer */
-.blur{
+/* 🌸 FLOWER EFFECT */
+.flower{
 position:fixed;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.6);
-backdrop-filter:blur(4px);
+top:-20px;
+pointer-events:none;
+animation:fall linear forwards;
 z-index:-1;
+}
+
+@keyframes fall{
+0%{transform:translateY(0) rotate(0deg);opacity:1;}
+100%{transform:translateY(110vh) rotate(360deg);opacity:0;}
 }
 
 /* PAGE */
@@ -59,9 +63,9 @@ pointer-events:auto;
 
 /* TITLE */
 .title{
-font-family:'Dancing Script',cursive;
-font-size:34px;
-color:#ff4d8d;
+font-family:'Dancing+Script',cursive;
+font-size:38px;
+color:#ff3d8d;
 margin-bottom:20px;
 }
 
@@ -79,29 +83,28 @@ transform:scale(1.05);
 .paper{
 position:relative;
 width:calc(100vw - 60px);
-height:calc(100vh - 160px);
+height:calc(100vh - 150px);
 max-width:520px;
-max-height:680px;
+max-height:700px;
 }
 
 .paper img{
 width:100%;
 height:100%;
 object-fit:contain;
-display:block;
 }
 
-/* TEXT */
+/* ✍️ TEXT */
 .text{
 position:absolute;
-top:28%;
+top:27%;
 left:50%;
 transform:translateX(-50%);
 width:65%;
-height:48%;
+height:50%;
 
 font-family:'Dancing Script',cursive;
-font-size:20px;
+font-size:24px; /* 🔥 bigger font */
 line-height:1.6;
 color:#5a3e3e;
 text-align:center;
@@ -118,12 +121,13 @@ margin-top:15px;
 }
 
 .btn{
-padding:10px 20px;
+padding:10px 22px;
 background:#ff6eb4;
 border:none;
 color:white;
 border-radius:20px;
 cursor:pointer;
+font-size:15px;
 }
 
 </style>
@@ -133,7 +137,6 @@ cursor:pointer;
 
 <!-- BACKGROUND -->
 <div class="bg"></div>
-<div class="blur"></div>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
@@ -198,11 +201,27 @@ function type(){
 if(i < message.length){
 el.innerHTML += message.charAt(i);
 i++;
-setTimeout(type,20);
+setTimeout(type,18); /* ⚡ fast */
 }
 }
 type();
 }
+
+/* 🌸 FLOWERS */
+setInterval(()=>{
+let f=document.createElement("div");
+f.className="flower";
+f.innerText="🌸";
+
+f.style.left=Math.random()*100+"vw";
+f.style.fontSize=(18+Math.random()*12)+"px";
+f.style.animationDuration=(4+Math.random()*4)+"s";
+
+document.body.appendChild(f);
+
+setTimeout(()=>f.remove(),8000);
+
+},350);
 
 </script>
 
