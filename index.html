@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display&display=swap" rel="stylesheet">
+<title>Birthday Ultimate 💖</HAPPY BIRTHDAY ZINC>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display&family=Lato&display=swap" rel="stylesheet">
 
 <style>
 
 html{scroll-behavior:smooth;}
 body{
 margin:0;
-font-family:sans-serif;
+font-family:'Lato',sans-serif;
 background:url("assets/bg.jpg") no-repeat center/cover fixed;
+overflow-x:hidden;
 }
 
 /* overlay */
@@ -21,8 +23,7 @@ body::before{
 content:"";
 position:fixed;
 width:100%;height:100%;
-background:rgba(255,240,245,0.35);
-backdrop-filter:blur(2px);
+background:rgba(255,240,245,0.3);
 z-index:-1;
 }
 
@@ -37,64 +38,80 @@ flex-direction:column;
 }
 .page.active{display:flex}
 
-/* 💌 ENVELOPE */
-.envelope-box{
-position:relative;
-text-align:center;
+/* 🌸 falling flowers */
+.flower{
+position:fixed;
+top:-10px;
+font-size:20px;
+animation:fall linear forwards;
+}
+@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg);opacity:0;}
 }
 
-.envelope-box img{
-width:300px;
-cursor:pointer;
-transition:0.5s;
-}
+/* 💌 envelope */
+.envelope-container{position:relative;cursor:pointer;}
+.envelope-img{width:300px;}
 
-/* 📜 LETTER SLIDE */
-.letter{
+/* letter */
+.letter-slide{
 position:absolute;
-top:20%;
-left:50%;
-transform:translateX(-50%) translateY(100px);
+top:50%;left:50%;
+transform:translate(-50%,60px);
 opacity:0;
 transition:1s;
 }
-
-.letter img{
-width:250px;
+.envelope-container.open .letter-slide{
+transform:translate(-50%,-140px);
+opacity:1;
 }
 
-/* 📖 BOOK */
+/* 📖 book */
 .book{
-width:300px;
-height:400px;
-position:relative;
+width:300px;height:400px;
 perspective:1000px;
 }
-
 .page-flip{
-width:100%;
-height:100%;
 position:absolute;
-background:#fff;
+width:100%;height:100%;
+background:#fff;color:#000;
+display:flex;align-items:center;justify-content:center;
 border-radius:10px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-family:'Playfair Display';
 backface-visibility:hidden;
 transition:1s;
+padding:20px;
+}
+.page2{transform:rotateY(180deg);background:#ffe6f0;}
+.book.open .page1{transform:rotateY(180deg);}
+.book.open .page2{transform:rotateY(360deg);}
+
+/* 🎁 gifts */
+.gifts{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+.gift{
+background:#fff;
+padding:20px;
+border-radius:10px;
+cursor:pointer;
 }
 
-.page2{
-background:#ffe6f0;
-transform:rotateY(180deg);
+/* popup */
+.popup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
 }
-
-.book.open .page1{
-transform:rotateY(180deg);
-}
-.book.open .page2{
-transform:rotateY(360deg);
+.popup.active{display:flex}
+.popup-box{
+background:#fff;
+padding:20px;
+border-radius:10px;
 }
 
 /* button */
@@ -103,8 +120,8 @@ margin-top:20px;
 padding:10px 20px;
 background:#ff6eb4;
 border:none;
-border-radius:20px;
 color:#fff;
+border-radius:20px;
 cursor:pointer;
 }
 
@@ -113,67 +130,142 @@ cursor:pointer;
 
 <body>
 
-<!-- 💌 PAGE 0 -->
-<div class="page active" id="p0">
-
-<div class="envelope-box">
-
-<img src="assets/envelope.png" onclick="openEnvelope()">
-
-<div class="letter" id="letter">
-<img src="assets/paper.png">
+<!-- 💌 PAGE 1 -->
+<section class="page active" id="p1">
+<div class="envelope-container" onclick="openEnvelope()">
+<img src="assets/envelope.png" class="envelope-img">
+<div class="letter-slide"><img src="assets/paper.png" width="250"></div>
 </div>
+<p>Tap to open 💌</p>
+</section>
 
-</div>
-
-</div>
-
-<!-- 📖 PAGE 1 -->
-<div class="page" id="p1">
-
+<!-- 📖 PAGE 2 -->
+<section class="page" id="p2">
 <div class="book" id="book">
-
-<div class="page-flip page1">
-Happy Birthday 💖
+<div class="page-flip page1">Happy Birthday 💖</div>
+<div class="page-flip page2">You are special 🌸</div>
 </div>
+<button class="btn" onclick="flipBook()">Open Book</button>
+<button class="btn" onclick="goTo(3)">Next</button>
+</section>
 
-<div class="page-flip page2">
-You are special 🌸
+<!-- 🎂 PAGE 3 -->
+<section class="page" id="p3">
+<h2>Make a Wish 🎂</h2>
+<button class="btn" onclick="wish()">Make Wish</button>
+</section>
+
+<!-- 🎁 PAGE 4 -->
+<section class="page" id="p4">
+<h2>🎁 Gifts 🎁</h2>
+<div class="gifts">
+<div class="gift" onclick="openGift('🍫 Chocolate for you')">Gift 1</div>
+<div class="gift" onclick="openGift('📸 Memory pic')">Gift 2</div>
+<div class="gift" onclick="openGift('💖 Love message')">Gift 3</div>
+<div class="gift" onclick="openGift('🎵 Song for you')">Gift 4</div>
+<div class="gift" onclick="openGift('🌸 Flowers')">Gift 5</div>
+<div class="gift" onclick="openGift('🎁 Surprise!')">Gift 6</div>
 </div>
+<button class="btn" onclick="goTo(5)">Final</button>
+</section>
 
-</div>
+<!-- 💌 FINAL -->
+<section class="page" id="p5">
+<h1>Happy Birthday 💖</h1>
+<button class="btn" onclick="goTo(1)">Restart</button>
+</section>
 
-<button class="btn" onclick="flipBook()">Open Book 📖</button>
-
+<!-- popup -->
+<div class="popup" id="popup">
+<div class="popup-box" id="popupText"></div>
 </div>
 
 <script>
 
-/* envelope open + letter slide */
-function openEnvelope(){
-
-let letter = document.getElementById("letter");
-
-letter.style.opacity="1";
-letter.style.transform="translateX(-50%) translateY(-120px)";
-
-setTimeout(()=>{
-goTo(1);
-},1500);
-}
-
-/* page switch */
+/* navigation */
 function goTo(n){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-document.getElementById("p"+n).classList.add("active");
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById('p'+n).classList.add('active');
 }
 
-/* book flip */
+/* envelope */
+function openEnvelope(){
+document.querySelector(".envelope-container").classList.add("open");
+setTimeout(()=>goTo(2),1400);
+}
+
+/* book */
 function flipBook(){
 document.getElementById("book").classList.toggle("open");
 }
 
+/* wish */
+function wish(){
+fireworks();
+setTimeout(()=>goTo(4),1000);
+}
+
+/* gifts */
+function openGift(text){
+let p=document.getElementById("popup");
+document.getElementById("popupText").innerText=text;
+p.classList.add("active");
+setTimeout(()=>p.classList.remove("active"),2000);
+}
+
+/* fireworks */
+function fireworks(){
+for(let i=0;i<20;i++){
+let f=document.createElement("div");
+f.style.position="fixed";
+f.style.width="6px";
+f.style.height="6px";
+f.style.background="pink";
+f.style.left=Math.random()*100+"%";
+f.style.top=Math.random()*100+"%";
+f.style.borderRadius="50%";
+f.style.transition="1s";
+document.body.appendChild(f);
+setTimeout(()=>{
+f.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
+f.style.opacity="0";
+},50);
+setTimeout(()=>f.remove(),1000);
+}
+}
+
+/* 🌸 falling flowers */
+setInterval(()=>{
+let f=document.createElement("div");
+f.className="flower";
+f.innerText="🌸";
+f.style.left=Math.random()*100+"vw";
+f.style.animationDuration=(3+Math.random()*3)+"s";
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),6000);
+},300);
+
+/* 💥 click blast */
+document.addEventListener("click",e=>{
+for(let i=0;i<5;i++){
+let b=document.createElement("div");
+b.style.position="fixed";
+b.style.width="5px";
+b.style.height="5px";
+b.style.background="pink";
+b.style.left=e.clientX+"px";
+b.style.top=e.clientY+"px";
+b.style.transition="0.5s";
+document.body.appendChild(b);
+setTimeout(()=>{
+b.style.transform=`translate(${Math.random()*60-30}px,${Math.random()*60-30}px)`;
+b.style.opacity="0";
+},50);
+setTimeout(()=>b.remove(),500);
+}
+});
+
 </script>
 
 </body>
-</html>
+  </html>
