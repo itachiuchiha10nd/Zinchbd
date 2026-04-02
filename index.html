@@ -47,7 +47,7 @@ pointer-events:auto;
 
 /* 💌 envelope */
 .envelope img{
-width:280px;
+width:260px;
 cursor:pointer;
 transition:0.3s;
 }
@@ -55,76 +55,52 @@ transition:0.3s;
 transform:scale(1.05);
 }
 
-/* 📜 letter */
+/* 📜 letter container */
 .paper{
-width:90%;
-max-width:420px;
-height:550px;
-background:url("assets/paper.png") no-repeat center/contain;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
+position:relative;
+width:320px;
+height:500px;
 }
 
-/* ✨ handwriting text */
+/* image */
+.paper img{
+width:100%;
+height:100%;
+object-fit:contain;
+}
+
+/* text inside PNG */
 .text{
-width:75%;
-font-family:'Dancing Script', cursive;
-font-size:20px;
-line-height:1.8;
+position:absolute;
+top:20%;
+left:50%;
+transform:translateX(-50%);
+width:70%;
+font-family:'Dancing Script',cursive;
+font-size:18px;
+line-height:1.6;
 color:#5a3e3e;
 text-align:center;
 }
 
-/* button */
+/* buttons */
+.btn-group{
+display:flex;
+gap:15px;
+margin-top:15px;
+}
+
 .btn{
-margin-top:20px;
-padding:12px 28px;
+padding:10px 22px;
 background:#ff6eb4;
 border:none;
 color:white;
-border-radius:25px;
+border-radius:20px;
 cursor:pointer;
 transition:0.3s;
 }
 .btn:hover{
 transform:scale(1.05);
-}
-
-/* 📖 BOOK */
-.book{
-width:300px;
-height:400px;
-position:relative;
-perspective:1200px;
-}
-
-.page-flip{
-position:absolute;
-width:100%;
-height:100%;
-background:white;
-border-radius:10px;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-backface-visibility:hidden;
-transition:1s ease;
-font-family:'Playfair Display';
-}
-
-.page2{
-transform:rotateY(180deg);
-background:#ffe6f0;
-}
-
-.book.open .page1{
-transform:rotateY(180deg);
-}
-.book.open .page2{
-transform:rotateY(360deg);
 }
 
 </style>
@@ -134,16 +110,22 @@ transform:rotateY(360deg);
 
 <!-- 💌 PAGE 1 -->
 <div class="page active" id="p1">
+
 <div class="envelope" onclick="goTo(2)">
 <img src="assets/envelope.png">
 </div>
+
 <p>Tap to open 💌</p>
+
 </div>
 
 <!-- 📜 PAGE 2 -->
 <div class="page" id="p2">
 
 <div class="paper">
+
+<img src="assets/paper.png">
+
 <div class="text">
 
 Happy Birthday, Zinc! 🎉✨<br><br>
@@ -157,30 +139,24 @@ Hope your day is full of chaos, laughter, and exactly the kind of madness you en
 Enjoy every moment — you deserve it! 💙🎂
 
 </div>
+
 </div>
 
-<button class="btn" onclick="goTo(3)">Open Book 📖</button>
+<div class="btn-group">
+<button class="btn" onclick="goTo(1)">⬅ Back</button>
+<button class="btn" onclick="goTo(3)">Next ➡</button>
+</div>
 
 </div>
 
 <!-- 📖 PAGE 3 -->
 <div class="page" id="p3">
 
-<div class="book" id="book">
+<h2>📖 Book Coming Next...</h2>
 
-<div class="page-flip page1">
-💖 Happy Birthday 💖<br><br>
-Click to flip →
+<div class="btn-group">
+<button class="btn" onclick="goTo(2)">⬅ Back</button>
 </div>
-
-<div class="page-flip page2">
-🌸 You are amazing 🌸<br><br>
-Always smile ✨
-</div>
-
-</div>
-
-<button class="btn" onclick="flipBook()">Flip Page</button>
 
 </div>
 
@@ -189,10 +165,6 @@ Always smile ✨
 function goTo(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
-}
-
-function flipBook(){
-document.getElementById("book").classList.toggle("open");
 }
 
 </script>
