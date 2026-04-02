@@ -6,7 +6,7 @@
 
 <title>Birthday 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Playfair+Display&family=Lato&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Lato&display=swap" rel="stylesheet">
 
 <style>
 
@@ -23,7 +23,7 @@ content:"";
 position:fixed;
 width:100%;
 height:100%;
-background:rgba(255,240,245,0.3);
+background:rgba(255,240,245,0.35);
 backdrop-filter:blur(3px);
 z-index:-1;
 }
@@ -45,7 +45,7 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* 💌 envelope */
+/* envelope */
 .envelope img{
 width:260px;
 cursor:pointer;
@@ -55,11 +55,11 @@ transition:0.3s;
 transform:scale(1.05);
 }
 
-/* 📜 letter container */
+/* 📜 PAPER */
 .paper{
 position:relative;
-width:320px;
-height:500px;
+width:340px;
+height:520px;
 }
 
 /* image */
@@ -69,18 +69,27 @@ height:100%;
 object-fit:contain;
 }
 
-/* text inside PNG */
+/* ✨ PERFECT TEXT FIT */
 .text{
 position:absolute;
-top:20%;
+
+/* 🔥 tuned for YOUR image */
+top:24%;
 left:50%;
 transform:translateX(-50%);
-width:70%;
+
+width:62%;
+height:52%;
+
 font-family:'Dancing Script',cursive;
 font-size:18px;
-line-height:1.6;
+line-height:1.55;
 color:#5a3e3e;
 text-align:center;
+
+/* prevents overflow */
+overflow:auto;
+padding:5px;
 }
 
 /* buttons */
@@ -149,10 +158,10 @@ Enjoy every moment — you deserve it! 💙🎂
 
 </div>
 
-<!-- 📖 PAGE 3 -->
+<!-- 📖 PAGE 3 (placeholder) -->
 <div class="page" id="p3">
 
-<h2>📖 Book Coming Next...</h2>
+<h2>Next Surprise Coming 😏✨</h2>
 
 <div class="btn-group">
 <button class="btn" onclick="goTo(2)">⬅ Back</button>
