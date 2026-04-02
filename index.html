@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Story 💖</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+overflow:hidden;
+}
+
+/* pages */
+.page{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+transition:1s;
+}
+
+/* hidden */
+.hidden{
+opacity:0;
+pointer-events:none;
+}
+
+/* ❤️ PAGE 1 */
+#page1{
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+color:#000;
+}
+
+.heart{
+font-size:80px;
+cursor:pointer;
+animation:beat 1s infinite;
+}
+
+@keyframes beat{
+50%{transform:scale(1.2);}
+}
+
+/* 🎂 PAGE 2 */
+#page2{
+background:#fff0f5;
+text-align:center;
+}
+
+.cake{
+font-size:80px;
+}
+
+.btn{
+margin-top:20px;
+padding:12px 20px;
+border:none;
+border-radius:10px;
+background:#ff6b81;
+color:#fff;
+cursor:pointer;
+}
+
+/* 🌌 PAGE 3 */
+#page3{
+background:linear-gradient(#0f2027,#203a43,#2c5364);
+color:#fff;
+}
+
+/* 🎁 PAGE 4 */
+#page4{
+background:#ffe0f0;
+}
+
+.gifts{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+}
+
+.gift{
+background:#fff;
+padding:20px;
+border-radius:15px;
+font-size:30px;
+cursor:pointer;
+transition:.3s;
+}
+
+.gift:hover{
+transform:scale(1.1);
+}
+</style>
+</head>
+
+<body>
+
+<!-- ❤️ PAGE 1 -->
+<div class="page" id="page1">
+<h1>💌 Open Me</h1>
+<div class="heart" onclick="next(1)">❤️</div>
+</div>
+
+<!-- 🎂 PAGE 2 -->
+<div class="page hidden" id="page2">
+<h1>🎂 Happy Birthday 🎂</h1>
+<div class="cake">🎂🕯️</div>
+
+<button class="btn" onclick="blowCandle()">Blow Candle 🕯️</button>
+</div>
+
+<!-- 🌌 PAGE 3 -->
+<div class="page hidden" id="page3">
+<h2>✨ A Special Day ✨</h2>
+<p>Today is all about you 💖</p>
+
+<button class="btn" onclick="next(3)">🎁 Surprise</button>
+</div>
+
+<!-- 🎁 PAGE 4 -->
+<div class="page hidden" id="page4">
+<h2>🎁 Your Gifts 🎁</h2>
+
+<div class="gifts">
+<div class="gift" onclick="alert('Gift 1 🎁')">🎁</div>
+<div class="gift" onclick="alert('Gift 2 🎁')">🎁</div>
+<div class="gift" onclick="alert('Gift 3 🎁')">🎁</div>
+<div class="gift" onclick="alert('Gift 4 🎁')">🎁</div>
+<div class="gift" onclick="alert('Gift 5 🎁')">🎁</div>
+<div class="gift" onclick="alert('Gift 6 🎁')">🎁</div>
+</div>
+
+</div>
+
+<script>
+
+/* next page */
+function next(n){
+document.getElementById("page"+n).classList.add("hidden");
+document.getElementById("page"+(n+1)).classList.remove("hidden");
+}
+
+/* candle blow */
+function blowCandle(){
+document.querySelector(".cake").innerHTML="🎂✨";
+setTimeout(()=>{
+next(2);
+},1000);
+}
+
+</script>
+
+</body>
+</html>
