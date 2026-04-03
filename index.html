@@ -12,9 +12,9 @@
 
 /* RESET */
 *{margin:0;padding:0;box-sizing:border-box;}
-body{overflow:hidden;font-family:'Poppins',sans-serif;}
+body{overflow:hidden;font-family:'Poppins';}
 
-/* PAGE */
+/* PAGE SYSTEM */
 .page{
 position:absolute;
 inset:0;
@@ -28,23 +28,29 @@ transition:0.5s;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
-/* ENTRY PAGE */
+/* ================= ENTRY ================= */
 #p0{
 background:url("assets/entry-bg.jpg") center/cover no-repeat;
 display:flex;
 justify-content:flex-end;
 align-items:center;
-padding-right:5%;
 }
 
+/* PERFECT RIGHT MIDDLE */
 .pass-box{
+position:absolute;
+right:6%;
+top:50%;
+transform:translateY(-50%);
 padding:25px;
+
 background:rgba(255,255,255,0.15);
 backdrop-filter:blur(12px);
 border-radius:20px;
 box-shadow:0 0 25px rgba(255,105,180,0.5);
 }
 
+/* DISPLAY */
 .display{
 color:#ff6eb4;
 font-size:36px;
@@ -55,6 +61,7 @@ margin-bottom:20px;
 text-shadow:0 0 10px #ff6eb4,0 0 20px #ff6eb4,0 0 40px #ff6eb4;
 }
 
+/* KEYPAD */
 .pad{
 display:grid;
 grid-template-columns:repeat(3,70px);
@@ -73,7 +80,7 @@ box-shadow:0 0 15px #ff6eb4;
 cursor:pointer;
 }
 
-/* COMMON BG */
+/* ================= COMMON BG ================= */
 .bg{
 position:absolute;
 inset:0;
@@ -85,9 +92,7 @@ z-index:-1;
 .envelope{
 width:260px;
 cursor:pointer;
-transition:0.3s;
 }
-.envelope:hover{transform:scale(1.1);}
 
 /* LETTER */
 .paper{
@@ -108,9 +113,9 @@ text-align:center;
 color:#000;
 }
 
-/* BUTTON */
+/* BUTTONS */
 .btn{
-margin-top:20px;
+margin:10px;
 padding:12px 25px;
 background:#ff6eb4;
 border:none;
@@ -120,7 +125,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* CAKE PAGE */
+/* ================= CAKE ================= */
 .cake-bg{
 position:absolute;
 inset:0;
@@ -128,15 +133,12 @@ background:url("assets/bg2.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-.cake-box{
-position:relative;
-}
 .cake-box img{
 width:90vw;
 max-width:350px;
 }
 
-/* CANDLE */
+/* FLAME */
 .flame{
 position:absolute;
 top:12%;
@@ -159,16 +161,10 @@ height:150px;
 background:radial-gradient(circle,rgba(255,200,100,0.6),transparent);
 }
 
-@keyframes flicker{
-from{transform:translate(-50%,-50%) scale(1);}
-to{transform:translate(-50%,-50%) scale(1.2);}
-}
-
 /* FLOWERS */
 .flower{
 position:fixed;
 top:-20px;
-font-size:20px;
 animation:fall 6s linear forwards;
 }
 @keyframes fall{
@@ -186,7 +182,7 @@ animation:floatUp 6s linear forwards;
 to{transform:translateY(-120vh);}
 }
 
-/* BLAST TEXT */
+/* BLAST */
 .blastText{
 position:fixed;
 inset:0;
@@ -197,15 +193,8 @@ font-size:60px;
 font-weight:bold;
 background:radial-gradient(circle,#ff6eb4,#000);
 color:white;
-text-align:center;
 display:none;
 z-index:999;
-animation:zoomBlast 1s ease;
-}
-
-@keyframes zoomBlast{
-0%{transform:scale(0);opacity:0;}
-100%{transform:scale(1);opacity:1;}
 }
 
 /* FIREWORK */
@@ -216,7 +205,6 @@ height:6px;
 border-radius:50%;
 animation:firework 0.8s forwards;
 }
-
 @keyframes firework{
 to{transform:translate(var(--x),var(--y));opacity:0;}
 }
@@ -265,7 +253,10 @@ to{transform:translate(var(--x),var(--y));opacity:0;}
 <div class="text" id="typing"></div>
 </div>
 
+<div>
+<button class="btn" onclick="goTo(1)">⬅ Back</button>
 <button class="btn" onclick="goTo(3)">Next 🎂</button>
+</div>
 </div>
 
 <!-- CAKE -->
@@ -278,7 +269,10 @@ to{transform:translate(var(--x),var(--y));opacity:0;}
 <div class="flame" id="flame"></div>
 </div>
 
+<div>
+<button class="btn" onclick="goTo(2)">⬅ Back</button>
 <button class="btn" onclick="blow()">Blow Candle</button>
+</div>
 </div>
 
 <div class="blastText" id="blastText">HAPPY BIRTHDAY ZNIC 🎉</div>
@@ -300,47 +294,16 @@ input+=n;
 display.innerText=input;
 }
 }
-function clearPass(){
-input="";
-display.innerText="";
-}
+function clearPass(){input="";display.innerText="";}
 function checkPass(){
-if(input==="81206"){
-goTo(1);
-}else{
-alert("Wrong Password ❌");
-clearPass();
+if(input==="81206"){goTo(1);}
+else{alert("Wrong Password ❌");clearPass();}
 }
-}
-
-/* FLOWERS */
-setInterval(()=>{
-let f=document.createElement("div");
-f.className="flower";
-f.innerText="🌸";
-f.style.left=Math.random()*100+"vw";
-document.body.appendChild(f);
-setTimeout(()=>f.remove(),6000);
-},600);
-
-/* BALLOONS ONLY CAKE */
-setInterval(()=>{
-if(!document.getElementById("p3").classList.contains("active")) return;
-
-let b=document.createElement("img");
-b.src="assets/balloon.png";
-b.className="balloon";
-b.style.left=Math.random()*100+"%";
-document.body.appendChild(b);
-setTimeout(()=>b.remove(),6000);
-},800);
 
 /* LETTER */
 const msg=`Happy Birthday, Zinc! 🎉✨
 
-Why I did that? Cuz you're Zinc 😌🔥
-
-Stay bold, stay crazy 💙`;
+Stay bold, stay crazy 😌🔥`;
 
 function startTyping(){
 let el=document.getElementById("typing");
@@ -356,7 +319,18 @@ setTimeout(type,20);
 type();
 }
 
-/* FIREWORKS */
+/* BALLOONS */
+setInterval(()=>{
+if(!p3.classList.contains("active")) return;
+let b=document.createElement("img");
+b.src="assets/balloon.png";
+b.className="balloon";
+b.style.left=Math.random()*100+"%";
+document.body.appendChild(b);
+setTimeout(()=>b.remove(),6000);
+},800);
+
+/* FIREWORK */
 function createFireworks(){
 for(let i=0;i<60;i++){
 let f=document.createElement("div");
@@ -377,17 +351,13 @@ flame.style.display="none";
 glow.style.display="none";
 
 blastSound.play();
-
 createFireworks();
 
 blastText.style.display="flex";
-
-setTimeout(()=>{
-blastText.style.display="none";
-},2500);
+setTimeout(()=>blastText.style.display="none",2500);
 }
 
 </script>
 
 </body>
-  </html>
+</html>
