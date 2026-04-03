@@ -41,9 +41,14 @@ width:100%;height:100%;object-fit:cover;
 
 /* BUTTON */
 .btn{
-margin:10px;padding:12px 25px;
-background:#ff6eb4;border:none;border-radius:25px;
-color:white;font-weight:bold;cursor:pointer;
+margin:10px;
+padding:12px 25px;
+background:#ff6eb4;
+border:none;
+border-radius:25px;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
 /* BACK */
@@ -51,19 +56,22 @@ color:white;font-weight:bold;cursor:pointer;
 position:absolute;top:20px;left:20px;
 }
 
-/* GIFTS */
+/* 🎁 BIG GIFTS */
 .gift-container{
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-justify-content:center;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:30px;
+width:90%;
+max-width:500px;
 }
+
 .gift{
-width:80px;
+width:100%;
+max-width:180px;
 cursor:pointer;
 transition:.3s;
 }
-.gift:hover{transform:scale(1.2);}
+.gift:hover{transform:scale(1.1);}
 
 /* LETTER */
 .letter{
@@ -76,6 +84,12 @@ font-size:22px;
 text-align:center;
 color:white;
 max-width:300px;
+}
+
+/* FINAL BUTTON */
+.final-btn{
+display:none;
+margin-top:20px;
 }
 </style>
 </head>
@@ -112,9 +126,14 @@ max-width:300px;
 <img src="assets/gift.png" class="gift" onclick="openGift(4)">
 </div>
 
+<!-- FINAL WORDS BUTTON -->
+<button id="finalBtn" class="btn final-btn" onclick="goTo('final')">
+Final Words 💌
+</button>
+
 </div>
 
-<!-- PAGE 3 (NO GIF) -->
+<!-- PAGE 3 -->
 <div class="page" id="p3" style="display:none;">
 <div class="bg"></div>
 
@@ -130,25 +149,25 @@ max-width:300px;
 <div class="page" id="g1" style="display:none;">
 <div class="bg"></div>
 <button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
-<div class="letter">Surprise 1 🎁💖</div>
+<div class="letter">🎁 Surprise 1 💖</div>
 </div>
 
 <div class="page" id="g2" style="display:none;">
 <div class="bg"></div>
 <button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
-<div class="letter">Surprise 2 🎉</div>
+<div class="letter">🎁 Surprise 2 🎉</div>
 </div>
 
 <div class="page" id="g3" style="display:none;">
 <div class="bg"></div>
 <button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
-<div class="letter">Surprise 3 ✨</div>
+<div class="letter">🎁 Surprise 3 ✨</div>
 </div>
 
 <div class="page" id="g4" style="display:none;">
 <div class="bg"></div>
 <button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
-<div class="letter">Surprise 4 😍</div>
+<div class="letter">🎁 Surprise 4 😍</div>
 </div>
 
 <!-- FINAL PAGE -->
@@ -156,9 +175,9 @@ max-width:300px;
 <div class="bg"></div>
 
 <div class="letter">
-💌 You unlocked everything...  
-Happy Birthday once again Znic 💖✨  
-You deserve everything 🎂
+💌 Happy Birthday once again Znic!  
+You unlocked all surprises 🎉  
+Stay amazing always 💖
 </div>
 
 </div>
@@ -166,17 +185,20 @@ You deserve everything 🎂
 <script>
 
 /* NAV */
-function goTo(n){
+function goTo(id){
 document.querySelectorAll(".page").forEach(p=>p.style.display="none");
-document.getElementById("p"+n).style.display="flex";
+document.getElementById("p"+id) 
+|| document.getElementById(id)
+? document.getElementById(id)?.style.display="flex" || document.getElementById("p"+id).style.display="flex"
+: null;
 }
 
 function goHome(){
 window.location.href="index.html";
 }
 
-/* GIFT TRACK */
-let opened = [];
+/* TRACK */
+let opened=[];
 
 function openGift(n){
 document.querySelectorAll(".page").forEach(p=>p.style.display="none");
@@ -186,14 +208,10 @@ if(!opened.includes(n)){
 opened.push(n);
 }
 
-/* ALL OPENED */
-if(opened.length === 4){
-setTimeout(()=>{
-document.querySelectorAll(".page").forEach(p=>p.style.display="none");
-document.getElementById("final").style.display="flex";
-},1500);
+/* SHOW FINAL BUTTON */
+if(opened.length===4){
+document.getElementById("finalBtn").style.display="inline-block";
 }
-
 }
 
 </script>
