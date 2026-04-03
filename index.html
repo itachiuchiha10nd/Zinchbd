@@ -14,22 +14,7 @@ body{
 margin:0;
 overflow:hidden;
 font-family:'Lato',sans-serif;
-}
-
-/* BACKGROUND */
-.bg{
-position:fixed;
-width:100%;
-height:100%;
 background:url("assets/bg.jpg") no-repeat center/cover;
-z-index:-5;
-}
-.cake-bg{
-position:absolute;
-width:100%;
-height:100%;
-background:url("assets/bg2.jpg") no-repeat center/cover;
-z-index:-4;
 }
 
 /* PAGE */
@@ -41,29 +26,65 @@ justify-content:center;
 align-items:center;
 flex-direction:column;
 opacity:0;
-transition:0.4s;
 pointer-events:none;
+transition:0.4s;
 }
 .page.active{
 opacity:1;
 pointer-events:auto;
 }
 
-/* TITLE */
-.title{
-font-family:'Dancing Script';
-font-size:36px;
-color:#ff3d8d;
+/* PASSWORD BOX */
+.pass-box{
+background:rgba(255,105,180,0.15);
+border:2px solid #ff6eb4;
+padding:25px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+box-shadow:0 0 25px rgba(255,105,180,0.5);
+text-align:center;
+}
+.pass-display{
+font-size:28px;
+letter-spacing:8px;
 margin-bottom:20px;
+color:#ff6eb4;
+}
+.keypad{
+display:grid;
+grid-template-columns:repeat(3,70px);
+gap:10px;
+}
+.keypad button{
+padding:15px;
+border:none;
+border-radius:12px;
+background:#ff6eb4;
+color:white;
+font-size:18px;
+cursor:pointer;
 }
 
-/* CAKE */
+/* ENVELOPE */
+.envelope{
+width:260px;
+cursor:pointer;
+}
+
+/* CAKE PAGE */
+.cake-bg{
+position:absolute;
+width:100%;
+height:100%;
+background:url("assets/bg2.jpg") no-repeat center/cover;
+z-index:-1;
+}
+
 .cake-box{
 position:relative;
 }
 .cake-box img{
-width:340px;
-max-width:85vw;
+width:350px;
 }
 
 /* FLAME */
@@ -115,75 +136,29 @@ animation:smokeUp 1.5s forwards;
 to{transform:translateY(-80px);opacity:0;}
 }
 
-/* BALLOONS */
-.balloon{
-position:fixed;
-bottom:-60px;
-width:60px;
-animation:floatUp linear forwards;
-}
-@keyframes floatUp{
-to{transform:translateY(-120vh);}
-}
-
-/* FLOWERS */
-.flower{
-position:fixed;
-top:-20px;
-animation:fall linear forwards;
-}
-@keyframes fall{
-to{transform:translateY(110vh) rotate(360deg);opacity:0;}
+/* BUTTON */
+.btn{
+margin-top:20px;
+padding:10px 20px;
+background:#ff6eb4;
+border:none;
+border-radius:20px;
+color:white;
+cursor:pointer;
 }
 
-/* BLAST */
-.blast{
-position:fixed;
-width:10px;
-height:10px;
-border-radius:50%;
-animation:explode 1s forwards;
-}
-@keyframes explode{
-to{transform:translate(var(--x),var(--y));opacity:0;}
-}
-
-/* FIREWORK */
-.firework{
-position:fixed;
-width:6px;
-height:6px;
-border-radius:50%;
-animation:explode 1s forwards;
-}
-
-/* TEXT BLAST */
+/* BLAST TEXT */
 .blastText{
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:55px;
-font-weight:900;
-
-background:linear-gradient(45deg,#fff,#ff6eb4,#ff1493);
+font-size:50px;
+font-weight:bold;
+background:linear-gradient(45deg,#fff,#ff6eb4);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-
-text-shadow:0 0 15px pink,0 0 30px hotpink;
 display:none;
-z-index:9999;
-}
-
-/* BUTTON */
-.btn{
-margin-top:20px;
-padding:10px 22px;
-background:#ff6eb4;
-color:white;
-border:none;
-border-radius:20px;
-cursor:pointer;
 }
 
 /* LETTER */
@@ -204,7 +179,6 @@ font-family:'Dancing Script';
 font-size:18px;
 color:#000;
 text-align:center;
-line-height:1.4;
 white-space:pre-line;
 }
 
@@ -213,19 +187,37 @@ white-space:pre-line;
 
 <body>
 
-<div class="bg"></div>
-
 <audio id="blastSound" src="assets/blast.mp3"></audio>
 
-<!-- PAGE 1 -->
-<div class="page active" id="p1">
-<div class="title">HAPPY BIRTHDAY ZNIC 🎉</div>
-<img src="assets/envelope.png" width="250" onclick="goTo(2)">
+<!-- PAGE 0 PASSWORD -->
+<div class="page active" id="p0">
+<div class="pass-box">
+<div class="pass-display" id="display">•••••</div>
+
+<div class="keypad">
+<button onclick="press(1)">1</button>
+<button onclick="press(2)">2</button>
+<button onclick="press(3)">3</button>
+<button onclick="press(4)">4</button>
+<button onclick="press(5)">5</button>
+<button onclick="press(6)">6</button>
+<button onclick="press(7)">7</button>
+<button onclick="press(8)">8</button>
+<button onclick="press(9)">9</button>
+<button onclick="clearPass()">C</button>
+<button onclick="press(0)">0</button>
+<button onclick="checkPass()">✔</button>
+</div>
+</div>
 </div>
 
-<!-- PAGE 2 -->
-<div class="page" id="p2">
+<!-- PAGE 1 ENVELOPE -->
+<div class="page" id="p1">
+<img src="assets/envelope.png" class="envelope" onclick="goTo(2)">
+</div>
 
+<!-- PAGE 2 CAKE -->
+<div class="page" id="p2">
 <div class="cake-bg"></div>
 
 <div class="cake-box">
@@ -234,24 +226,21 @@ white-space:pre-line;
 <div class="flame" id="flame"></div>
 </div>
 
-<button class="btn" onclick="blowCandle()">Blow Candle</button>
+<button class="btn" onclick="blow()">Blow Candle</button>
 
 <div id="nextBtn" style="display:none;">
 <button class="btn" onclick="goTo(3)">Next</button>
 </div>
-
 </div>
 
-<!-- PAGE 3 -->
+<!-- PAGE 3 LETTER -->
 <div class="page" id="p3">
-
 <div class="paper">
 <img src="assets/paper.png">
 <div class="text" id="typing"></div>
 </div>
 
 <button class="btn" onclick="goTo(2)">⬅ Back</button>
-
 </div>
 
 <div class="blastText" id="blastText">HAPPY BIRTHDAY ZNIC 🎉</div>
@@ -265,59 +254,47 @@ document.getElementById("p"+n).classList.add("active");
 if(n===3) startTyping();
 }
 
-/* BLOW */
-function blowCandle(){
+/* PASSWORD */
+let input="";
+function press(n){
+if(input.length<5){
+input+=n;
+document.getElementById("display").innerText="•".repeat(input.length);
+}
+}
+function clearPass(){
+input="";
+document.getElementById("display").innerText="•••••";
+}
+function checkPass(){
+if(input==="81206"){
+goTo(1);
+}else{
+alert("Wrong Password ❌");
+clearPass();
+}
+}
 
+/* BLOW */
+function blow(){
 document.getElementById("flame").style.opacity="0";
 document.getElementById("glow").style.opacity="0";
 
-/* SOUND */
-let sound=document.getElementById("blastSound");
-sound.play();
+let s=document.getElementById("blastSound");
+s.play();
 setTimeout(()=>{
-sound.pause();
-sound.currentTime=0;
+s.pause();
+s.currentTime=0;
 },2000);
 
 /* SMOKE */
 for(let i=0;i<5;i++){
-let s=document.createElement("div");
-s.className="smoke";
-s.style.left="50%";
-s.style.top="25%";
-s.style.transform="translateX(-50%)";
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),1500);
-}
-
-/* BLAST */
-for(let i=0;i<60;i++){
-let b=document.createElement("div");
-b.className="blast";
-b.style.left="50%";
-b.style.top="50%";
-b.style.background=`hsl(${Math.random()*360},100%,60%)`;
-b.style.setProperty("--x",(Math.random()*400-200)+"px");
-b.style.setProperty("--y",(Math.random()*400-200)+"px");
-document.body.appendChild(b);
-setTimeout(()=>b.remove(),1000);
-}
-
-/* FIREWORK */
-for(let f=0;f<5;f++){
-setTimeout(()=>{
-for(let i=0;i<20;i++){
-let fw=document.createElement("div");
-fw.className="firework";
-fw.style.left=Math.random()*100+"vw";
-fw.style.top=Math.random()*50+"vh";
-fw.style.background=`hsl(${Math.random()*360},100%,60%)`;
-fw.style.setProperty("--x",(Math.random()*200-100)+"px");
-fw.style.setProperty("--y",(Math.random()*200-100)+"px");
-document.body.appendChild(fw);
-setTimeout(()=>fw.remove(),1000);
-}
-},f*300);
+let sm=document.createElement("div");
+sm.className="smoke";
+sm.style.left="50%";
+sm.style.top="25%";
+document.body.appendChild(sm);
+setTimeout(()=>sm.remove(),1500);
 }
 
 /* TEXT */
@@ -325,49 +302,19 @@ let t=document.getElementById("blastText");
 t.style.display="block";
 setTimeout(()=>t.style.display="none",2000);
 
-/* NEXT */
 setTimeout(()=>{
 document.getElementById("nextBtn").style.display="block";
 },2000);
 }
 
-/* BALLOONS */
-setInterval(()=>{
-if(!document.getElementById("p2").classList.contains("active")) return;
-
-let b=document.createElement("img");
-b.src="assets/balloon.png";
-b.className="balloon";
-b.style.left=Math.random()*90+"%";
-b.style.animationDuration=(5+Math.random()*5)+"s";
-
-document.body.appendChild(b);
-setTimeout(()=>b.remove(),10000);
-},800);
-
-/* FLOWERS */
-setInterval(()=>{
-let f=document.createElement("div");
-f.className="flower";
-f.innerText="🌸";
-f.style.left=Math.random()*100+"vw";
-f.style.fontSize=(18+Math.random()*10)+"px";
-f.style.animationDuration=(4+Math.random()*4)+"s";
-
-document.body.appendChild(f);
-setTimeout(()=>f.remove(),8000);
-},500);
-
-/* FULL MESSAGE */
+/* LETTER TEXT */
 const msg=`Happy Birthday, Zinc! 🎉✨
 
 Why I did that? Cuz you're Zinc — you do whatever you want 😌🔥
 
-Stay bold, stay crazy (the good kind), and never let anyone dim that wild energy of yours.
+Stay bold, stay crazy (the good kind)
 
-Hope your day is full of chaos, laughter, and exactly the kind of madness you enjoy 😏
-
-Enjoy every moment — you deserve it! 💙🎂`;
+Enjoy every moment 💙🎂`;
 
 function startTyping(){
 let el=document.getElementById("typing");
