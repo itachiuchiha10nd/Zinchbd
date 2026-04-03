@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>HAPPY BIRTHDAY ZNIC 🎉</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@600&display=swap" rel="stylesheet">
@@ -14,7 +13,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{overflow:hidden;font-family:'Poppins';}
 
-/* PAGE SYSTEM */
+/* PAGE */
 .page{
 position:absolute;
 inset:0;
@@ -24,30 +23,32 @@ align-items:center;
 flex-direction:column;
 opacity:0;
 pointer-events:none;
-transition:0.5s;
+transition:.4s;
+z-index:1;
 }
-.page.active{opacity:1;pointer-events:auto;}
+.page.active{
+opacity:1;
+pointer-events:auto;
+z-index:5;
+}
 
-/* ================= ENTRY ================= */
+/* ENTRY */
 #p0{
 background:url("assets/entry-bg.jpg") center/cover no-repeat;
-display:flex;
-justify-content:flex-end;
-align-items:center;
 }
 
-/* PERFECT RIGHT MIDDLE */
+/* RIGHT SIDE KEYPAD */
 .pass-box{
 position:absolute;
 right:6%;
 top:50%;
 transform:translateY(-50%);
 padding:25px;
-
 background:rgba(255,255,255,0.15);
 backdrop-filter:blur(12px);
 border-radius:20px;
-box-shadow:0 0 25px rgba(255,105,180,0.5);
+box-shadow:0 0 25px rgba(255,105,180,0.6);
+z-index:10;
 }
 
 /* DISPLAY */
@@ -67,20 +68,18 @@ display:grid;
 grid-template-columns:repeat(3,70px);
 gap:10px;
 }
-
 .pad button{
 padding:15px;
 border:none;
 border-radius:15px;
 background:#ff6eb4;
-color:white;
+color:#fff;
 font-size:20px;
 font-weight:bold;
-box-shadow:0 0 15px #ff6eb4;
 cursor:pointer;
 }
 
-/* ================= COMMON BG ================= */
+/* BG */
 .bg{
 position:absolute;
 inset:0;
@@ -92,6 +91,7 @@ z-index:-1;
 .envelope{
 width:260px;
 cursor:pointer;
+z-index:10;
 }
 
 /* LETTER */
@@ -99,6 +99,7 @@ cursor:pointer;
 position:relative;
 width:90vw;
 max-width:400px;
+z-index:10;
 }
 .paper img{width:100%;}
 .text{
@@ -113,7 +114,7 @@ text-align:center;
 color:#000;
 }
 
-/* BUTTONS */
+/* BUTTON FIX */
 .btn{
 margin:10px;
 padding:12px 25px;
@@ -123,9 +124,10 @@ border-radius:25px;
 color:white;
 font-weight:bold;
 cursor:pointer;
+z-index:10;
 }
 
-/* ================= CAKE ================= */
+/* CAKE */
 .cake-bg{
 position:absolute;
 inset:0;
@@ -133,9 +135,12 @@ background:url("assets/bg2.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
+.cake-box{
+position:relative;
+z-index:10;
+}
 .cake-box img{
-width:90vw;
-max-width:350px;
+width:300px;
 }
 
 /* FLAME */
@@ -148,7 +153,7 @@ width:14px;
 height:22px;
 background:radial-gradient(circle,#fff,#ffd700,orange,red);
 border-radius:50%;
-animation:flicker 0.15s infinite alternate;
+animation:flicker .15s infinite alternate;
 }
 
 .glow{
@@ -156,30 +161,14 @@ position:absolute;
 top:10%;
 left:50%;
 transform:translate(-50%,-50%);
-width:150px;
-height:150px;
+width:140px;
+height:140px;
 background:radial-gradient(circle,rgba(255,200,100,0.6),transparent);
 }
 
-/* FLOWERS */
-.flower{
-position:fixed;
-top:-20px;
-animation:fall 6s linear forwards;
-}
-@keyframes fall{
-to{transform:translateY(110vh);}
-}
-
-/* BALLOONS */
-.balloon{
-position:fixed;
-bottom:-60px;
-width:60px;
-animation:floatUp 6s linear forwards;
-}
-@keyframes floatUp{
-to{transform:translateY(-120vh);}
+@keyframes flicker{
+from{transform:translate(-50%,-50%) scale(1);}
+to{transform:translate(-50%,-50%) scale(1.2);}
 }
 
 /* BLAST */
@@ -189,7 +178,7 @@ inset:0;
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:60px;
+font-size:55px;
 font-weight:bold;
 background:radial-gradient(circle,#ff6eb4,#000);
 color:white;
@@ -203,7 +192,8 @@ position:fixed;
 width:6px;
 height:6px;
 border-radius:50%;
-animation:firework 0.8s forwards;
+animation:firework .8s forwards;
+z-index:999;
 }
 @keyframes firework{
 to{transform:translate(var(--x),var(--y));opacity:0;}
@@ -257,6 +247,7 @@ to{transform:translate(var(--x),var(--y));opacity:0;}
 <button class="btn" onclick="goTo(1)">⬅ Back</button>
 <button class="btn" onclick="goTo(3)">Next 🎂</button>
 </div>
+
 </div>
 
 <!-- CAKE -->
@@ -273,6 +264,7 @@ to{transform:translate(var(--x),var(--y));opacity:0;}
 <button class="btn" onclick="goTo(2)">⬅ Back</button>
 <button class="btn" onclick="blow()">Blow Candle</button>
 </div>
+
 </div>
 
 <div class="blastText" id="blastText">HAPPY BIRTHDAY ZNIC 🎉</div>
@@ -319,20 +311,9 @@ setTimeout(type,20);
 type();
 }
 
-/* BALLOONS */
-setInterval(()=>{
-if(!p3.classList.contains("active")) return;
-let b=document.createElement("img");
-b.src="assets/balloon.png";
-b.className="balloon";
-b.style.left=Math.random()*100+"%";
-document.body.appendChild(b);
-setTimeout(()=>b.remove(),6000);
-},800);
-
 /* FIREWORK */
 function createFireworks(){
-for(let i=0;i<60;i++){
+for(let i=0;i<50;i++){
 let f=document.createElement("div");
 f.className="firework";
 f.style.left="50%";
