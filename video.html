@@ -61,23 +61,28 @@ top:20px;
 left:20px;
 }
 
-/* 🎁 BIG GIFTS */
+/* 🎁 4 BOX GRID FIX */
 .gift-container{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:20px;
+
 width:100%;
-height:70vh;
+max-width:500px;
 padding:20px;
 }
 
+/* BIG GIFTS */
 .gift{
 width:100%;
-height:100%;
+height:160px;
+
 object-fit:contain;
+
 cursor:pointer;
 transition:.3s;
 }
+
 .gift:hover{
 transform:scale(1.05);
 filter:drop-shadow(0 0 20px pink);
@@ -116,7 +121,7 @@ margin-top:20px;
 <img src="assets/gif1.gif">
 </div>
 
-<div>
+<div style="margin-top:20px;">
 <button class="btn" onclick="goTo(2)">Yes 💖</button>
 <button class="btn" onclick="goTo(3)">No 😏</button>
 </div>
@@ -187,9 +192,9 @@ Final Words 💌
 
 <div class="letter">
 💌 Happy Birthday Znic!  
-You opened every gift 💖  
-This was made just for you ✨  
-Stay happy always 🎂
+You opened all gifts 🎉  
+This was made just for you 💖  
+Stay happy always ✨
 </div>
 
 </div>
@@ -212,7 +217,7 @@ function goHome(){
 window.location.href="index.html";
 }
 
-/* TRACK GIFTS */
+/* TRACK */
 let opened=[];
 
 function openGift(n){
@@ -225,7 +230,7 @@ opened.push(n);
 }
 
 /* SHOW FINAL BUTTON */
-if(opened.length === 4){
+if(opened.length===4){
 document.getElementById("finalBtn").style.display="inline-block";
 }
 
