@@ -8,36 +8,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
-
-/* RESET */
 *{margin:0;padding:0;box-sizing:border-box;}
 body{overflow:hidden;font-family:'Poppins';}
 
-/* PAGE */
+/* PAGE SYSTEM */
 .page{
 position:absolute;
 inset:0;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-flex-direction:column;
 opacity:0;
 pointer-events:none;
 transition:.4s;
-z-index:1;
 }
 .page.active{
 opacity:1;
 pointer-events:auto;
-z-index:5;
 }
 
-/* ENTRY */
+/* ENTRY PAGE */
 #p0{
 background:url("assets/entry-bg.jpg") center/cover no-repeat;
 }
-
-/* RIGHT SIDE KEYPAD */
 .pass-box{
 position:absolute;
 right:6%;
@@ -45,24 +39,17 @@ top:50%;
 transform:translateY(-50%);
 padding:25px;
 background:rgba(255,255,255,0.15);
-backdrop-filter:blur(12px);
+backdrop-filter:blur(10px);
 border-radius:20px;
-box-shadow:0 0 25px rgba(255,105,180,0.6);
-z-index:10;
 }
-
-/* DISPLAY */
 .display{
 color:#ff6eb4;
 font-size:36px;
 font-weight:bold;
 letter-spacing:8px;
-text-align:center;
 margin-bottom:20px;
 text-shadow:0 0 10px #ff6eb4,0 0 20px #ff6eb4,0 0 40px #ff6eb4;
 }
-
-/* KEYPAD */
 .pad{
 display:grid;
 grid-template-columns:repeat(3,70px);
@@ -79,7 +66,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* BG */
+/* COMMON BG */
 .bg{
 position:absolute;
 inset:0;
@@ -89,17 +76,14 @@ z-index:-1;
 
 /* ENVELOPE */
 .envelope{
-width:260px;
+width:250px;
 cursor:pointer;
-z-index:10;
 }
 
 /* LETTER */
 .paper{
 position:relative;
-width:90vw;
-max-width:400px;
-z-index:10;
+width:320px;
 }
 .paper img{width:100%;}
 .text{
@@ -107,14 +91,14 @@ position:absolute;
 top:25%;
 left:50%;
 transform:translateX(-50%);
-width:75%;
+width:70%;
 font-family:'Dancing Script';
 font-size:18px;
 text-align:center;
 color:#000;
 }
 
-/* BUTTON FIX */
+/* BUTTON */
 .btn{
 margin:10px;
 padding:12px 25px;
@@ -124,7 +108,6 @@ border-radius:25px;
 color:white;
 font-weight:bold;
 cursor:pointer;
-z-index:10;
 }
 
 /* CAKE */
@@ -134,26 +117,20 @@ inset:0;
 background:url("assets/bg2.jpg") center/cover no-repeat;
 z-index:-1;
 }
-
 .cake-box{
 position:relative;
-z-index:10;
 }
-.cake-box img{
-width:300px;
-}
+.cake-box img{width:280px;}
 
-/* FLAME */
 .flame{
 position:absolute;
 top:12%;
 left:50%;
 transform:translate(-50%,-50%);
-width:14px;
-height:22px;
-background:radial-gradient(circle,#fff,#ffd700,orange,red);
+width:12px;
+height:20px;
+background:orange;
 border-radius:50%;
-animation:flicker .15s infinite alternate;
 }
 
 .glow{
@@ -161,14 +138,9 @@ position:absolute;
 top:10%;
 left:50%;
 transform:translate(-50%,-50%);
-width:140px;
-height:140px;
+width:120px;
+height:120px;
 background:radial-gradient(circle,rgba(255,200,100,0.6),transparent);
-}
-
-@keyframes flicker{
-from{transform:translate(-50%,-50%) scale(1);}
-to{transform:translate(-50%,-50%) scale(1.2);}
 }
 
 /* BLAST */
@@ -185,20 +157,6 @@ color:white;
 display:none;
 z-index:999;
 }
-
-/* FIREWORK */
-.firework{
-position:fixed;
-width:6px;
-height:6px;
-border-radius:50%;
-animation:firework .8s forwards;
-z-index:999;
-}
-@keyframes firework{
-to{transform:translate(var(--x),var(--y));opacity:0;}
-}
-
 </style>
 </head>
 
@@ -247,7 +205,6 @@ to{transform:translate(var(--x),var(--y));opacity:0;}
 <button class="btn" onclick="goTo(1)">⬅ Back</button>
 <button class="btn" onclick="goTo(3)">Next 🎂</button>
 </div>
-
 </div>
 
 <!-- CAKE -->
@@ -264,10 +221,9 @@ to{transform:translate(var(--x),var(--y));opacity:0;}
 <button class="btn" onclick="goTo(2)">⬅ Back</button>
 <button class="btn" onclick="blow()">Blow Candle</button>
 </div>
-
 </div>
 
-<div class="blastText" id="blastText">HAPPY BIRTHDAY ZNIC 🎉</div>
+<div id="blastText" class="blastText">HAPPY BIRTHDAY ZNIC 🎉</div>
 
 <script>
 
@@ -275,27 +231,37 @@ to{transform:translate(var(--x),var(--y));opacity:0;}
 function goTo(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
+
 if(n===2) startTyping();
 }
 
 /* PASSWORD */
 let input="";
+const display=document.getElementById("display");
+
 function press(n){
 if(input.length<5){
 input+=n;
 display.innerText=input;
 }
 }
-function clearPass(){input="";display.innerText="";}
+function clearPass(){
+input="";
+display.innerText="";
+}
 function checkPass(){
-if(input==="81206"){goTo(1);}
-else{alert("Wrong Password ❌");clearPass();}
+if(input==="81206"){
+goTo(1);
+}else{
+alert("Wrong Password ❌");
+clearPass();
+}
 }
 
 /* LETTER */
 const msg=`Happy Birthday, Zinc! 🎉✨
-
-Stay bold, stay crazy 😌🔥`;
+Why I did that? Cuz you're Zinc 😌🔥
+Stay bold, stay crazy 💙`;
 
 function startTyping(){
 let el=document.getElementById("typing");
@@ -303,7 +269,7 @@ el.innerHTML="";
 let i=0;
 function type(){
 if(i<msg.length){
-el.innerHTML+=msg.charAt(i);
+el.innerHTML+=msg[i];
 i++;
 setTimeout(type,20);
 }
@@ -311,31 +277,17 @@ setTimeout(type,20);
 type();
 }
 
-/* FIREWORK */
-function createFireworks(){
-for(let i=0;i<50;i++){
-let f=document.createElement("div");
-f.className="firework";
-f.style.left="50%";
-f.style.top="50%";
-f.style.background=`hsl(${Math.random()*360},100%,60%)`;
-f.style.setProperty("--x",(Math.random()-0.5)*300+"px");
-f.style.setProperty("--y",(Math.random()-0.5)*300+"px");
-document.body.appendChild(f);
-setTimeout(()=>f.remove(),800);
-}
-}
-
 /* BLOW */
 function blow(){
-flame.style.display="none";
-glow.style.display="none";
+document.getElementById("flame").style.display="none";
+document.getElementById("glow").style.display="none";
 
-blastSound.play();
-createFireworks();
+document.getElementById("blastSound").play();
 
-blastText.style.display="flex";
-setTimeout(()=>blastText.style.display="none",2500);
+let t=document.getElementById("blastText");
+t.style.display="flex";
+
+setTimeout(()=>{t.style.display="none";},2500);
 }
 
 </script>
