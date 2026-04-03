@@ -6,100 +6,95 @@
 
 <title>HAPPY BIRTHDAY ZNIC 🎉</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
 
 /* RESET */
-html,body{
-margin:0;
-height:100%;
-width:100%;
-font-family:'Lato',sans-serif;
-overflow:hidden;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{overflow:hidden;}
 
-/* BACKGROUND DEFAULT */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:url("assets/bg.jpg") no-repeat center/cover;
-z-index:-10;
-}
-
-/* PAGE */
+/* PAGE SYSTEM */
 .page{
 position:absolute;
 inset:0;
 display:flex;
 justify-content:center;
 align-items:center;
-flex-direction:column;
 opacity:0;
 pointer-events:none;
-transition:0.4s;
+transition:0.5s;
 }
 .page.active{
 opacity:1;
 pointer-events:auto;
 }
 
-/* ENTRY PAGE */
+/* ========= ENTRY PAGE ========= */
 #p0{
 background:url("assets/entry-bg.jpg") no-repeat center/cover;
+display:flex;
+justify-content:flex-end;
+align-items:center;
 }
 
-.pass-container{
-background:rgba(255,255,255,0.12);
-backdrop-filter:blur(15px);
+.pass-box{
+margin-right:5%;
 padding:25px;
-border-radius:25px;
-text-align:center;
-box-shadow:0 0 30px rgba(255,105,180,0.4);
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+border-radius:20px;
+box-shadow:0 0 25px rgba(255,105,180,0.4);
 }
 
 .display{
-font-size:30px;
 color:white;
-margin-bottom:20px;
+font-size:32px;
+text-align:center;
+margin-bottom:15px;
+text-shadow:0 0 10px #ff6eb4;
 }
 
 .pad{
 display:grid;
-grid-template-columns:repeat(3,65px);
-gap:12px;
+grid-template-columns:repeat(3,70px);
+gap:10px;
 }
 
 .pad button{
 padding:15px;
 border:none;
-border-radius:50%;
+border-radius:15px;
 background:#ff6eb4;
 color:white;
-font-size:18px;
+font-size:20px;
 font-weight:bold;
+box-shadow:0 0 15px #ff6eb4;
 cursor:pointer;
 }
 
-/* ENVELOPE */
+/* ========= COMMON BG ========= */
+.bg{
+position:absolute;
+inset:0;
+background:url("assets/bg.jpg") center/cover no-repeat;
+z-index:-1;
+}
+
+/* ========= ENVELOPE ========= */
 .envelope{
 width:260px;
 cursor:pointer;
 transition:0.3s;
 }
-.envelope:hover{
-transform:scale(1.1);
-}
+.envelope:hover{transform:scale(1.1);}
 
-/* LETTER */
+/* ========= LETTER ========= */
 .paper{
 position:relative;
-width:320px;
+width:330px;
 }
-.paper img{
-width:100%;
-}
+.paper img{width:100%;}
 .text{
 position:absolute;
 top:28%;
@@ -108,15 +103,14 @@ transform:translateX(-50%);
 width:72%;
 font-family:'Dancing Script';
 font-size:18px;
-color:#000;
 text-align:center;
-white-space:pre-line;
+color:#000;
 }
 
-/* BUTTON */
+/* ========= BUTTON ========= */
 .btn{
 margin-top:20px;
-padding:12px 24px;
+padding:12px 25px;
 background:#ff6eb4;
 border:none;
 border-radius:25px;
@@ -125,20 +119,22 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* CAKE BG */
+/* ========= CAKE PAGE ========= */
 .cake-bg{
 position:absolute;
 inset:0;
-background:url("assets/bg2.jpg") no-repeat center/cover;
+background:url("assets/bg2.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* CAKE */
+.cake-box{
+position:relative;
+}
 .cake-box img{
-width:340px;
+width:350px;
 }
 
-/* FLAME */
+/* CANDLE */
 .flame{
 position:absolute;
 top:12%;
@@ -150,33 +146,34 @@ background:radial-gradient(circle,#fff,#ffd700,orange,red);
 border-radius:50%;
 animation:flicker 0.15s infinite alternate;
 }
+
 .glow{
 position:absolute;
 top:10%;
 left:50%;
 transform:translate(-50%,-50%);
-width:160px;
-height:160px;
-background:radial-gradient(circle,rgba(255,220,120,0.6),transparent);
-border-radius:50%;
+width:150px;
+height:150px;
+background:radial-gradient(circle,rgba(255,200,100,0.6),transparent);
 }
 
 /* FLOWERS */
 .flower{
 position:fixed;
 top:-20px;
-animation:fall linear forwards;
+font-size:20px;
+animation:fall 6s linear forwards;
 }
 @keyframes fall{
 to{transform:translateY(110vh);}
 }
 
-/* BALLOON */
+/* BALLOONS */
 .balloon{
 position:fixed;
-bottom:-50px;
+bottom:-60px;
 width:60px;
-animation:floatUp linear forwards;
+animation:floatUp 6s linear forwards;
 }
 @keyframes floatUp{
 to{transform:translateY(-120vh);}
@@ -203,9 +200,9 @@ display:none;
 
 <audio id="blastSound" src="assets/blast.mp3"></audio>
 
-<!-- ENTRY -->
+<!-- PAGE 0 ENTRY -->
 <div class="page active" id="p0">
-<div class="pass-container">
+<div class="pass-box">
 <div id="display"></div>
 
 <div class="pad">
@@ -225,21 +222,25 @@ display:none;
 </div>
 </div>
 
-<!-- ENVELOPE -->
+<!-- PAGE 1 ENVELOPE -->
 <div class="page" id="p1">
+<div class="bg"></div>
 <img src="assets/envelope.png" class="envelope" onclick="goTo(2)">
 </div>
 
-<!-- LETTER -->
+<!-- PAGE 2 LETTER -->
 <div class="page" id="p2">
+<div class="bg"></div>
+
 <div class="paper">
 <img src="assets/paper.png">
 <div class="text" id="typing"></div>
 </div>
+
 <button class="btn" onclick="goTo(3)">Next 🎂</button>
 </div>
 
-<!-- CAKE -->
+<!-- PAGE 3 CAKE -->
 <div class="page" id="p3">
 <div class="cake-bg"></div>
 
@@ -256,7 +257,7 @@ display:none;
 
 <script>
 
-/* NAV */
+/* NAVIGATION */
 function goTo(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
@@ -266,8 +267,10 @@ if(n===2) startTyping();
 /* PASSWORD */
 let input="";
 function press(n){
+if(input.length<5){
 input+=n;
 document.getElementById("display").innerText=input;
+}
 }
 function clearPass(){
 input="";
@@ -288,7 +291,6 @@ let f=document.createElement("div");
 f.className="flower";
 f.innerText="🌸";
 f.style.left=Math.random()*100+"vw";
-f.style.animationDuration="6s";
 document.body.appendChild(f);
 setTimeout(()=>f.remove(),6000);
 },600);
@@ -301,17 +303,16 @@ let b=document.createElement("img");
 b.src="assets/balloon.png";
 b.className="balloon";
 b.style.left=Math.random()*100+"%";
-b.style.animationDuration="6s";
 document.body.appendChild(b);
 setTimeout(()=>b.remove(),6000);
 },800);
 
-/* LETTER TEXT */
+/* LETTER */
 const msg=`Happy Birthday, Zinc! 🎉✨
 
-Stay bold, stay crazy 😌🔥
+Why I did that? Cuz you're Zinc 😌🔥
 
-Enjoy every moment 💙🎂`;
+Stay bold, stay crazy 💙`;
 
 function startTyping(){
 let el=document.getElementById("typing");
@@ -342,7 +343,6 @@ s.currentTime=0;
 
 let t=document.getElementById("blastText");
 t.style.display="block";
-
 setTimeout(()=>t.style.display="none",2000);
 }
 
