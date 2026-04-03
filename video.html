@@ -4,15 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-font-family:'Poppins';
-overflow:hidden;
-}
+body{font-family:'Poppins';overflow:hidden;}
 
 /* PAGE */
 .page{
@@ -24,7 +20,7 @@ justify-content:center;
 align-items:center;
 }
 
-/* BACKGROUND (same as index) */
+/* BG */
 .bg{
 position:absolute;
 inset:0;
@@ -32,40 +28,27 @@ background:url("assets/bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* GIF BOX */
+/* VIDEO BOX */
 .video-box{
-width:300px;
-height:180px;
-background:black;
-border-radius:15px;
+width:300px;height:180px;
+background:black;border-radius:15px;
 overflow:hidden;
 box-shadow:0 0 25px rgba(255,110,180,0.7);
 }
-
-/* GIF */
 .video-box img{
-width:100%;
-height:100%;
-object-fit:cover;
+width:100%;height:100%;object-fit:cover;
 }
 
 /* BUTTON */
 .btn{
-margin:10px;
-padding:12px 25px;
-background:#ff6eb4;
-border:none;
-border-radius:25px;
-color:white;
-font-weight:bold;
-cursor:pointer;
+margin:10px;padding:12px 25px;
+background:#ff6eb4;border:none;border-radius:25px;
+color:white;font-weight:bold;cursor:pointer;
 }
 
-/* BACK BUTTON */
+/* BACK */
 .top-back{
-position:absolute;
-top:20px;
-left:20px;
+position:absolute;top:20px;left:20px;
 }
 
 /* GIFTS */
@@ -75,21 +58,31 @@ gap:20px;
 flex-wrap:wrap;
 justify-content:center;
 }
-
 .gift{
-font-size:60px;
+width:80px;
 cursor:pointer;
 transition:.3s;
 }
-.gift:hover{
-transform:scale(1.2);
+.gift:hover{transform:scale(1.2);}
+
+/* LETTER */
+.letter{
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:15px;
+backdrop-filter:blur(10px);
+font-family:'Dancing Script';
+font-size:22px;
+text-align:center;
+color:white;
+max-width:300px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- PAGE 1 (YES / NO) -->
+<!-- PAGE 1 -->
 <div class="page" id="p1">
 <div class="bg"></div>
 
@@ -99,7 +92,7 @@ transform:scale(1.2);
 <img src="assets/gif1.gif">
 </div>
 
-<div style="margin-top:20px;">
+<div>
 <button class="btn" onclick="goTo(2)">Yes 💖</button>
 <button class="btn" onclick="goTo(3)">No 😏</button>
 </div>
@@ -113,15 +106,15 @@ transform:scale(1.2);
 <button class="btn top-back" onclick="goTo(1)">⬅ Back</button>
 
 <div class="gift-container">
-<div class="gift">🎁</div>
-<div class="gift">🎁</div>
-<div class="gift">🎁</div>
-<div class="gift">🎁</div>
+<img src="assets/gift.png" class="gift" onclick="openGift(1)">
+<img src="assets/gift.png" class="gift" onclick="openGift(2)">
+<img src="assets/gift.png" class="gift" onclick="openGift(3)">
+<img src="assets/gift.png" class="gift" onclick="openGift(4)">
 </div>
 
 </div>
 
-<!-- PAGE 3 (NO CLICK GIF) -->
+<!-- PAGE 3 (NO GIF) -->
 <div class="page" id="p3" style="display:none;">
 <div class="bg"></div>
 
@@ -133,17 +126,74 @@ transform:scale(1.2);
 
 </div>
 
+<!-- GIFT PAGES -->
+<div class="page" id="g1" style="display:none;">
+<div class="bg"></div>
+<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
+<div class="letter">Surprise 1 🎁💖</div>
+</div>
+
+<div class="page" id="g2" style="display:none;">
+<div class="bg"></div>
+<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
+<div class="letter">Surprise 2 🎉</div>
+</div>
+
+<div class="page" id="g3" style="display:none;">
+<div class="bg"></div>
+<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
+<div class="letter">Surprise 3 ✨</div>
+</div>
+
+<div class="page" id="g4" style="display:none;">
+<div class="bg"></div>
+<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
+<div class="letter">Surprise 4 😍</div>
+</div>
+
+<!-- FINAL PAGE -->
+<div class="page" id="final" style="display:none;">
+<div class="bg"></div>
+
+<div class="letter">
+💌 You unlocked everything...  
+Happy Birthday once again Znic 💖✨  
+You deserve everything 🎂
+</div>
+
+</div>
+
 <script>
 
-/* PAGE SWITCH */
+/* NAV */
 function goTo(n){
 document.querySelectorAll(".page").forEach(p=>p.style.display="none");
 document.getElementById("p"+n).style.display="flex";
 }
 
-/* BACK TO INDEX */
 function goHome(){
 window.location.href="index.html";
+}
+
+/* GIFT TRACK */
+let opened = [];
+
+function openGift(n){
+document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+document.getElementById("g"+n).style.display="flex";
+
+if(!opened.includes(n)){
+opened.push(n);
+}
+
+/* ALL OPENED */
+if(opened.length === 4){
+setTimeout(()=>{
+document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+document.getElementById("final").style.display="flex";
+},1500);
+}
+
 }
 
 </script>
