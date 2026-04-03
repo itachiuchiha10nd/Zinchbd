@@ -19,7 +19,7 @@ font-family:'Lato',sans-serif;
 overflow:hidden;
 }
 
-/* BACKGROUND FULL RESPONSIVE */
+/* BACKGROUND */
 body::before{
 content:"";
 position:fixed;
@@ -58,7 +58,6 @@ text-align:center;
 }
 .pass-display{
 font-size:28px;
-letter-spacing:5px;
 margin-bottom:20px;
 color:#ff6eb4;
 }
@@ -83,12 +82,33 @@ width:260px;
 cursor:pointer;
 }
 
+/* LETTER */
+.paper{
+position:relative;
+width:320px;
+}
+.paper img{
+width:100%;
+}
+.text{
+position:absolute;
+top:28%;
+left:50%;
+transform:translateX(-50%);
+width:72%;
+font-family:'Dancing Script';
+font-size:18px;
+color:#000;
+text-align:center;
+white-space:pre-line;
+line-height:1.4;
+}
+
 /* CAKE BG */
 .cake-bg{
 position:absolute;
 inset:0;
-background:url("assets/bg2.jpg") no-repeat center center;
-background-size:cover;
+background:url("assets/bg2.jpg") no-repeat center/cover;
 z-index:-1;
 }
 
@@ -174,28 +194,6 @@ background:linear-gradient(45deg,#fff,#ff6eb4);
 display:none;
 }
 
-/* LETTER */
-.paper{
-position:relative;
-width:320px;
-}
-.paper img{
-width:100%;
-}
-.text{
-position:absolute;
-top:28%;
-left:50%;
-transform:translateX(-50%);
-width:72%;
-font-family:'Dancing Script';
-font-size:18px;
-color:#000;
-text-align:center;
-white-space:pre-line;
-line-height:1.4;
-}
-
 </style>
 </head>
 
@@ -203,11 +201,10 @@ line-height:1.4;
 
 <audio id="blastSound" src="assets/blast.mp3"></audio>
 
-<!-- PAGE 0 PASSWORD -->
+<!-- PASSWORD -->
 <div class="page active" id="p0">
 <div class="pass-box">
-<div class="pass-display" id="display"></div>
-
+<div id="display"></div>
 <div class="keypad">
 <button onclick="press(1)">1</button>
 <button onclick="press(2)">2</button>
@@ -225,13 +222,23 @@ line-height:1.4;
 </div>
 </div>
 
-<!-- PAGE 1 -->
+<!-- ENVELOPE -->
 <div class="page" id="p1">
 <img src="assets/envelope.png" class="envelope" onclick="goTo(2)">
 </div>
 
-<!-- PAGE 2 -->
+<!-- LETTER -->
 <div class="page" id="p2">
+<div class="paper">
+<img src="assets/paper.png">
+<div class="text" id="typing"></div>
+</div>
+
+<button class="btn" onclick="goTo(3)">Next 🎂</button>
+</div>
+
+<!-- CAKE -->
+<div class="page" id="p3">
 <div class="cake-bg"></div>
 
 <div class="cake-box">
@@ -241,20 +248,6 @@ line-height:1.4;
 </div>
 
 <button class="btn" onclick="blow()">Blow Candle</button>
-
-<div id="nextBtn" style="display:none;">
-<button class="btn" onclick="goTo(3)">Next</button>
-</div>
-</div>
-
-<!-- PAGE 3 -->
-<div class="page" id="p3">
-<div class="paper">
-<img src="assets/paper.png">
-<div class="text" id="typing"></div>
-</div>
-
-<button class="btn" onclick="goTo(2)">⬅ Back</button>
 </div>
 
 <div class="blastText" id="blastText">HAPPY BIRTHDAY ZNIC 🎉</div>
@@ -265,7 +258,7 @@ line-height:1.4;
 function goTo(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
-if(n===3) startTyping();
+if(n===2) startTyping();
 }
 
 /* PASSWORD */
@@ -289,48 +282,12 @@ clearPass();
 }
 }
 
-/* BLOW */
-function blow(){
-document.getElementById("flame").style.opacity="0";
-document.getElementById("glow").style.opacity="0";
-
-let s=document.getElementById("blastSound");
-s.play();
-setTimeout(()=>{
-s.pause();
-s.currentTime=0;
-},2000);
-
-/* SMOKE */
-for(let i=0;i<5;i++){
-let sm=document.createElement("div");
-sm.className="smoke";
-sm.style.left="50%";
-sm.style.top="25%";
-document.body.appendChild(sm);
-setTimeout(()=>sm.remove(),1500);
-}
-
-/* TEXT */
-let t=document.getElementById("blastText");
-t.style.display="block";
-setTimeout(()=>t.style.display="none",2000);
-
-setTimeout(()=>{
-document.getElementById("nextBtn").style.display="block";
-},2000);
-}
-
 /* LETTER */
 const msg=`Happy Birthday, Zinc! 🎉✨
 
-Why I did that? Cuz you're Zinc — you do whatever you want 😌🔥
+Why I did that? Cuz you're Zinc 😌🔥
 
-Stay bold, stay crazy (the good kind), and never let anyone dim that wild energy of yours.
-
-Hope your day is full of chaos, laughter 😏
-
-Enjoy every moment 💙🎂`;
+Stay bold, stay crazy 💙`;
 
 function startTyping(){
 let el=document.getElementById("typing");
@@ -345,6 +302,20 @@ setTimeout(type,18);
 }
 }
 type();
+}
+
+/* BLOW */
+function blow(){
+document.getElementById("flame").style.opacity="0";
+document.getElementById("glow").style.opacity="0";
+
+let s=document.getElementById("blastSound");
+s.play();
+setTimeout(()=>{s.pause();s.currentTime=0;},2000);
+
+let t=document.getElementById("blastText");
+t.style.display="block";
+setTimeout(()=>t.style.display="none",2000);
 }
 
 </script>
