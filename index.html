@@ -10,11 +10,23 @@
 
 <style>
 
-body{
+/* RESET */
+html,body{
 margin:0;
-overflow:hidden;
+height:100%;
+width:100%;
 font-family:'Lato',sans-serif;
-background:url("assets/bg.jpg") no-repeat center/cover;
+overflow:hidden;
+}
+
+/* BACKGROUND FULL RESPONSIVE */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:url("assets/bg.jpg") no-repeat center center;
+background-size:cover;
+z-index:-10;
 }
 
 /* PAGE */
@@ -34,7 +46,7 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* PASSWORD BOX */
+/* PASSWORD */
 .pass-box{
 background:rgba(255,105,180,0.15);
 border:2px solid #ff6eb4;
@@ -46,7 +58,7 @@ text-align:center;
 }
 .pass-display{
 font-size:28px;
-letter-spacing:8px;
+letter-spacing:5px;
 margin-bottom:20px;
 color:#ff6eb4;
 }
@@ -71,20 +83,21 @@ width:260px;
 cursor:pointer;
 }
 
-/* CAKE PAGE */
+/* CAKE BG */
 .cake-bg{
 position:absolute;
-width:100%;
-height:100%;
-background:url("assets/bg2.jpg") no-repeat center/cover;
+inset:0;
+background:url("assets/bg2.jpg") no-repeat center center;
+background-size:cover;
 z-index:-1;
 }
 
+/* CAKE */
 .cake-box{
 position:relative;
 }
 .cake-box img{
-width:350px;
+width:340px;
 }
 
 /* FLAME */
@@ -180,6 +193,7 @@ font-size:18px;
 color:#000;
 text-align:center;
 white-space:pre-line;
+line-height:1.4;
 }
 
 </style>
@@ -192,7 +206,7 @@ white-space:pre-line;
 <!-- PAGE 0 PASSWORD -->
 <div class="page active" id="p0">
 <div class="pass-box">
-<div class="pass-display" id="display">•••••</div>
+<div class="pass-display" id="display"></div>
 
 <div class="keypad">
 <button onclick="press(1)">1</button>
@@ -211,12 +225,12 @@ white-space:pre-line;
 </div>
 </div>
 
-<!-- PAGE 1 ENVELOPE -->
+<!-- PAGE 1 -->
 <div class="page" id="p1">
 <img src="assets/envelope.png" class="envelope" onclick="goTo(2)">
 </div>
 
-<!-- PAGE 2 CAKE -->
+<!-- PAGE 2 -->
 <div class="page" id="p2">
 <div class="cake-bg"></div>
 
@@ -233,7 +247,7 @@ white-space:pre-line;
 </div>
 </div>
 
-<!-- PAGE 3 LETTER -->
+<!-- PAGE 3 -->
 <div class="page" id="p3">
 <div class="paper">
 <img src="assets/paper.png">
@@ -259,12 +273,12 @@ let input="";
 function press(n){
 if(input.length<5){
 input+=n;
-document.getElementById("display").innerText="•".repeat(input.length);
+document.getElementById("display").innerText=input;
 }
 }
 function clearPass(){
 input="";
-document.getElementById("display").innerText="•••••";
+document.getElementById("display").innerText="";
 }
 function checkPass(){
 if(input==="81206"){
@@ -307,12 +321,14 @@ document.getElementById("nextBtn").style.display="block";
 },2000);
 }
 
-/* LETTER TEXT */
+/* LETTER */
 const msg=`Happy Birthday, Zinc! 🎉✨
 
 Why I did that? Cuz you're Zinc — you do whatever you want 😌🔥
 
-Stay bold, stay crazy (the good kind)
+Stay bold, stay crazy (the good kind), and never let anyone dim that wild energy of yours.
+
+Hope your day is full of chaos, laughter 😏
 
 Enjoy every moment 💙🎂`;
 
