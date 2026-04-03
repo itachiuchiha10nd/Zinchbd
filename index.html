@@ -21,40 +21,49 @@ inset:0;
 display:flex;
 justify-content:center;
 align-items:center;
+flex-direction:column;
 opacity:0;
 pointer-events:none;
 transition:0.5s;
+z-index:2;
 }
 .page.active{
 opacity:1;
 pointer-events:auto;
 }
 
-/* ========= ENTRY PAGE ========= */
+/* ================= ENTRY PAGE ================= */
 #p0{
-background:url("assets/entry-bg.jpg") no-repeat center/cover;
-display:flex;
-justify-content:flex-end;
-align-items:center;
+background:url("assets/entry-bg.jpg") no-repeat center center;
+background-size:cover;
 }
 
+/* PASS BOX */
 .pass-box{
 margin-right:5%;
 padding:25px;
 background:rgba(255,255,255,0.15);
 backdrop-filter:blur(10px);
 border-radius:20px;
-box-shadow:0 0 25px rgba(255,105,180,0.4);
+box-shadow:0 0 25px rgba(255,105,180,0.5);
 }
 
+/* DISPLAY FIXED */
 .display{
-color:white;
-font-size:32px;
+color:#ff6eb4;
+font-size:36px;
+font-weight:bold;
+letter-spacing:8px;
 text-align:center;
-margin-bottom:15px;
-text-shadow:0 0 10px #ff6eb4;
+margin-bottom:20px;
+
+text-shadow:
+0 0 10px #ff6eb4,
+0 0 20px #ff6eb4,
+0 0 40px #ff6eb4;
 }
 
+/* KEYPAD */
 .pad{
 display:grid;
 grid-template-columns:repeat(3,70px);
@@ -73,7 +82,7 @@ box-shadow:0 0 15px #ff6eb4;
 cursor:pointer;
 }
 
-/* ========= COMMON BG ========= */
+/* ================= COMMON BG ================= */
 .bg{
 position:absolute;
 inset:0;
@@ -81,7 +90,7 @@ background:url("assets/bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* ========= ENVELOPE ========= */
+/* ENVELOPE */
 .envelope{
 width:260px;
 cursor:pointer;
@@ -89,7 +98,7 @@ transition:0.3s;
 }
 .envelope:hover{transform:scale(1.1);}
 
-/* ========= LETTER ========= */
+/* LETTER */
 .paper{
 position:relative;
 width:330px;
@@ -107,7 +116,7 @@ text-align:center;
 color:#000;
 }
 
-/* ========= BUTTON ========= */
+/* BUTTON */
 .btn{
 margin-top:20px;
 padding:12px 25px;
@@ -119,7 +128,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* ========= CAKE PAGE ========= */
+/* ================= CAKE PAGE ================= */
 .cake-bg{
 position:absolute;
 inset:0;
@@ -200,10 +209,10 @@ display:none;
 
 <audio id="blastSound" src="assets/blast.mp3"></audio>
 
-<!-- PAGE 0 ENTRY -->
+<!-- ENTRY PAGE -->
 <div class="page active" id="p0">
 <div class="pass-box">
-<div id="display"></div>
+<div id="display" class="display"></div>
 
 <div class="pad">
 <button onclick="press(1)">1</button>
@@ -222,13 +231,13 @@ display:none;
 </div>
 </div>
 
-<!-- PAGE 1 ENVELOPE -->
+<!-- ENVELOPE -->
 <div class="page" id="p1">
 <div class="bg"></div>
 <img src="assets/envelope.png" class="envelope" onclick="goTo(2)">
 </div>
 
-<!-- PAGE 2 LETTER -->
+<!-- LETTER -->
 <div class="page" id="p2">
 <div class="bg"></div>
 
@@ -240,7 +249,7 @@ display:none;
 <button class="btn" onclick="goTo(3)">Next 🎂</button>
 </div>
 
-<!-- PAGE 3 CAKE -->
+<!-- CAKE -->
 <div class="page" id="p3">
 <div class="cake-bg"></div>
 
@@ -257,14 +266,14 @@ display:none;
 
 <script>
 
-/* NAVIGATION */
+/* NAV */
 function goTo(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
 if(n===2) startTyping();
 }
 
-/* PASSWORD */
+/* PASSWORD FIXED */
 let input="";
 function press(n){
 if(input.length<5){
