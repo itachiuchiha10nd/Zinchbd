@@ -20,7 +20,7 @@ justify-content:center;
 align-items:center;
 }
 
-/* BG */
+/* BACKGROUND */
 .bg{
 position:absolute;
 inset:0;
@@ -28,15 +28,18 @@ background:url("assets/bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* VIDEO BOX */
+/* GIF BOX */
 .video-box{
-width:300px;height:180px;
-background:black;border-radius:15px;
+width:300px;
+height:180px;
+border-radius:15px;
 overflow:hidden;
 box-shadow:0 0 25px rgba(255,110,180,0.7);
 }
 .video-box img{
-width:100%;height:100%;object-fit:cover;
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
 /* BUTTON */
@@ -53,25 +56,32 @@ cursor:pointer;
 
 /* BACK */
 .top-back{
-position:absolute;top:20px;left:20px;
+position:absolute;
+top:20px;
+left:20px;
 }
 
 /* 🎁 BIG GIFTS */
 .gift-container{
 display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:30px;
-width:90%;
-max-width:500px;
+grid-template-columns:1fr 1fr;
+gap:20px;
+width:100%;
+height:70vh;
+padding:20px;
 }
 
 .gift{
 width:100%;
-max-width:180px;
+height:100%;
+object-fit:contain;
 cursor:pointer;
 transition:.3s;
 }
-.gift:hover{transform:scale(1.1);}
+.gift:hover{
+transform:scale(1.05);
+filter:drop-shadow(0 0 20px pink);
+}
 
 /* LETTER */
 .letter{
@@ -83,7 +93,7 @@ font-family:'Dancing Script';
 font-size:22px;
 text-align:center;
 color:white;
-max-width:300px;
+max-width:320px;
 }
 
 /* FINAL BUTTON */
@@ -126,7 +136,6 @@ margin-top:20px;
 <img src="assets/gift.png" class="gift" onclick="openGift(4)">
 </div>
 
-<!-- FINAL WORDS BUTTON -->
 <button id="finalBtn" class="btn final-btn" onclick="goTo('final')">
 Final Words 💌
 </button>
@@ -174,10 +183,13 @@ Final Words 💌
 <div class="page" id="final" style="display:none;">
 <div class="bg"></div>
 
+<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
+
 <div class="letter">
-💌 Happy Birthday once again Znic!  
-You unlocked all surprises 🎉  
-Stay amazing always 💖
+💌 Happy Birthday Znic!  
+You opened every gift 💖  
+This was made just for you ✨  
+Stay happy always 🎂
 </div>
 
 </div>
@@ -185,22 +197,26 @@ Stay amazing always 💖
 <script>
 
 /* NAV */
-function goTo(id){
+function goTo(page){
 document.querySelectorAll(".page").forEach(p=>p.style.display="none");
-document.getElementById("p"+id) 
-|| document.getElementById(id)
-? document.getElementById(id)?.style.display="flex" || document.getElementById("p"+id).style.display="flex"
-: null;
+
+if(typeof page === "number"){
+document.getElementById("p"+page).style.display="flex";
+}else{
+document.getElementById(page).style.display="flex";
+}
 }
 
+/* HOME */
 function goHome(){
 window.location.href="index.html";
 }
 
-/* TRACK */
+/* TRACK GIFTS */
 let opened=[];
 
 function openGift(n){
+
 document.querySelectorAll(".page").forEach(p=>p.style.display="none");
 document.getElementById("g"+n).style.display="flex";
 
@@ -209,9 +225,10 @@ opened.push(n);
 }
 
 /* SHOW FINAL BUTTON */
-if(opened.length===4){
+if(opened.length === 4){
 document.getElementById("finalBtn").style.display="inline-block";
 }
+
 }
 
 </script>
