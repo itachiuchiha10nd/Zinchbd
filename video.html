@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Poppins';
+overflow:hidden;
+}
+
+/* PAGE SYSTEM */
+.page{
+position:absolute;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+/* SAME BACKGROUND */
+.bg{
+position:absolute;
+inset:0;
+background:url("assets/bg.jpg") center/cover no-repeat;
+z-index:-1;
+}
+
+/* VIDEO BOX */
+.video-box{
+width:300px;
+height:180px;
+background:black;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 0 25px rgba(255,110,180,0.7);
+}
+
+.video-box video{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+/* BUTTON */
+.btn{
+margin:10px;
+padding:12px 25px;
+background:#ff6eb4;
+border:none;
+border-radius:25px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* GIFTS */
+.gift-container{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.gift{
+font-size:60px;
+cursor:pointer;
+transition:.3s;
+}
+.gift:hover{
+transform:scale(1.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 (YES / NO) -->
+<div class="page" id="p1">
+<div class="bg"></div>
+
+<div class="video-box">
+<video controls>
+<source src="assets/video1.mp4" type="video/mp4">
+</video>
+</div>
+
+<div style="margin-top:20px;">
+<button class="btn" onclick="goTo(2)">Yes 💖</button>
+<button class="btn" onclick="goTo(3)">No 😏</button>
+</div>
+
+</div>
+
+<!-- PAGE 2 (GIFTS) -->
+<div class="page" id="p2" style="display:none;">
+<div class="bg"></div>
+
+<div class="gift-container">
+<div class="gift">🎁</div>
+<div class="gift">🎁</div>
+<div class="gift">🎁</div>
+<div class="gift">🎁</div>
+</div>
+
+<button class="btn" onclick="goTo(1)">⬅ Back</button>
+
+</div>
+
+<!-- PAGE 3 (NO VIDEO) -->
+<div class="page" id="p3" style="display:none;">
+<div class="bg"></div>
+
+<div class="video-box">
+<video controls>
+<source src="assets/video2.mp4" type="video/mp4">
+</video>
+</div>
+
+<button class="btn" onclick="goTo(1)">⬅ Back</button>
+
+</div>
+
+<script>
+
+/* NAVIGATION */
+function goTo(n){
+document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+document.getElementById("p"+n).style.display="flex";
+}
+
+</script>
+
+</body>
+</html>
