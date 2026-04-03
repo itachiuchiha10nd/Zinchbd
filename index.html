@@ -6,7 +6,7 @@
 
 <title>HAPPY BIRTHDAY ZNIC 🎉</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lato&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -19,13 +19,12 @@ font-family:'Lato',sans-serif;
 overflow:hidden;
 }
 
-/* BACKGROUND */
+/* BACKGROUND DEFAULT */
 body::before{
 content:"";
 position:fixed;
 inset:0;
-background:url("assets/bg.jpg") no-repeat center center;
-background-size:cover;
+background:url("assets/bg.jpg") no-repeat center/cover;
 z-index:-10;
 }
 
@@ -46,33 +45,40 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* PASSWORD */
-.pass-box{
-background:rgba(255,105,180,0.15);
-border:2px solid #ff6eb4;
+/* ENTRY PAGE */
+#p0{
+background:url("assets/entry-bg.jpg") no-repeat center/cover;
+}
+
+.pass-container{
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(15px);
 padding:25px;
-border-radius:20px;
-backdrop-filter:blur(10px);
-box-shadow:0 0 25px rgba(255,105,180,0.5);
+border-radius:25px;
 text-align:center;
+box-shadow:0 0 30px rgba(255,105,180,0.4);
 }
-.pass-display{
-font-size:28px;
+
+.display{
+font-size:30px;
+color:white;
 margin-bottom:20px;
-color:#ff6eb4;
 }
-.keypad{
+
+.pad{
 display:grid;
-grid-template-columns:repeat(3,70px);
-gap:10px;
+grid-template-columns:repeat(3,65px);
+gap:12px;
 }
-.keypad button{
+
+.pad button{
 padding:15px;
 border:none;
-border-radius:12px;
+border-radius:50%;
 background:#ff6eb4;
 color:white;
 font-size:18px;
+font-weight:bold;
 cursor:pointer;
 }
 
@@ -80,6 +86,10 @@ cursor:pointer;
 .envelope{
 width:260px;
 cursor:pointer;
+transition:0.3s;
+}
+.envelope:hover{
+transform:scale(1.1);
 }
 
 /* LETTER */
@@ -101,7 +111,18 @@ font-size:18px;
 color:#000;
 text-align:center;
 white-space:pre-line;
-line-height:1.4;
+}
+
+/* BUTTON */
+.btn{
+margin-top:20px;
+padding:12px 24px;
+background:#ff6eb4;
+border:none;
+border-radius:25px;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
 /* CAKE BG */
@@ -113,9 +134,6 @@ z-index:-1;
 }
 
 /* CAKE */
-.cake-box{
-position:relative;
-}
 .cake-box img{
 width:340px;
 }
@@ -132,8 +150,6 @@ background:radial-gradient(circle,#fff,#ffd700,orange,red);
 border-radius:50%;
 animation:flicker 0.15s infinite alternate;
 }
-
-/* GLOW */
 .glow{
 position:absolute;
 top:10%;
@@ -143,41 +159,27 @@ width:160px;
 height:160px;
 background:radial-gradient(circle,rgba(255,220,120,0.6),transparent);
 border-radius:50%;
-animation:glowPulse 1s infinite alternate;
 }
 
-@keyframes flicker{
-from{transform:translate(-50%,-50%) scale(1);}
-to{transform:translate(-50%,-50%) scale(1.2);}
+/* FLOWERS */
+.flower{
+position:fixed;
+top:-20px;
+animation:fall linear forwards;
 }
-@keyframes glowPulse{
-from{opacity:0.6;}
-to{opacity:1;}
-}
-
-/* SMOKE */
-.smoke{
-position:absolute;
-width:10px;
-height:10px;
-background:gray;
-border-radius:50%;
-opacity:0.5;
-animation:smokeUp 1.5s forwards;
-}
-@keyframes smokeUp{
-to{transform:translateY(-80px);opacity:0;}
+@keyframes fall{
+to{transform:translateY(110vh);}
 }
 
-/* BUTTON */
-.btn{
-margin-top:20px;
-padding:10px 20px;
-background:#ff6eb4;
-border:none;
-border-radius:20px;
-color:white;
-cursor:pointer;
+/* BALLOON */
+.balloon{
+position:fixed;
+bottom:-50px;
+width:60px;
+animation:floatUp linear forwards;
+}
+@keyframes floatUp{
+to{transform:translateY(-120vh);}
 }
 
 /* BLAST TEXT */
@@ -201,11 +203,12 @@ display:none;
 
 <audio id="blastSound" src="assets/blast.mp3"></audio>
 
-<!-- PASSWORD -->
+<!-- ENTRY -->
 <div class="page active" id="p0">
-<div class="pass-box">
+<div class="pass-container">
 <div id="display"></div>
-<div class="keypad">
+
+<div class="pad">
 <button onclick="press(1)">1</button>
 <button onclick="press(2)">2</button>
 <button onclick="press(3)">3</button>
@@ -233,7 +236,6 @@ display:none;
 <img src="assets/paper.png">
 <div class="text" id="typing"></div>
 </div>
-
 <button class="btn" onclick="goTo(3)">Next 🎂</button>
 </div>
 
@@ -264,10 +266,8 @@ if(n===2) startTyping();
 /* PASSWORD */
 let input="";
 function press(n){
-if(input.length<5){
 input+=n;
 document.getElementById("display").innerText=input;
-}
 }
 function clearPass(){
 input="";
@@ -282,23 +282,46 @@ clearPass();
 }
 }
 
-/* LETTER */
+/* FLOWERS */
+setInterval(()=>{
+let f=document.createElement("div");
+f.className="flower";
+f.innerText="🌸";
+f.style.left=Math.random()*100+"vw";
+f.style.animationDuration="6s";
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),6000);
+},600);
+
+/* BALLOONS ONLY CAKE */
+setInterval(()=>{
+if(!document.getElementById("p3").classList.contains("active")) return;
+
+let b=document.createElement("img");
+b.src="assets/balloon.png";
+b.className="balloon";
+b.style.left=Math.random()*100+"%";
+b.style.animationDuration="6s";
+document.body.appendChild(b);
+setTimeout(()=>b.remove(),6000);
+},800);
+
+/* LETTER TEXT */
 const msg=`Happy Birthday, Zinc! 🎉✨
 
-Why I did that? Cuz you're Zinc 😌🔥
+Stay bold, stay crazy 😌🔥
 
-Stay bold, stay crazy 💙`;
+Enjoy every moment 💙🎂`;
 
 function startTyping(){
 let el=document.getElementById("typing");
 el.innerHTML="";
 let i=0;
-
 function type(){
 if(i<msg.length){
 el.innerHTML+=msg.charAt(i);
 i++;
-setTimeout(type,18);
+setTimeout(type,20);
 }
 }
 type();
@@ -306,15 +329,20 @@ type();
 
 /* BLOW */
 function blow(){
-document.getElementById("flame").style.opacity="0";
-document.getElementById("glow").style.opacity="0";
+document.getElementById("flame").style.display="none";
+document.getElementById("glow").style.display="none";
 
 let s=document.getElementById("blastSound");
 s.play();
-setTimeout(()=>{s.pause();s.currentTime=0;},2000);
+
+setTimeout(()=>{
+s.pause();
+s.currentTime=0;
+},2000);
 
 let t=document.getElementById("blastText");
 t.style.display="block";
+
 setTimeout(()=>t.style.display="none",2000);
 }
 
