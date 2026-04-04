@@ -3,58 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Surprise 💗</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
 <style>
-/* SAME STYLE (UNCHANGED) */
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Nunito';}
+body{overflow:hidden;font-family:sans-serif;}
 
-/* PAGES */
+/* PAGE */
 .page{
 position:fixed;inset:0;
 display:flex;flex-direction:column;
-justify-content:center;align-items:center;gap:18px;
+justify-content:center;align-items:center;
 opacity:0;pointer-events:none;
-transition:.5s;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
+/* BG */
 .bg{
 position:absolute;inset:0;
 background:url("assets/bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* GIF */
-.gif-wrap img{
-width:220px;height:150px;
-border-radius:12px;
+/* GIF BOX */
+.box{
+width:220px;
+height:140px;
+border-radius:10px;
+overflow:hidden;
+margin-bottom:15px;
+}
+.box img{
+width:100%;
+height:100%;
+object-fit:contain;
 }
 
 /* BUTTON */
 .btn{
-padding:10px 20px;
-border:none;border-radius:20px;
-background:#ff6eb4;color:white;font-weight:bold;
+padding:8px 16px;
+margin:6px;
+border:none;
+border-radius:20px;
+background:#ff6eb4;
+color:white;
+font-weight:bold;
 }
 
 /* GIFTS */
 .gifts{
 display:grid;
-grid-template-columns:repeat(2,120px);
-gap:20px;
+grid-template-columns:repeat(2,110px);
+gap:15px;
+justify-content:center;
 }
+
 .gift img{
-width:100%;
+width:110px;
+height:110px;
 cursor:pointer;
 }
 
 /* LETTER */
 .letter{
-width:300px;
+position:relative;
+width:280px;height:380px;
+}
+.letter img{width:100%;height:100%;}
+.text{
+position:absolute;
+top:15%;
+left:50%;
+transform:translateX(-50%);
+width:80%;height:70%;
+display:flex;align-items:center;justify-content:center;
+text-align:center;
+font-family:'Dancing Script';
+font-weight:bold;
 }
 </style>
 </head>
@@ -65,8 +93,8 @@ width:300px;
 <div class="page active" id="p1">
 <div class="bg"></div>
 
-<div class="gif-wrap">
-<img src="assets/media1.mp4">
+<div class="box">
+<img src="assets/gif1.gif">
 </div>
 
 <button class="btn" onclick="go(3)">Yes 💖</button>
@@ -77,8 +105,8 @@ width:300px;
 <div class="page" id="p2">
 <div class="bg"></div>
 
-<div class="gif-wrap">
-<img src="assets/media2.mp4">
+<div class="box">
+<img src="assets/gif2.gif">
 </div>
 
 <button class="btn" onclick="go(1)">Back</button>
@@ -89,39 +117,23 @@ width:300px;
 <div class="bg"></div>
 
 <div class="gifts">
-
-<div class="gift" onclick="openGift(1)">
-<img src="assets/gift.png">
-</div>
-
-<div class="gift" onclick="openGift(2)">
-<img src="assets/gift.png">
-</div>
-
-<div class="gift" onclick="openGift(6,3)">
-<img src="assets/gift.png">
-</div>
-
-<div class="gift" onclick="openGift(7,4)">
-<img src="assets/gift.png">
-</div>
-
+<img src="assets/gift.png" onclick="openGift(1)">
+<img src="assets/gift.png" onclick="openGift(2)">
+<img src="assets/gift.png" onclick="openGift(3)">
+<img src="assets/gift.png" onclick="openGift(4)">
 </div>
 
 <button class="btn" onclick="go(1)">Back</button>
-<button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words 💌</button>
+<button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words</button>
 </div>
-
-<!-- NORMAL GIFT PAGES -->
-<div class="page" id="p6"><div class="bg"></div><button class="btn" onclick="go(3)">Back</button></div>
-<div class="page" id="p7"><div class="bg"></div><button class="btn" onclick="go(3)">Back</button></div>
 
 <!-- FINAL -->
 <div class="page" id="p8">
 <div class="bg"></div>
 
 <div class="letter">
-Happy Birthday Zinc 💖
+<img src="assets/paper1.png">
+<div class="text">Happy Birthday Zinc 💖</div>
 </div>
 
 <button class="btn" onclick="go(3)">Back</button>
@@ -129,35 +141,29 @@ Happy Birthday Zinc 💖
 
 <script>
 
-/* NAV */
 function go(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
 }
 
-/* GIFT LOGIC */
 let opened={};
 
 function openGift(id){
 
-// 🎁 GIFT 1 → FLIPBOOK
 if(id===1){
 window.location.href="flipbook.html";
 return;
 }
 
-// 🎁 GIFT 2 → VIDEO
 if(id===2){
 window.location.href="video2.html";
 return;
 }
 
-// NORMAL
 opened[id]=true;
-go(id);
 
 if(Object.keys(opened).length===4){
-document.getElementById("finalBtn").style.display="inline-block";
+document.getElementById("finalBtn").style.display="block";
 }
 }
 
