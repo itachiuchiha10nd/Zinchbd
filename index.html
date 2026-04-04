@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HAPPY BIRTHDAY ZINC ❤️ 🎉</title>
+<title>HAPPY BIRTHDAY ZINC ❤️🎀🎉</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@700&display=swap" rel="stylesheet">
 
@@ -14,126 +14,132 @@ body{overflow:hidden;font-family:'Poppins';}
 
 /* PAGE */
 .page{
-position:absolute;
-inset:0;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-opacity:0;
-pointer-events:none;
+position:absolute;inset:0;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+opacity:0;pointer-events:none;
 transition:.4s;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
+/* BG */
+.bg{
+position:absolute;inset:0;
+background:url("assets/bg.jpg") center/cover no-repeat;
+z-index:-1;
+}
+
 /* ENTRY */
 #p0{background:url("assets/entry-bg.jpg") center/cover no-repeat;}
 .pass-box{
-position:absolute;
-right:6%;
-top:50%;
+position:absolute;right:6%;top:50%;
 transform:translateY(-50%);
 padding:25px;
 background:rgba(255,255,255,0.15);
-backdrop-filter:blur(10px);
 border-radius:20px;
 }
 .display{
-color:#ff6eb4;
-font-size:36px;
-font-weight:bold;
-letter-spacing:8px;
+color:#ff6eb4;font-size:36px;
+font-weight:bold;letter-spacing:8px;
 margin-bottom:20px;
 }
 .pad{display:grid;grid-template-columns:repeat(3,70px);gap:10px;}
 .pad button{
 padding:15px;border:none;border-radius:15px;
-background:#ff6eb4;color:#fff;font-size:20px;font-weight:bold;cursor:pointer;
-}
-
-/* BG */
-.bg{
-position:absolute;
-inset:0;
-background:url("assets/bg.jpg") center/cover no-repeat;
-z-index:-1;
+background:#ff6eb4;color:#fff;font-weight:bold;cursor:pointer;
 }
 
 /* ENVELOPE */
 .envelope{width:250px;cursor:pointer;}
 
 /* LETTER */
-.paper{
-position:relative;
-width:320px;
-height:450px;
-}
+.paper{position:relative;width:320px;height:450px;}
 .paper img{width:100%;height:100%;}
-
 .text{
-position:absolute;
-top:15%;
-left:50%;
+position:absolute;top:15%;left:50%;
 transform:translateX(-50%);
-width:80%;
-height:70%;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-family:'Dancing Script';
-font-weight:700;
-text-align:center;
-color:#000;
+width:80%;height:70%;
+display:flex;align-items:center;justify-content:center;
+font-family:'Dancing Script';font-weight:700;
+text-align:center;color:#000;
 line-height:1.3;
 }
 
 /* BUTTON */
 .btn{
-margin:10px;
-padding:12px 25px;
-background:#ff6eb4;
-border:none;
-border-radius:25px;
-color:white;
-font-weight:bold;
-cursor:pointer;
+margin:10px;padding:12px 25px;
+background:#ff6eb4;border:none;border-radius:25px;
+color:white;font-weight:bold;cursor:pointer;
 }
 .surprise-btn{display:none;}
 
 /* CAKE */
 .cake-bg{
-position:absolute;
-inset:0;
+position:absolute;inset:0;
 background:url("assets/bg2.jpg") center/cover no-repeat;
 z-index:-1;
 }
+.cake-box{position:relative;}
 .cake-box img{width:280px;}
 
-/* FLAME */
+/* 🔥 REAL FLAME WITH WIND */
 .flame{
 position:absolute;
-top:12%;
-left:50%;
-transform:translate(-50%,-50%);
-width:12px;height:22px;
+top:9%;left:50%;
+transform-origin:bottom center;
+
+width:12px;height:28px;
+
 background:radial-gradient(circle,#fff,#ffd700,orange,red);
-border-radius:50%;
-animation:flicker .15s infinite alternate;
+border-radius:50% 50% 40% 40%;
+
+animation:flicker 0.12s infinite alternate;
+filter:blur(0.3px);
 }
 
-/* 🎈 RANDOM MOVING BALLOONS */
+@keyframes flicker{
+0%{transform:translate(-50%,-50%) rotate(-6deg) scale(1);}
+50%{transform:translate(-48%,-52%) rotate(4deg) scale(1.2);}
+100%{transform:translate(-52%,-50%) rotate(-4deg) scale(1.3);}
+}
+
+/* 💨 WIND EFFECT */
+.wind{
+position:absolute;
+top:8%;left:50%;
+width:100px;height:100px;
+background:radial-gradient(circle,rgba(255,200,100,0.6),transparent);
+filter:blur(25px);
+transform:translate(-50%,-50%);
+animation:windMove 2s infinite alternate;
+}
+
+@keyframes windMove{
+0%{transform:translate(-60%,-50%);}
+100%{transform:translate(-40%,-50%);}
+}
+
+/* 💨 SMOKE */
+.smoke{
+position:absolute;
+top:10%;left:50%;
+width:10px;height:10px;
+background:gray;border-radius:50%;
+animation:smokeRise 2s forwards;
+}
+@keyframes smokeRise{
+to{opacity:0;transform:translate(-50%,-120px) scale(3);}
+}
+
+/* 🎈 BALLOONS RANDOM */
 .balloon{
-position:fixed;
-width:50px;
+position:fixed;width:50px;
 pointer-events:none;
 }
 
 /* 🎆 FIREWORK */
 .firework{
-position:fixed;
-width:7px;height:6px;
+position:fixed;width:6px;height:6px;
 border-radius:50%;
 animation:explode 1s forwards;
 }
@@ -141,13 +147,16 @@ animation:explode 1s forwards;
 to{transform:scale(10);opacity:0;}
 }
 
+/* 🌸 FLOWER */
+@keyframes fall{
+to{transform:translateY(100vh);opacity:0;}
+}
+
 /* TEXT POP */
 .blastText{
-position:fixed;
-top:50%;left:50%;
+position:fixed;top:50%;left:50%;
 transform:translate(-50%,-50%);
-font-size:60px;
-color:#ff6eb4;
+font-size:60px;color:#ff6eb4;
 display:none;
 }
 </style>
@@ -162,18 +171,10 @@ display:none;
 <div class="pass-box">
 <div id="display" class="display"></div>
 <div class="pad">
-<button onclick="press(1)">1</button>
-<button onclick="press(2)">2</button>
-<button onclick="press(3)">3</button>
-<button onclick="press(4)">4</button>
-<button onclick="press(5)">5</button>
-<button onclick="press(6)">6</button>
-<button onclick="press(7)">7</button>
-<button onclick="press(8)">8</button>
-<button onclick="press(9)">9</button>
-<button onclick="clearPass()">C</button>
-<button onclick="press(0)">0</button>
-<button onclick="checkPass()">✔</button>
+<button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button>
+<button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button>
+<button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button>
+<button onclick="clearPass()">C</button><button onclick="press(0)">0</button><button onclick="checkPass()">✔</button>
 </div>
 </div>
 </div>
@@ -203,8 +204,9 @@ display:none;
 <div class="page" id="p3">
 <div class="cake-bg"></div>
 
-<div class="cake-box">
+<div class="cake-box" id="cakeBox">
 <img src="assets/cake.png">
+<div class="wind"></div>
 <div class="flame" id="flame"></div>
 </div>
 
@@ -224,7 +226,8 @@ function goTo(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
 
-if(n===2) setTimeout(fitText,100);
+if(n===1) flowerRain();
+if(n===2) startTyping();
 if(n===3) startBalloons();
 }
 
@@ -235,54 +238,67 @@ function clearPass(){input="";display.innerText="";}
 function checkPass(){if(input==="81206"){goTo(1);}else{alert("Wrong Password");clearPass();}}
 
 /* 💌 FULL WISHES */
-const msg=`Happy Birthday, Zinc! 🎉✨ Always stay happy, keep smiling, and enjoy your day to the fullest 😄 Be truly happy, because you deserve all the good things in life. And thank you for coming into my life and becoming my friend — it really means a lot to me 🤝 I also hope you always stay as beautiful as you are ✨ Just a little wish from my side 😆 I hope we stay together at least until my birthday, because my birthday comes at the end of the year 😂 Once again, Happy Birthday! 🎂🎈 Stay amazing and keep shining always ✨`;
+const msg=`Happy Birthday, Zinc! 🎉✨ Always stay happy, keep smiling, and enjoy your day to the fullest 😄 Be truly happy, because you deserve all the good things in life. And thank you for coming into my life and becoming my friend — it really means a lot to me 🤝 I also hope you always stay as beautiful as you are ✨ Just a little wish from my side 😆 I hope we stay together at least until my birthday 😂 Once again, Happy Birthday! 🎂🎈 Stay amazing ✨ -AKARSH`;
 
-/* AUTO FIT */
-function fitText(){
+/* TYPING + AUTO FIT */
+function startTyping(){
 let el=document.getElementById("typing");
-el.innerText=msg;
+el.innerHTML="";
+let i=0;
 
+function type(){
+if(i<msg.length){
+el.innerHTML+=msg[i];
+i++;
+setTimeout(type,10);
+}else{
+autoFit(el);
+}}
+type();
+}
+
+function autoFit(el){
 let size=26;
 el.style.fontSize=size+"px";
-
 while(el.scrollHeight>el.clientHeight && size>10){
 size--;
 el.style.fontSize=size+"px";
 }
 }
 
-/* 🎈 RANDOM MOVEMENT */
-let balloons=[];
+/* 🌸 FLOWERS */
+function flowerRain(){
+for(let i=0;i<12;i++){
+let f=document.createElement("div");
+f.innerHTML="🌸";
+f.style.position="fixed";
+f.style.left=Math.random()*100+"vw";
+f.style.top="-20px";
+f.style.animation="fall 4s linear";
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),4000);
+}
+}
 
+/* 🎈 BALLOONS RANDOM MOVE */
 function startBalloons(){
-for(let i=0;i<10;i++){
+for(let i=0;i<8;i++){
 let b=document.createElement("img");
 b.src="assets/balloon.png";
 b.className="balloon";
-
 b.style.left=Math.random()*100+"vw";
 b.style.top=Math.random()*100+"vh";
-
 document.body.appendChild(b);
-balloons.push(b);
 
-moveBalloon(b);
-}
-}
-
-function moveBalloon(b){
 setInterval(()=>{
-let x=Math.random()*100;
-let y=Math.random()*100;
-
 b.style.transition="3s linear";
-b.style.left=x+"vw";
-b.style.top=y+"vh";
-
+b.style.left=Math.random()*100+"vw";
+b.style.top=Math.random()*100+"vh";
 },3000);
 }
+}
 
-/* FIREWORK */
+/* 🎆 FIREWORK */
 function firework(){
 for(let i=0;i<30;i++){
 let f=document.createElement("div");
@@ -302,8 +318,14 @@ function openVideoPage(){window.location.href="video.html";}
 function blow(){
 document.getElementById("flame").style.display="none";
 
-firework();
+for(let i=0;i<5;i++){
+let s=document.createElement("div");
+s.className="smoke";
+document.getElementById("cakeBox").appendChild(s);
+setTimeout(()=>s.remove(),2000);
+}
 
+firework();
 document.getElementById("blastSound").play();
 
 setTimeout(()=>{
