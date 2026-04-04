@@ -22,14 +22,24 @@ align-items:center;
 flex-direction:column;
 opacity:0;
 pointer-events:none;
-transition:.3s;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
+/* BACKGROUND */
+.bg{
+position:absolute;
+inset:0;
+background:url("assets/bg.jpg") center/cover no-repeat;
+z-index:-1;
+}
+
 /* GIF BOX */
 .box{
-width:260px;
-height:170px;
+width:280px;
+height:180px;
+display:flex;
+justify-content:center;
+align-items:center;
 border-radius:15px;
 overflow:hidden;
 margin-bottom:20px;
@@ -37,7 +47,7 @@ margin-bottom:20px;
 .box img{
 width:100%;
 height:100%;
-object-fit:cover;
+object-fit:contain;
 }
 
 /* BUTTON */
@@ -54,56 +64,48 @@ cursor:pointer;
 
 /* GIFTS */
 .gifts{
-display:flex;
-gap:25px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
 }
-
 .gift img{
-width:150px;
+width:140px;
 cursor:pointer;
-transition:.3s;
-}
-.gift img:hover{
-transform:scale(1.1);
 }
 
-/* FINAL BG */
-.final-bg{
-position:absolute;
-inset:0;
-background:url("assets/final-bg.jpg") center/cover no-repeat;
-z-index:-1;
+/* LETTER */
+.letter-box{
+position:relative;
+width:320px;
+height:420px;
 }
-
-/* FINAL TEXT */
-.final-text{
+.letter-box img{
+width:100%;
+height:100%;
+}
+.letter-text{
 position:absolute;
 top:15%;
 left:50%;
 transform:translateX(-50%);
-
-width:70%;
-height:65%;
-
+width:80%;
+height:70%;
 display:flex;
 align-items:center;
 justify-content:center;
-
 text-align:center;
-
 font-family:'Dancing Script';
-font-size:22px;
 font-weight:bold;
-color:#000;
-line-height:1.4;
+font-size:22px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- PAGE 1 (gif1 YES/NO) -->
+<!-- PAGE 1 -->
 <div class="page active" id="p1">
+<div class="bg"></div>
 
 <div class="box">
 <img src="assets/gif1.gif">
@@ -116,8 +118,9 @@ line-height:1.4;
 
 </div>
 
-<!-- PAGE 2 (gif2 NO PAGE) -->
+<!-- PAGE 2 -->
 <div class="page" id="p2">
+<div class="bg"></div>
 
 <div class="box">
 <img src="assets/gif2.gif">
@@ -127,45 +130,35 @@ line-height:1.4;
 
 </div>
 
-<!-- PAGE 3 (GIFTS) -->
+<!-- PAGE 3 GIFTS -->
 <div class="page" id="p3">
+<div class="bg"></div>
 
 <div class="gifts">
-
-<div class="gift" onclick="openGift(1)">
-<img src="assets/gift.png">
-</div>
-
-<div class="gift" onclick="openGift(2)">
-<img src="assets/gift.png">
-</div>
-
+<div onclick="openGift(4,1)"><img src="assets/gift.png"></div>
+<div onclick="openGift(5,2)"><img src="assets/gift.png"></div>
+<div onclick="openGift(6,3)"><img src="assets/gift.png"></div>
+<div onclick="openGift(7,4)"><img src="assets/gift.png"></div>
 </div>
 
 <button class="btn" onclick="goTo(1)">Back</button>
-<button id="finalBtn" class="btn" style="display:none;" onclick="goTo(4)">Final Words 💌</button>
+<button id="finalBtn" class="btn" style="display:none;" onclick="goTo(8)">Final Words 💌</button>
 
 </div>
 
-<!-- PAGE 4 (FINAL WORDS) -->
-<div class="page" id="p4">
+<!-- GIFT PAGES -->
+<div class="page" id="p4"><div class="bg"></div><button class="btn" onclick="goTo(3)">Back</button></div>
+<div class="page" id="p5"><div class="bg"></div><button class="btn" onclick="goTo(3)">Back</button></div>
+<div class="page" id="p6"><div class="bg"></div><button class="btn" onclick="goTo(3)">Back</button></div>
+<div class="page" id="p7"><div class="bg"></div><button class="btn" onclick="goTo(3)">Back</button></div>
 
-<div class="final-bg"></div>
+<!-- FINAL LETTER -->
+<div class="page" id="p8">
+<div class="bg"></div>
 
-<div class="final-text" id="finalText">
-Happy Birthday, Zinc! 🎉✨ <br><br>
-
-Always stay happy, keep smiling, and enjoy your day to the fullest 😄 <br><br>
-
-Be truly happy, because you deserve all the good things in life 💖 <br><br>
-
-And thank you for coming into my life and becoming my friend 🤝 <br><br>
-
-I also hope you always stay as beautiful as you are ✨ <br><br>
-
-Once again, Happy Birthday! 🎂🎈 <br><br>
-
-Stay amazing and keep shining always ✨
+<div class="letter-box">
+<img src="assets/paper.png">
+<div class="letter-text" id="typing"></div>
 </div>
 
 <button class="btn" onclick="goTo(3)">Back</button>
@@ -174,37 +167,50 @@ Stay amazing and keep shining always ✨
 
 <script>
 
-/* NAVIGATION */
+/* NAV */
 function goTo(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
 
-if(n===4) fitText();
+if(n===8) startTyping();
 }
 
-/* GIFT TRACK */
-let opened=0;
-let openedList={};
+/* TRACK GIFTS */
+let opened={};
 
-function openGift(n){
-if(!openedList[n]){
-openedList[n]=true;
-opened++;
-}
+function openGift(page,id){
+opened[id]=true;
+goTo(page);
 
-if(opened===2){
+if(Object.keys(opened).length===4){
 document.getElementById("finalBtn").style.display="block";
 }
 }
 
-/* AUTO FIT TEXT */
-function fitText(){
-let el=document.getElementById("finalText");
-let size=22;
+/* TYPING */
+const msg=`Happy Birthday, Zinc! 🎉✨ Always stay happy, keep smiling, and enjoy your day 😄 You deserve everything good 💖 Thank you for being in my life 🤝 Stay amazing always ✨`;
 
+function startTyping(){
+let el=document.getElementById("typing");
+el.innerHTML="";
+let i=0;
+
+function type(){
+if(i<msg.length){
+el.innerHTML+=msg[i];
+i++;
+setTimeout(type,10);
+}else autoFit(el);
+}
+type();
+}
+
+/* AUTO FIT */
+function autoFit(el){
+let size=22;
 el.style.fontSize=size+"px";
 
-while(el.scrollHeight > el.clientHeight && size > 12){
+while(el.scrollHeight>el.clientHeight){
 size--;
 el.style.fontSize=size+"px";
 }
