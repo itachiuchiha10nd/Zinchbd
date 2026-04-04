@@ -64,7 +64,7 @@ background:#ff6eb4;color:#fff;font-weight:bold;
 }
 
 /* ENVELOPE */
-.envelope{width:220px;cursor:pointer;}
+.envelope{width:290px;cursor:pointer;}
 
 /* LETTER */
 .paper{
@@ -196,6 +196,8 @@ to{transform:translate(-50%,-50%) scale(1);opacity:1;}
 <div class="page" id="p1">
 <div class="bg"></div>
 <img src="assets/envelope.png" class="envelope" onclick="goTo(2)">
+<div class="open-text">Open it 💌</div>
+
 </div>
 
 <!-- LETTER -->
@@ -251,7 +253,8 @@ function clearPass(){input="";display.innerText="";}
 function checkPass(){if(input==="81206"){goTo(1);}else{alert("Wrong Password");clearPass();}}
 
 /* FULL WISHES */
-const msg=`Happy Birthday, Zinc! 🎉✨ Always stay happy, keep smiling, and enjoy your day to the fullest 😄 Be truly happy, because you deserve all the good things in life. And thank you for coming into my life and becoming my friend — it really means a lot to me 🤝 I also hope you always stay as beautiful as you are ✨ Just a little wish from my side 😆 I hope we stay together at least until my birthday, because my birthday comes at the end of the year 😂 Once again, Happy Birthday! 🎂🎈 Stay amazing and keep shining always ✨ -Akarsh❤️`;
+const msg=`Happy Birthday, Zinc! 🎉✨ Always stay happy, keep smiling, and enjoy your day to the fullest 😄 Be truly happy, because you deserve all the good things in life. And thank you for coming into my life and becoming my friend — it really means a lot to me 🤝 I also hope you always stay as beautiful as you are ✨ Just a little wish from my side 😆 I hope we stay together at least until my birthday, because my birthday comes at the end of the year 😂 Once again, Happy Birthday! 🎂🎈 Stay amazing and keep shining always ✨ 
+-Akarsh❤️`;
 
 /* TYPING */
 function startTyping(){
