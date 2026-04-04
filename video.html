@@ -1,80 +1,166 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Surprise 💗</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-body{margin:0;overflow:hidden;font-family:sans-serif;}
-.page{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;opacity:0;}
-.page.active{opacity:1;}
-.bg{position:absolute;inset:0;background:url("assets/bg.jpg") center/cover no-repeat;z-index:-1;}
+/* SAME STYLE (UNCHANGED) */
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Nunito';}
 
-.box{width:230px;height:150px;}
-.box img{width:100%;height:100%;object-fit:contain;}
+/* PAGES */
+.page{
+position:fixed;inset:0;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;gap:18px;
+opacity:0;pointer-events:none;
+transition:.5s;
+}
+.page.active{opacity:1;pointer-events:auto;}
 
-.gifts{display:grid;grid-template-columns:repeat(2,130px);gap:25px;}
-.gift img{width:130px;cursor:pointer;}
+.bg{
+position:absolute;inset:0;
+background:url("assets/bg.jpg") center/cover no-repeat;
+z-index:-1;
+}
 
-.btn{margin:10px;padding:10px;background:#ff6eb4;color:#fff;border:none;border-radius:20px;}
+/* GIF */
+.gif-wrap img{
+width:220px;height:150px;
+border-radius:12px;
+}
+
+/* BUTTON */
+.btn{
+padding:10px 20px;
+border:none;border-radius:20px;
+background:#ff6eb4;color:white;font-weight:bold;
+}
+
+/* GIFTS */
+.gifts{
+display:grid;
+grid-template-columns:repeat(2,120px);
+gap:20px;
+}
+.gift img{
+width:100%;
+cursor:pointer;
+}
+
+/* LETTER */
+.letter{
+width:300px;
+}
 </style>
 </head>
 
 <body>
 
+<!-- PAGE 1 -->
 <div class="page active" id="p1">
 <div class="bg"></div>
-<div class="box">
-<img src="assets/komaru_gif_AgADUw20YAAsLuiUY-ezgif.com-video-to-gif-converter.gif">
-</div>
-<button class="btn" onclick="go(3)">Yes</button>
-<button class="btn" onclick="go(2)">No</button>
+
+<div class="gif-wrap">
+<img src="assets/komaru_gif_AgADUw%20YAAsLuiUY-ezgif.com-video-to-gif-converter.gif">
 </div>
 
+<button class="btn" onclick="go(3)">Yes 💖</button>
+<button class="btn" onclick="go(2)">No 😒</button>
+</div>
+
+<!-- PAGE 2 -->
 <div class="page" id="p2">
 <div class="bg"></div>
-<div class="box">
-<img src="assets/komaru_gif_AgADUgY20AAsLuiUY-ezgif.com-video-to-gif-converter.gif">
+
+<div class="gif-wrap">
+<img src="assets/komaru_gif_AgADUgY%20AAsLuiUY-ezgif.com-video-to-gif-converter.gif">
 </div>
+
 <button class="btn" onclick="go(1)">Back</button>
 </div>
 
+<!-- GIFTS -->
 <div class="page" id="p3">
 <div class="bg"></div>
 
 <div class="gifts">
-<img src="assets/gift.png" onclick="openGift(1)">
-<img src="assets/gift.png" onclick="openGift(2)">
-<img src="assets/gift.png" onclick="openGift(3)">
-<img src="assets/gift.png" onclick="openGift(4)">
+
+<div class="gift" onclick="openGift(1)">
+<img src="assets/gift.png">
 </div>
 
-<button id="finalBtn" class="btn" style="display:none;" onclick="go(4)">Final Words</button>
+<div class="gift" onclick="openGift(2)">
+<img src="assets/gift.png">
 </div>
 
-<div class="page" id="p4">
+<div class="gift" onclick="openGift(6,3)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(7,4)">
+<img src="assets/gift.png">
+</div>
+
+</div>
+
+<button class="btn" onclick="go(1)">Back</button>
+<button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words 💌</button>
+</div>
+
+<!-- NORMAL GIFT PAGES -->
+<div class="page" id="p6"><div class="bg"></div><button class="btn" onclick="go(3)">Back</button></div>
+<div class="page" id="p7"><div class="bg"></div><button class="btn" onclick="go(3)">Back</button></div>
+
+<!-- FINAL -->
+<div class="page" id="p8">
 <div class="bg"></div>
-<h2 style="color:white;">💌 Final Message</h2>
+
+<div class="letter">
+Happy Birthday Zinc 💖
+</div>
+
+<button class="btn" onclick="go(3)">Back</button>
 </div>
 
 <script>
+
+/* NAV */
 function go(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
 }
 
+/* GIFT LOGIC */
 let opened={};
 
 function openGift(id){
-if(id===1){window.location.href="flipbook.html";return;}
-if(id===2){window.location.href="video2.html";return;}
 
+// 🎁 GIFT 1 → FLIPBOOK
+if(id===1){
+window.location.href="flipbook.html";
+return;
+}
+
+// 🎁 GIFT 2 → VIDEO
+if(id===2){
+window.location.href="video2.html";
+return;
+}
+
+// NORMAL
 opened[id]=true;
+go(id);
 
 if(Object.keys(opened).length===4){
-document.getElementById("finalBtn").style.display="block";
+document.getElementById("finalBtn").style.display="inline-block";
 }
 }
+
 </script>
 
 </body>
