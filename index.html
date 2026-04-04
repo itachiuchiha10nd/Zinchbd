@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HAPPY BIRTHDAY ZNIC 🎉</title>
+<title>HAPPY BIRTHDAY ZINC 🎉</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -44,7 +44,7 @@ font-size:36px;
 font-weight:bold;
 letter-spacing:8px;
 margin-bottom:20px;
-text-shadow:0 0 10px #ff6eb4,0 0 20px #ff6eb4,0 0 40px #ff6eb4;
+text-shadow:0 0 10px #ff6eb4,0 0 20px #ff6eb4;
 }
 .pad{display:grid;grid-template-columns:repeat(3,70px);gap:10px;}
 .pad button{
@@ -68,14 +68,16 @@ z-index:-1;
 .paper img{width:100%;}
 .text{
 position:absolute;
-top:25%;
+top:20%;
 left:50%;
 transform:translateX(-50%);
-width:70%;
+width:75%;
 font-family:'Dancing Script';
-font-size:18px;
+font-size:19px;
+font-weight:700;
 text-align:center;
 color:#000;
+line-height:1.4;
 }
 
 /* BUTTON */
@@ -90,7 +92,6 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* SURPRISE */
 .surprise-btn{display:none;}
 
 /* CAKE */
@@ -148,24 +149,24 @@ animation:smokeRise 2s forwards;
 /* 🎈 BALLOON */
 .balloon{
 position:fixed;
-bottom:-80px;
 width:50px;
-animation:float 8s linear infinite;
+bottom:-100px;
+animation:floatUp linear forwards;
 }
-@keyframes float{
-to{transform:translateY(-120vh);}
+@keyframes floatUp{
+0%{transform:translate(0,0);}
+100%{transform:translate(var(--x), -120vh);}
 }
 
 /* 🎆 FIREWORK */
 .firework{
 position:fixed;
-width:6px;
-height:6px;
+width:6px;height:6px;
 border-radius:50%;
 animation:explode 1s ease-out forwards;
 }
 @keyframes explode{
-0%{transform:scale(1);opacity:1;}
+0%{transform:scale(1);}
 100%{transform:scale(10);opacity:0;}
 }
 
@@ -174,10 +175,10 @@ animation:explode 1s ease-out forwards;
 position:fixed;
 top:50%;left:50%;
 transform:translate(-50%,-50%) scale(0);
-font-size:70px;
+font-size:60px;
 font-weight:bold;
 color:#ff6eb4;
-text-shadow:0 0 10px #ff6eb4,0 0 20px #ff6eb4;
+text-shadow:0 0 10px #ff6eb4;
 display:none;
 animation:pop 1s forwards;
 }
@@ -222,10 +223,12 @@ animation:pop 1s forwards;
 <!-- LETTER -->
 <div class="page" id="p2">
 <div class="bg"></div>
+
 <div class="paper">
 <img src="assets/paper.png">
 <div class="text" id="typing"></div>
 </div>
+
 <div>
 <button class="btn" onclick="goTo(1)">Back</button>
 <button class="btn" onclick="goTo(3)">Next</button>
@@ -268,18 +271,55 @@ function press(n){if(input.length<5){input+=n;display.innerText=input;}}
 function clearPass(){input="";display.innerText="";}
 function checkPass(){if(input==="81206"){goTo(1);}else{alert("Wrong Password");clearPass();}}
 
-/* BALLOONS */
+/* 💌 WISHES */
+const msg=`Happy Birthday, Zinc! 🎉✨
+Always stay happy, keep smiling, and enjoy your day to the fullest 😄
+
+Be truly happy, because you deserve all the good things in life.
+
+And thank you for coming into my life and becoming my friend — it really means a lot to me 🤝
+
+I also hope you always stay as beautiful as you are ✨
+
+Just a little wish from my side 😆
+
+I hope we stay together at least until my birthday, because my birthday comes at the end of the year 😂
+
+Once again, Happy Birthday! 🎂🎈
+Stay amazing and keep shining always ✨`;
+
+function startTyping(){
+let el=document.getElementById("typing");
+el.innerHTML="";
+let i=0;
+function type(){
+if(i<msg.length){
+el.innerHTML+=msg[i];
+i++;
+setTimeout(type,20);
+}}
+type();
+}
+
+/* 🎈 RANDOM BALLOONS */
 function startBalloons(){
-for(let i=0;i<10;i++){
+for(let i=0;i<12;i++){
 let b=document.createElement("img");
 b.src="assets/balloon.png";
 b.className="balloon";
+
+let randomX=(Math.random()*200 - 100)+"vw";
+b.style.setProperty("--x", randomX);
+
 b.style.left=Math.random()*100+"vw";
+b.style.animationDuration=(5+Math.random()*5)+"s";
+
 document.body.appendChild(b);
+setTimeout(()=>b.remove(),8000);
 }
 }
 
-/* FIREWORK */
+/* 🎆 FIREWORK */
 function firework(){
 for(let i=0;i<30;i++){
 let f=document.createElement("div");
@@ -293,7 +333,9 @@ setTimeout(()=>f.remove(),1000);
 }
 
 /* VIDEO */
-function openVideoPage(){window.location.href="video.html";}
+function openVideoPage(){
+window.location.href="video.html";
+}
 
 /* BLOW */
 function blow(){
