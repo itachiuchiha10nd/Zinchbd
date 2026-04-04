@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,27 +15,52 @@ body{overflow:hidden;font-family:sans-serif;}
 
 /* PAGE */
 .page{
-position:fixed;inset:0;
-display:flex;flex-direction:column;
-justify-content:center;align-items:center;
-opacity:0;pointer-events:none;
+position:fixed;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+opacity:0;
+pointer-events:none;
 }
-.page.active{opacity:1;pointer-events:auto;}
+.page.active{
+opacity:1;
+pointer-events:auto;
+}
 
-/* BG */
+/* BACKGROUND */
 .bg{
-position:absolute;inset:0;
+position:absolute;
+inset:0;
 background:url("assets/bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* GIF BOX */
+/* BACK BUTTON */
+.back{
+position:absolute;
+top:20px;
+left:20px;
+padding:8px 16px;
+background:#ff6eb4;
+border:none;
+border-radius:20px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* GIF BOX (BIG CENTER) */
 .box{
-width:220px;
-height:140px;
-border-radius:10px;
+width:320px;
+height:220px;
+border-radius:15px;
 overflow:hidden;
-margin-bottom:15px;
+margin-bottom:20px;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 .box img{
 width:100%;
@@ -44,45 +70,69 @@ object-fit:contain;
 
 /* BUTTON */
 .btn{
-padding:8px 16px;
+padding:10px 20px;
 margin:6px;
 border:none;
 border-radius:20px;
 background:#ff6eb4;
 color:white;
 font-weight:bold;
+cursor:pointer;
 }
 
-/* GIFTS */
+/* 🎁 GIFTS CENTER */
 .gifts{
 display:grid;
-grid-template-columns:repeat(2,110px);
-gap:15px;
+grid-template-columns:repeat(2,140px);
+gap:25px;
 justify-content:center;
+align-content:center;
+height:50vh;
+}
+
+.gift{
+width:140px;
+height:140px;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 .gift img{
-width:110px;
-height:110px;
+width:100%;
+height:100%;
+object-fit:contain;
 cursor:pointer;
+transition:.3s;
+}
+.gift img:hover{
+transform:scale(1.1);
 }
 
 /* LETTER */
 .letter{
 position:relative;
-width:280px;height:380px;
+width:300px;
+height:420px;
 }
-.letter img{width:100%;height:100%;}
+.letter img{
+width:100%;
+height:100%;
+}
 .text{
 position:absolute;
 top:15%;
 left:50%;
 transform:translateX(-50%);
-width:80%;height:70%;
-display:flex;align-items:center;justify-content:center;
+width:80%;
+height:70%;
+display:flex;
+align-items:center;
+justify-content:center;
 text-align:center;
 font-family:'Dancing Script';
 font-weight:bold;
+font-size:22px;
 }
 </style>
 </head>
@@ -105,66 +155,126 @@ font-weight:bold;
 <div class="page" id="p2">
 <div class="bg"></div>
 
+<button class="back" onclick="go(1)">Back</button>
+
 <div class="box">
 <img src="assets/gif2.gif">
 </div>
-
-<button class="btn" onclick="go(1)">Back</button>
 </div>
 
-<!-- GIFTS -->
+<!-- PAGE 3 (GIFTS) -->
 <div class="page" id="p3">
 <div class="bg"></div>
 
+<button class="back" onclick="go(1)">Back</button>
+
 <div class="gifts">
-<img src="assets/gift.png" onclick="openGift(1)">
-<img src="assets/gift.png" onclick="openGift(2)">
-<img src="assets/gift.png" onclick="openGift(3)">
-<img src="assets/gift.png" onclick="openGift(4)">
+
+<div class="gift" onclick="openGift(1)">
+<img src="assets/gift.png">
 </div>
 
-<button class="btn" onclick="go(1)">Back</button>
-<button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words</button>
+<div class="gift" onclick="openGift(2)">
+<img src="assets/gift.png">
 </div>
 
-<!-- FINAL -->
+<div class="gift" onclick="openGift(3)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(4)">
+<img src="assets/gift.png">
+</div>
+
+</div>
+
+<button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words 💌</button>
+</div>
+
+<!-- GIFT PAGES -->
+<div class="page" id="p4">
+<div class="bg"></div>
+<button class="back" onclick="go(3)">Back</button>
+</div>
+
+<div class="page" id="p5">
+<div class="bg"></div>
+<button class="back" onclick="go(3)">Back</button>
+</div>
+
+<div class="page" id="p6">
+<div class="bg"></div>
+<button class="back" onclick="go(3)">Back</button>
+</div>
+
+<div class="page" id="p7">
+<div class="bg"></div>
+<button class="back" onclick="go(3)">Back</button>
+</div>
+
+<!-- FINAL PAGE -->
 <div class="page" id="p8">
 <div class="bg"></div>
 
+<button class="back" onclick="go(3)">Back</button>
+
 <div class="letter">
 <img src="assets/paper1.png">
-<div class="text">Happy Birthday Zinc 💖</div>
+<div class="text" id="typing"></div>
 </div>
-
-<button class="btn" onclick="go(3)">Back</button>
 </div>
 
 <script>
 
+/* NAVIGATION */
 function go(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
+
+if(n===8) startTyping();
 }
 
+/* GIFT LOGIC */
 let opened={};
 
 function openGift(id){
 
+// 🎁 Gift 1 → Flipbook
 if(id===1){
 window.location.href="flipbook.html";
 return;
 }
 
+// 🎁 Gift 2 → Video
 if(id===2){
-window.location.href="video2.html";
+window.location.href="video1.html"; // 🔥 important
 return;
 }
 
+// 🎁 Gift 3 & 4
 opened[id]=true;
+go(id+3);
 
 if(Object.keys(opened).length===4){
 document.getElementById("finalBtn").style.display="block";
 }
+}
+
+/* TYPING EFFECT */
+const msg="Happy Birthday, Zinc! 🎉✨ Always stay happy, keep smiling 😄 You deserve everything 💖 Stay amazing always ✨";
+
+function startTyping(){
+let el=document.getElementById("typing");
+el.innerHTML="";
+let i=0;
+
+function type(){
+if(i<msg.length){
+el.innerHTML+=msg[i++];
+setTimeout(type,15);
+}
+}
+type();
 }
 
 </script>
