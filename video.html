@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<title>Surprise 💗</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -12,31 +14,27 @@ body{font-family:'Poppins';overflow:hidden;}
 
 /* PAGE */
 .page{
-position:absolute;
+position:fixed;
 inset:0;
 display:flex;
-flex-direction:column;
 justify-content:center;
 align-items:center;
+flex-direction:column;
+opacity:0;
+pointer-events:none;
+transition:.3s;
 }
-
-/* BACKGROUND */
-.bg{
-position:absolute;
-inset:0;
-background:url("assets/bg.jpg") center/cover no-repeat;
-z-index:-1;
-}
+.page.active{opacity:1;pointer-events:auto;}
 
 /* GIF BOX */
-.video-box{
-width:300px;
-height:180px;
+.box{
+width:260px;
+height:170px;
 border-radius:15px;
 overflow:hidden;
-box-shadow:0 0 25px rgba(255,110,180,0.7);
+margin-bottom:20px;
 }
-.video-box img{
+.box img{
 width:100%;
 height:100%;
 object-fit:cover;
@@ -44,196 +42,172 @@ object-fit:cover;
 
 /* BUTTON */
 .btn{
+padding:10px 20px;
 margin:10px;
-padding:12px 25px;
-background:#ff6eb4;
 border:none;
-border-radius:25px;
+border-radius:20px;
+background:#ff6eb4;
 color:white;
 font-weight:bold;
 cursor:pointer;
 }
 
-/* BACK */
-.top-back{
-position:absolute;
-top:20px;
-left:20px;
+/* GIFTS */
+.gifts{
+display:flex;
+gap:25px;
 }
 
-/* 🎁 4 BOX GRID FIX */
-.gift-container{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-
-width:100%;
-max-width:500px;
-padding:20px;
-}
-
-/* BIG GIFTS */
-.gift{
-width:100%;
-height:160px;
-
-object-fit:contain;
-
+.gift img{
+width:150px;
 cursor:pointer;
 transition:.3s;
 }
-
-.gift:hover{
-transform:scale(1.05);
-filter:drop-shadow(0 0 20px pink);
+.gift img:hover{
+transform:scale(1.1);
 }
 
-/* LETTER */
-.letter{
-background:rgba(255,255,255,0.1);
-padding:20px;
-border-radius:15px;
-backdrop-filter:blur(10px);
+/* FINAL BG */
+.final-bg{
+position:absolute;
+inset:0;
+background:url("assets/final-bg.jpg") center/cover no-repeat;
+z-index:-1;
+}
+
+/* FINAL TEXT */
+.final-text{
+position:absolute;
+top:15%;
+left:50%;
+transform:translateX(-50%);
+
+width:70%;
+height:65%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+text-align:center;
+
 font-family:'Dancing Script';
 font-size:22px;
-text-align:center;
-color:white;
-max-width:320px;
-}
-
-/* FINAL BUTTON */
-.final-btn{
-display:none;
-margin-top:20px;
+font-weight:bold;
+color:#000;
+line-height:1.4;
 }
 </style>
 </head>
 
 <body>
 
-<!-- PAGE 1 -->
-<div class="page" id="p1">
-<div class="bg"></div>
+<!-- PAGE 1 (gif1 YES/NO) -->
+<div class="page active" id="p1">
 
-<button class="btn top-back" onclick="goHome()">⬅ Back</button>
-
-<div class="video-box">
+<div class="box">
 <img src="assets/gif1.gif">
 </div>
 
-<div style="margin-top:20px;">
-<button class="btn" onclick="goTo(2)">Yes 💖</button>
-<button class="btn" onclick="goTo(3)">No 😏</button>
+<div>
+<button class="btn" onclick="goTo(3)">Yes 💖</button>
+<button class="btn" onclick="goTo(2)">No 😒</button>
 </div>
 
 </div>
 
-<!-- PAGE 2 (GIFTS) -->
-<div class="page" id="p2" style="display:none;">
-<div class="bg"></div>
+<!-- PAGE 2 (gif2 NO PAGE) -->
+<div class="page" id="p2">
 
-<button class="btn top-back" onclick="goTo(1)">⬅ Back</button>
-
-<div class="gift-container">
-<img src="assets/gift.png" class="gift" onclick="openGift(1)">
-<img src="assets/gift.png" class="gift" onclick="openGift(2)">
-<img src="assets/gift.png" class="gift" onclick="openGift(3)">
-<img src="assets/gift.png" class="gift" onclick="openGift(4)">
-</div>
-
-<button id="finalBtn" class="btn final-btn" onclick="goTo('final')">
-Final Words 💌
-</button>
-
-</div>
-
-<!-- PAGE 3 -->
-<div class="page" id="p3" style="display:none;">
-<div class="bg"></div>
-
-<button class="btn top-back" onclick="goTo(1)">⬅ Back</button>
-
-<div class="video-box">
+<div class="box">
 <img src="assets/gif2.gif">
 </div>
 
+<button class="btn" onclick="goTo(1)">Back</button>
+
 </div>
 
-<!-- GIFT PAGES -->
-<div class="page" id="g1" style="display:none;">
-<div class="bg"></div>
-<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
-<div class="letter">🎁 Surprise 1 💖</div>
+<!-- PAGE 3 (GIFTS) -->
+<div class="page" id="p3">
+
+<div class="gifts">
+
+<div class="gift" onclick="openGift(1)">
+<img src="assets/gift.png">
 </div>
 
-<div class="page" id="g2" style="display:none;">
-<div class="bg"></div>
-<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
-<div class="letter">🎁 Surprise 2 🎉</div>
+<div class="gift" onclick="openGift(2)">
+<img src="assets/gift.png">
 </div>
 
-<div class="page" id="g3" style="display:none;">
-<div class="bg"></div>
-<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
-<div class="letter">🎁 Surprise 3 ✨</div>
 </div>
 
-<div class="page" id="g4" style="display:none;">
-<div class="bg"></div>
-<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
-<div class="letter">🎁 Surprise 4 😍</div>
+<button class="btn" onclick="goTo(1)">Back</button>
+<button id="finalBtn" class="btn" style="display:none;" onclick="goTo(4)">Final Words 💌</button>
+
 </div>
 
-<!-- FINAL PAGE -->
-<div class="page" id="final" style="display:none;">
-<div class="bg"></div>
+<!-- PAGE 4 (FINAL WORDS) -->
+<div class="page" id="p4">
 
-<button class="btn top-back" onclick="goTo(2)">⬅ Back</button>
+<div class="final-bg"></div>
 
-<div class="letter">
-💌 Happy Birthday Znic!  
-You opened all gifts 🎉  
-This was made just for you 💖  
-Stay happy always ✨
+<div class="final-text" id="finalText">
+Happy Birthday, Zinc! 🎉✨ <br><br>
+
+Always stay happy, keep smiling, and enjoy your day to the fullest 😄 <br><br>
+
+Be truly happy, because you deserve all the good things in life 💖 <br><br>
+
+And thank you for coming into my life and becoming my friend 🤝 <br><br>
+
+I also hope you always stay as beautiful as you are ✨ <br><br>
+
+Once again, Happy Birthday! 🎂🎈 <br><br>
+
+Stay amazing and keep shining always ✨
 </div>
+
+<button class="btn" onclick="goTo(3)">Back</button>
 
 </div>
 
 <script>
 
-/* NAV */
-function goTo(page){
-document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+/* NAVIGATION */
+function goTo(n){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById("p"+n).classList.add("active");
 
-if(typeof page === "number"){
-document.getElementById("p"+page).style.display="flex";
-}else{
-document.getElementById(page).style.display="flex";
-}
+if(n===4) fitText();
 }
 
-/* HOME */
-function goHome(){
-window.location.href="index.html";
-}
-
-/* TRACK */
-let opened=[];
+/* GIFT TRACK */
+let opened=0;
+let openedList={};
 
 function openGift(n){
-
-document.querySelectorAll(".page").forEach(p=>p.style.display="none");
-document.getElementById("g"+n).style.display="flex";
-
-if(!opened.includes(n)){
-opened.push(n);
+if(!openedList[n]){
+openedList[n]=true;
+opened++;
 }
 
-/* SHOW FINAL BUTTON */
-if(opened.length===4){
-document.getElementById("finalBtn").style.display="inline-block";
+if(opened===2){
+document.getElementById("finalBtn").style.display="block";
+}
 }
 
+/* AUTO FIT TEXT */
+function fitText(){
+let el=document.getElementById("finalText");
+let size=22;
+
+el.style.fontSize=size+"px";
+
+while(el.scrollHeight > el.clientHeight && size > 12){
+size--;
+el.style.fontSize=size+"px";
+}
 }
 
 </script>
