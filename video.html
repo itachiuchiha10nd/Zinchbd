@@ -10,9 +10,9 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{overflow:hidden;font-family:sans-serif;}
+body{overflow:hidden;font-family:sans-serif;background:#000;}
 
-/* PAGE */
+/* PAGE SYSTEM */
 .page{
 position:fixed;inset:0;
 display:flex;flex-direction:column;
@@ -21,14 +21,14 @@ opacity:0;pointer-events:none;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
-/* BG */
+/* BACKGROUND */
 .bg{
 position:absolute;inset:0;
 background:url("assets/bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* FINAL BG */
+/* FINAL PAGE BG */
 #p8 .bg{
 background:url("assets/final-bg.png") center/cover no-repeat;
 }
@@ -40,14 +40,10 @@ border-radius:12px;
 overflow:hidden;
 margin-bottom:15px;
 }
-.box img{
-width:100%;height:100%;
-object-fit:contain;
-}
 
 /* BUTTON */
 .btn{
-padding:8px 16px;
+padding:10px 18px;
 margin:6px;
 border:none;
 border-radius:20px;
@@ -57,56 +53,59 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* GIFTS CENTER */
+/* PERFECT CENTER GIF GRID */
 .gifts{
 display:grid;
 grid-template-columns:repeat(2,120px);
 gap:20px;
 justify-content:center;
+align-items:center;
+}
+
+.gift{
+display:flex;
+justify-content:center;
 }
 
 .gift img{
-width:120px;height:120px;
+width:120px;
+height:120px;
 object-fit:contain;
 cursor:pointer;
+transition:.3s;
 }
+.gift img:hover{transform:scale(1.1);}
 
 /* LETTER */
 .letter{
 position:relative;
 width:300px;height:420px;
 }
-.letter img{
-width:100%;height:100%;
-}
+.letter img{width:100%;height:100%;}
 .text{
 position:absolute;
 top:15%;
 left:50%;
 transform:translateX(-50%);
-width:80%;height:70%;
-display:flex;
-align-items:center;
-justify-content:center;
+width:80%;
 text-align:center;
 font-family:'Dancing Script';
 font-size:22px;
-font-weight:bold;
+color:#fff;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 MUSIC -->
-<audio id="song" src="assets/song.mp3" loop></audio>
+<audio id="song" src="assets/bg.mp3" loop></audio>
 
-<!-- PAGE 1 -->
+<!-- PAGE 1 YES/NO -->
 <div class="page active" id="p1">
 <div class="bg"></div>
 
 <div class="box">
-<img src="assets/gif1.gif">
+<img src="assets/gif1.gif" width="100%">
 </div>
 
 <button class="btn" onclick="goCake()">Back</button>
@@ -119,21 +118,21 @@ font-weight:bold;
 <div class="bg"></div>
 
 <div class="box">
-<img src="assets/gif2.gif">
+<img src="assets/gif2.gif" width="100%">
 </div>
 
 <button class="btn" onclick="go(1)">Back</button>
 </div>
 
-<!-- GIFTS -->
+<!-- PAGE 3 GIFTS -->
 <div class="page" id="p3">
 <div class="bg"></div>
 
 <div class="gifts">
-<div onclick="openGift(1)"><img src="assets/gift.png"></div>
-<div onclick="openGift(2)"><img src="assets/gift.png"></div>
-<div onclick="openGift(3)"><img src="assets/gift.png"></div>
-<div onclick="openGift(4)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(1)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(2)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(3)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(4)"><img src="assets/gift.png"></div>
 </div>
 
 <button class="btn" onclick="go(1)">Back</button>
@@ -143,18 +142,18 @@ font-weight:bold;
 <!-- GIFT 3 -->
 <div class="page" id="p6">
 <div class="bg"></div>
-<h2>Gift 3 🎁</h2>
+<h2 style="color:white;">Gift 3 🎁</h2>
 <button class="btn" onclick="go(3)">Back</button>
 </div>
 
 <!-- GIFT 4 -->
 <div class="page" id="p7">
 <div class="bg"></div>
-<h2>Gift 4 🎁</h2>
+<h2 style="color:white;">Gift 4 🎁</h2>
 <button class="btn" onclick="go(3)">Back</button>
 </div>
 
-<!-- FINAL -->
+<!-- FINAL PAGE -->
 <div class="page" id="p8">
 <div class="bg"></div>
 
@@ -168,20 +167,20 @@ font-weight:bold;
 
 <script>
 
-/* MUSIC SYSTEM */
+/* MUSIC */
 let song=document.getElementById("song");
 
-function startMusic(){
+function playMusic(){
 song.play().catch(()=>{});
 }
 
 function pauseMusic(){
-localStorage.setItem("musicTime",song.currentTime);
+localStorage.setItem("time",song.currentTime);
 song.pause();
 }
 
 function resumeMusic(){
-let t=localStorage.getItem("musicTime");
+let t=localStorage.getItem("time");
 if(t){song.currentTime=t;}
 song.play().catch(()=>{});
 }
@@ -190,49 +189,35 @@ song.play().catch(()=>{});
 function go(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
-
 resumeMusic();
 
-if(n===8){
-startTyping();
-}
+if(n===8) startTyping();
 }
 
-/* BACK */
+/* BACK TO CAKE */
 function goCake(){
 window.location.href="index.html#p3";
 }
 
-/* TRACK GIFTS */
+/* GIFTS */
 let opened={};
 
 function openGift(id){
 
-// Gift 1 → flipbook
 if(id===1){
 pauseMusic();
 window.location.href="flipbook.html";
 return;
 }
 
-// Gift 2 → video
 if(id===2){
 pauseMusic();
 window.location.href="video2.html";
 return;
 }
 
-// Gift 3
-if(id===3){
-opened[id]=true;
-go(6);
-}
-
-// Gift 4
-if(id===4){
-opened[id]=true;
-go(7);
-}
+if(id===3){opened[id]=true;go(6);}
+if(id===4){opened[id]=true;go(7);}
 
 if(Object.keys(opened).length===4){
 document.getElementById("finalBtn").style.display="block";
@@ -240,7 +225,7 @@ document.getElementById("finalBtn").style.display="block";
 }
 
 /* TYPING */
-const msg="Happy Birthday, Zinc! 🎉✨ Always stay happy, keep smiling 😄 You deserve everything 💖 Stay amazing always ✨";
+const msg="Happy Birthday Zinc 🎉💖 Stay happy always ✨";
 
 function startTyping(){
 let el=document.getElementById("typing");
@@ -257,9 +242,7 @@ type();
 }
 
 /* LOAD */
-window.onload=function(){
-resumeMusic();
-}
+window.onload=resumeMusic;
 
 </script>
 
