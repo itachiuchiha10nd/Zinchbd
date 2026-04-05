@@ -8,145 +8,257 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@700&display=swap" rel="stylesheet">
 
 <style>
-/* (⚠️ ALL YOUR ORIGINAL CSS SAME — NO CHANGE) */
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins';}
+html,body{height:100%;overflow:hidden;font-family:'Poppins';}
 
 /* PAGE */
 .page{
 position:fixed;inset:0;
-display:flex;justify-content:center;align-items:center;
-flex-direction:column;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
 opacity:0;pointer-events:none;
 transition:.4s;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
+/* BG */
 .bg{position:absolute;inset:0;background:url("/Zinchbd/assets/bg.jpg") center/cover no-repeat;z-index:-1;}
 #p0{background:url("/Zinchbd/assets/entry-bg.jpg") center/cover no-repeat;}
 
+/* PASSWORD */
 .pass-box{
-position:absolute;
-top:50%;
-right:4%;
+position:absolute;top:50%;right:5%;
 transform:translateY(-50%);
 padding:18px;
-background:rgba(255,255,255,0.15);
-border-radius:18px;
+background:rgba(255,255,255,0.2);
+border-radius:15px;
 }
 
 .display{
 color:#ff6eb4;
-font-size:32px;
-letter-spacing:8px;
-margin-bottom:15px;
+font-size:30px;
 text-align:center;
+margin-bottom:10px;
 }
 
-.pad{
-display:grid;
-grid-template-columns:repeat(3,55px);
-gap:10px;
-}
+.pad{display:grid;grid-template-columns:repeat(3,50px);gap:10px;}
 .pad button{
-padding:12px;border:none;border-radius:10px;
-background:#ff6eb4;color:#fff;font-weight:bold;
+padding:10px;border:none;border-radius:10px;
+background:#ff6eb4;color:#fff;
 }
 
-/* बाकी CSS SAME (short किया readability के लिए) */
+/* ENVELOPE */
+.envelope{width:260px;cursor:pointer;}
+.open-text{
+font-family:'Dancing Script';
+color:#ff6eb4;
+font-size:22px;
+margin-top:10px;
+}
+
+/* LETTER */
+.paper{position:relative;width:90vw;max-width:320px;height:65vh;}
+.paper img{width:100%;height:100%;}
+.text{
+position:absolute;
+top:15%;left:50%;
+transform:translateX(-50%);
+width:80%;height:70%;
+display:flex;justify-content:center;align-items:center;
+text-align:center;
+font-family:'Dancing Script';
+}
+
+/* BUTTON */
+.btn{
+margin:10px;padding:10px 20px;
+background:#ff6eb4;color:#fff;
+border:none;border-radius:20px;
+}
+
+/* CAKE */
+.cake-box{position:relative;width:220px;}
+.cake-box img{width:100%;}
+
+.flame{
+position:absolute;
+top:5%;left:50%;
+transform:translate(-50%,-50%);
+width:12px;height:25px;
+background:orange;border-radius:50%;
+animation:flicker .1s infinite alternate;
+}
+@keyframes flicker{
+0%{transform:translate(-50%,-50%) rotate(-5deg);}
+100%{transform:translate(-50%,-50%) rotate(5deg);}
+}
+
+.glow{
+position:absolute;top:5%;left:50%;
+transform:translate(-50%,-50%);
+width:80px;height:80px;
+background:radial-gradient(circle,rgba(255,200,0,.7),transparent);
+filter:blur(20px);
+}
+
+/* BLAST */
+.blast{
+position:fixed;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+font-size:40px;
+color:white;
+display:none;
+}
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 BG MUSIC -->
+<!-- 🎵 MUSIC -->
 <audio id="bgMusic" src="/Zinchbd/assets/bg.mp3" loop></audio>
 <audio id="blastSound" src="/Zinchbd/assets/blast.mp3"></audio>
 
-<!-- ENTRY -->
+<!-- PASSWORD -->
 <div class="page active" id="p0">
 <div class="pass-box">
 <div id="display" class="display"></div>
 <div class="pad">
-<button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button>
-<button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button>
-<button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button>
-<button onclick="clearPass()">C</button><button onclick="press(0)">0</button>
+<button onclick="press(1)">1</button>
+<button onclick="press(2)">2</button>
+<button onclick="press(3)">3</button>
+<button onclick="press(4)">4</button>
+<button onclick="press(5)">5</button>
+<button onclick="press(6)">6</button>
+<button onclick="press(7)">7</button>
+<button onclick="press(8)">8</button>
+<button onclick="press(9)">9</button>
+<button onclick="clearPass()">C</button>
+<button onclick="press(0)">0</button>
 <button onclick="checkPass()">✔</button>
 </div>
 </div>
 </div>
 
-<!-- (⚠️ बाकी HTML SAME — envelope, letter, cake etc. — unchanged) -->
+<!-- ENVELOPE -->
+<div class="page" id="p1">
+<div class="bg"></div>
+<img src="/Zinchbd/assets/envelope.png" class="envelope" onclick="goTo(2)">
+<div class="open-text">Open it 💌</div>
+</div>
+
+<!-- LETTER -->
+<div class="page" id="p2">
+<div class="bg"></div>
+<div class="paper">
+<img src="/Zinchbd/assets/paper.png">
+<div class="text" id="typing"></div>
+</div>
+<button class="btn" onclick="goTo(3)">Next</button>
+</div>
+
+<!-- CAKE -->
+<div class="page" id="p3">
+<div class="bg"></div>
+
+<div class="cake-box" id="cake">
+<img src="/Zinchbd/assets/cake.png">
+<div class="glow"></div>
+<div class="flame" id="flame"></div>
+</div>
+
+<button class="btn" onclick="blow()">Blow Candle</button>
+<button id="surpriseBtn" class="btn" style="display:none;" onclick="window.location.href='video.html'">SURPRISE 💗</button>
+</div>
+
+<div id="blast" class="blast">HAPPY BIRTHDAY 🎉</div>
 
 <script>
 
-/* 🎵 UPDATED MUSIC SYSTEM */
+/* 🎵 MUSIC SYSTEM */
 let bg;
-let started = false;
+let started=false;
 
 window.addEventListener("load",()=>{
-bg = document.getElementById("bgMusic");
-
-/* सिर्फ time restore (auto play नहीं) */
-let t = localStorage.getItem("bgTime") || 0;
-bg.currentTime = t;
+bg=document.getElementById("bgMusic");
+let t=localStorage.getItem("bgTime")||0;
+bg.currentTime=t;
 });
 
-/* SAVE TIME */
-setInterval(()=>{
-if(bg) localStorage.setItem("bgTime", bg.currentTime);
-},1000);
-
-/* START ONLY ON UNLOCK */
+/* START ONLY AFTER PASSWORD */
 function startBG(){
 if(!started){
-started = true;
-
-let t = localStorage.getItem("bgTime") || 0;
-bg.currentTime = t;
-
+started=true;
 bg.play().catch(()=>{});
 }
 }
 
-/* PAUSE */
-function pauseBG(){
-localStorage.setItem("bgTime", bg.currentTime);
-bg.pause();
-}
-
-/* NAV (UNCHANGED) */
-function goTo(n){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-document.getElementById("p"+n).classList.add("active");
-
-if(n===2) startTyping();
-if(n===3) startBalloons();
-}
-
-/* PASSWORD (ONLY CHANGE HERE 🔥) */
+/* PASSWORD FIX */
 let input="";
-function press(n){input+=n;display.innerText=input;}
-function clearPass(){input="";display.innerText="";}
+let display=document.getElementById("display");
+
+function press(n){
+if(input.length<5){
+input+=n;
+display.innerText=input;
+}
+}
+
+function clearPass(){
+input="";
+display.innerText="";
+}
+
 function checkPass(){
 if(input==="81206"){
-
-startBG(); // 🔥 MUSIC START HERE
-
+startBG();
 goTo(1);
-
 }else{
 alert("Wrong Password");
 clearPass();
 }
 }
 
-/* बाकी functions SAME (typing, balloons, blow etc.) */
+/* NAV SAFE */
+function goTo(n){
+let next=document.getElementById("p"+n);
+if(!next){alert("Page missing");return;}
 
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+next.classList.add("active");
+
+if(n===2) startTyping();
+}
+
+/* TYPING */
+const msg="Happy Birthday Zinc 🎉 Stay happy always 💖";
+
+function startTyping(){
+let el=document.getElementById("typing");
+el.innerHTML="";
+let i=0;
+function t(){
+if(i<msg.length){
+el.innerHTML+=msg[i++];
+setTimeout(t,20);
+}
+}
+t();
+}
+
+/* BLOW */
 function blow(){
-pauseBG(); // already correct
+bg.pause();
 document.getElementById("flame").style.display="none";
+
+document.getElementById("blastSound").play();
+
+let b=document.getElementById("blast");
+b.style.display="block";
+
+setTimeout(()=>b.style.display="none",2000);
+
+document.getElementById("surpriseBtn").style.display="inline-block";
 }
 
 </script>
