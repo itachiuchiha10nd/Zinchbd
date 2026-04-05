@@ -36,39 +36,32 @@ cursor:pointer;
 z-index:5;
 }
 
-/* CONTAINER */
-.container{
-width:100%;
-height:100%;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-/* 🔥 PERFECT SQUARE BOOK */
+/* 📖 PERFECT BOOK */
 #book{
-width:min(90vw, 90vh);
-height:min(90vw, 90vh);
+width:min(95vw, 95vh);
+height:min(95vw, 95vh);
 
-background:white;
+background:#000;
 border-radius:12px;
 overflow:hidden;
-box-shadow:0 0 25px rgba(0,0,0,0.5);
+box-shadow:0 0 30px rgba(0,0,0,0.6);
 }
 
 /* PAGE */
 .page{
+width:100%;
+height:100%;
 display:flex;
 justify-content:center;
 align-items:center;
 background:#000;
 }
 
-/* IMAGE FIX */
+/* IMAGE */
 .page img{
 width:100%;
 height:100%;
-object-fit:contain; /* 🔥 no crop */
+object-fit:contain;
 }
 
 /* SWIPE TEXT */
@@ -78,8 +71,7 @@ bottom:15px;
 left:50%;
 transform:translateX(-50%);
 color:white;
-font-size:16px;
-font-weight:bold;
+font-size:15px;
 background:rgba(0,0,0,0.4);
 padding:6px 12px;
 border-radius:20px;
@@ -95,62 +87,65 @@ to{opacity:1;}
 
 <body>
 
-<!-- 🎵 MUSIC -->
 <audio id="bgMusic" src="assets/bg.mp3" loop></audio>
 
 <button class="back" onclick="goBack()">Back</button>
 
-<div class="container">
 <div id="book">
 
+<!-- ✅ 3 PNG PAGES -->
 <div class="page"><img src="assets/page1.png"></div>
 <div class="page"><img src="assets/page2.png"></div>
 <div class="page"><img src="assets/page3.png"></div>
 
-
-</div>
 </div>
 
-<div class="swipe-text">Swipe the page for view 👉</div>
+<div class="swipe-text">Swipe the page 👉</div>
 
 <script>
 
-/* 🎵 MUSIC SYSTEM */
-let bg = document.getElementById("bgMusic");
+/* 🎵 MUSIC */
+let bg=document.getElementById("bgMusic");
 
-window.addEventListener("load",()=>{
+window.onload=()=>{
+let t=localStorage.getItem("bgTime")||0;
+bg.currentTime=t;
 
-let t = localStorage.getItem("bgTime") || 0;
-bg.currentTime = t;
-
-// autoplay try
 bg.play().catch(()=>{
-document.body.addEventListener("click", ()=>{
-bg.play();
-},{once:true});
+document.body.addEventListener("click",()=>bg.play(),{once:true});
 });
 
-// save time
 setInterval(()=>{
-localStorage.setItem("bgTime", bg.currentTime);
+localStorage.setItem("bgTime",bg.currentTime);
 },1000);
-
-});
+};
 
 /* BACK */
 function goBack(){
 window.location.href="video.html";
 }
 
-/* FLIPBOOK INIT */
+/* 📖 INIT */
+function initBook(){
+let size=Math.min(window.innerWidth, window.innerHeight)*0.95;
+
 $("#book").turn({
-width:$("#book").width(),
-height:$("#book").height(),
+width:size,
+height:size,
 autoCenter:true,
 gradients:true
 });
+}
 
-/* 📱 TOUCH SWIPE */
+initBook();
+
+/* RESIZE */
+window.addEventListener("resize",()=>{
+$("#book").turn("destroy");
+initBook();
+});
+
+/* 👉👈 SWIPE */
 let startX=0,endX=0;
 const book=document.getElementById("book");
 
@@ -167,15 +162,15 @@ let diff=startX-endX;
 
 if(diff>50){
 $("#book").turn("next");
-playFlipSound();
+playSound();
 }
 if(diff<-50){
 $("#book").turn("previous");
-playFlipSound();
+playSound();
 }
 });
 
-/* 🖱️ MOUSE SWIPE */
+/* 🖱️ MOUSE */
 let mouseStart=0;
 
 book.addEventListener("mousedown",e=>{
@@ -187,16 +182,16 @@ let diff=mouseStart-e.clientX;
 
 if(diff>50){
 $("#book").turn("next");
-playFlipSound();
+playSound();
 }
 if(diff<-50){
 $("#book").turn("previous");
-playFlipSound();
+playSound();
 }
 });
 
 /* 🔊 SOUND */
-function playFlipSound(){
+function playSound(){
 let s=new Audio("assets/flip.mp3");
 s.volume=0.5;
 s.play();
