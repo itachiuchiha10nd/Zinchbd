@@ -33,7 +33,7 @@ z-index:-1;
 background:url("assets/final-bg.png") center/cover no-repeat;
 }
 
-/* GIF BOX FIX */
+/* GIF BOX */
 .box{
 width:240px;height:150px;
 display:flex;
@@ -60,33 +60,28 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* 🎁 PERFECT GRID (FIXED) */
+/* 🎁 PERFECT GRID */
 .gifts{
 display:grid;
 grid-template-columns:repeat(2, 1fr);
 gap:25px;
-
 width:100%;
 max-width:340px;
-
 justify-content:center;
 align-items:center;
 }
 
-/* EACH GIFT */
 .gift{
 display:flex;
 justify-content:center;
-align-items:center;
 }
 
-/* BIG SIZE */
 .gift img{
 width:140px;
 height:140px;
 object-fit:contain;
 cursor:pointer;
-transition:0.3s;
+transition:.3s;
 }
 
 .gift img:hover{
@@ -143,7 +138,7 @@ color:#fff;
 <button class="btn" onclick="go(1)">Back</button>
 </div>
 
-<!-- GIFTS PAGE -->
+<!-- GIFTS -->
 <div class="page" id="p3">
 <div class="bg"></div>
 
@@ -185,7 +180,7 @@ color:#fff;
 <button class="btn" onclick="go(3)">Back</button>
 </div>
 
-<!-- FINAL PAGE -->
+<!-- FINAL -->
 <div class="page" id="p8">
 <div class="bg"></div>
 
@@ -227,18 +222,18 @@ resumeMusic();
 if(n===8) startTyping();
 }
 
-/* BACK TO CAKE */
+/* BACK */
 function goCake(){
 window.location.href="index.html#p3";
 }
 
-/* GIFT TRACK */
-let opened={};
+/* 🔥 FIXED GIFT TRACK (LOCAL STORAGE) */
+let opened = JSON.parse(localStorage.getItem("gifts")) || {};
 
 function openGift(id){
 
 opened[id]=true;
-checkFinal();
+localStorage.setItem("gifts", JSON.stringify(opened));
 
 // flipbook
 if(id===1){
@@ -257,10 +252,13 @@ return;
 // normal gifts
 if(id===3){go(6);}
 if(id===4){go(7);}
+
+checkFinal();
 }
 
 function checkFinal(){
-if(Object.keys(opened).length===4){
+let data = JSON.parse(localStorage.getItem("gifts")) || {};
+if(Object.keys(data).length===4){
 document.getElementById("finalBtn").style.display="block";
 }
 }
@@ -283,7 +281,10 @@ type();
 }
 
 /* LOAD */
-window.onload=resumeMusic;
+window.onload=function(){
+resumeMusic();
+checkFinal();
+}
 
 </script>
 
