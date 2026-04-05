@@ -12,6 +12,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{overflow:hidden;font-family:sans-serif;}
 
+/* PAGE */
 .page{
 position:fixed;
 inset:0;
@@ -22,8 +23,12 @@ align-items:center;
 opacity:0;
 pointer-events:none;
 }
-.page.active{opacity:1;pointer-events:auto;}
+.page.active{
+opacity:1;
+pointer-events:auto;
+}
 
+/* BACKGROUND */
 .bg{
 position:absolute;
 inset:0;
@@ -31,6 +36,7 @@ background:url("assets/bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
+/* BACK BUTTON */
 .back{
 position:absolute;
 top:20px;
@@ -44,6 +50,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
+/* GIF BOX */
 .box{
 width:320px;
 height:220px;
@@ -60,6 +67,7 @@ height:100%;
 object-fit:contain;
 }
 
+/* BUTTON */
 .btn{
 padding:10px 20px;
 margin:6px;
@@ -71,6 +79,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
+/* GIFTS */
 .gifts{
 display:grid;
 grid-template-columns:repeat(2,140px);
@@ -87,6 +96,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 }
+
 .gift img{
 width:100%;
 height:100%;
@@ -94,14 +104,20 @@ object-fit:contain;
 cursor:pointer;
 transition:.3s;
 }
-.gift img:hover{transform:scale(1.1);}
+.gift img:hover{
+transform:scale(1.1);
+}
 
+/* LETTER */
 .letter{
 position:relative;
 width:300px;
 height:420px;
 }
-.letter img{width:100%;height:100%;}
+.letter img{
+width:100%;
+height:100%;
+}
 .text{
 position:absolute;
 top:15%;
@@ -122,8 +138,8 @@ font-size:22px;
 
 <body>
 
-<!-- 🎵 BACKGROUND MUSIC -->
-<audio id="bgMusic" src="assets/bg.mp3" loop></audio>
+<!-- 🎵 BG MUSIC (ADDED) -->
+<audio id="bgMusic" src="/Zinchbd/assets/bg.mp3" loop></audio>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
@@ -155,22 +171,32 @@ font-size:22px;
 <button class="back" onclick="go(1)">Back</button>
 
 <div class="gifts">
-<div class="gift" onclick="openGift(1)"><img src="assets/gift.png"></div>
-<div class="gift" onclick="openGift(2)"><img src="assets/gift.png"></div>
-<div class="gift" onclick="openGift(3)"><img src="assets/gift.png"></div>
-<div class="gift" onclick="openGift(4)"><img src="assets/gift.png"></div>
+
+<div class="gift" onclick="openGift(1)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(2)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(3)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(4)">
+<img src="assets/gift.png">
+</div>
+
 </div>
 
 <button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words 💌</button>
 </div>
 
-<!-- GIFT PAGES -->
-<div class="page" id="p6"><div class="bg"></div><button class="back" onclick="go(3)">Back</button></div>
-<div class="page" id="p7"><div class="bg"></div><button class="back" onclick="go(3)">Back</button></div>
-
 <!-- FINAL -->
 <div class="page" id="p8">
 <div class="bg"></div>
+
 <button class="back" onclick="go(3)">Back</button>
 
 <div class="letter">
@@ -181,17 +207,21 @@ font-size:22px;
 
 <script>
 
-/* 🎵 MUSIC SYSTEM */
-const bg = document.getElementById("bgMusic");
+/* 🎵 MUSIC SYSTEM (ADDED ONLY) */
+let bg;
 
-window.onload = ()=>{
+window.addEventListener("load",()=>{
+bg = document.getElementById("bgMusic");
+
 let t = localStorage.getItem("bgTime") || 0;
 bg.currentTime = t;
-bg.play().catch(()=>{});
-};
 
+bg.play().catch(()=>{});
+});
+
+/* SAVE TIME */
 setInterval(()=>{
-localStorage.setItem("bgTime", bg.currentTime);
+if(bg) localStorage.setItem("bgTime", bg.currentTime);
 },1000);
 
 function pauseBG(){
@@ -207,32 +237,31 @@ document.getElementById("p"+n).classList.add("active");
 if(n===8) startTyping();
 }
 
-/* TRACK */
+/* GIFT LOGIC */
 let opened={};
 
 function openGift(id){
 
 // 📖 Flipbook
 if(id===1){
-pauseBG();
+pauseBG(); // 🔥 added
 window.location.href="flipbook.html";
 return;
 }
 
 // 🎬 Video
 if(id===2){
-pauseBG();
+pauseBG(); // 🔥 added
 window.location.href="video1.html";
 return;
 }
 
-// 🎁 Gifts 3 & 4
+// बाकी gifts
 opened[id]=true;
 go(id+3);
 
-/* ✅ FIXED FINAL BUTTON */
 if(opened[3] && opened[4]){
-document.getElementById("finalBtn").style.display="inline-block";
+document.getElementById("finalBtn").style.display="block";
 }
 }
 
