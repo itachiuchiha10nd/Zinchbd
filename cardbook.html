@@ -39,14 +39,14 @@ width:320px;
 height:220px;
 }
 
-/* CARD */
+/* CARD BASE */
 .card{
 position:absolute;
 width:100%;
 height:100%;
 border-radius:15px;
 overflow:hidden;
-transition:0.5s ease;
+transition:transform 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.5s;
 }
 
 .card img{
@@ -55,22 +55,22 @@ height:100%;
 object-fit:contain;
 }
 
-/* STACK LEFT */
+/* 🔥 LEFT (SMALL) */
 .card{
 transform:translateX(-60px) scale(0.8);
 opacity:0.5;
 }
 
-/* ACTIVE */
+/* 🔥 CENTER (BIG) */
 .card.active{
 transform:translateX(0) scale(1);
 opacity:1;
 z-index:5;
 }
 
-/* NEXT */
+/* 🔥 RIGHT */
 .card.next{
-transform:translateX(40px) scale(0.9);
+transform:translateX(60px) scale(0.85);
 opacity:0.7;
 z-index:4;
 }
@@ -97,22 +97,17 @@ z-index:4;
 
 <script>
 
-/* 🎵 MUSIC SYSTEM */
+/* 🎵 MUSIC */
 let bg = document.getElementById("bgMusic");
 
 window.onload = ()=>{
-
 let t = localStorage.getItem("time") || 0;
 bg.currentTime = t;
 
-// autoplay
 bg.play().catch(()=>{
-document.body.addEventListener("click", ()=>{
-bg.play();
-},{once:true});
+document.body.addEventListener("click", ()=>bg.play(), {once:true});
 });
 
-// save time
 setInterval(()=>{
 localStorage.setItem("time", bg.currentTime);
 },1000);
@@ -138,9 +133,8 @@ card.classList.add("next");
 
 updateCards();
 
-/* 🔥 REAL DRAG */
+/* 🔥 DRAG SYSTEM */
 let startX=0,currentX=0,isDragging=false;
-
 const area=document.getElementById("cardArea");
 
 /* TOUCH */
