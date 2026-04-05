@@ -33,10 +33,12 @@ z-index:-1;
 background:url("assets/final-bg.png") center/cover no-repeat;
 }
 
-/* GIF BOX */
+/* GIF BOX FIX */
 .box{
 width:240px;height:150px;
-display:flex;justify-content:center;align-items:center;
+display:flex;
+justify-content:center;
+align-items:center;
 overflow:hidden;
 margin-bottom:15px;
 }
@@ -58,18 +60,37 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* GIFTS CENTER PERFECT */
+/* 🎁 PERFECT GRID (FIXED) */
 .gifts{
 display:grid;
-grid-template-columns:repeat(2,120px);
-gap:20px;
+grid-template-columns:repeat(2, 1fr);
+gap:25px;
+
+width:100%;
+max-width:340px;
+
 justify-content:center;
 align-items:center;
 }
+
+/* EACH GIFT */
+.gift{
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* BIG SIZE */
 .gift img{
-width:120px;height:120px;
+width:140px;
+height:140px;
 object-fit:contain;
 cursor:pointer;
+transition:0.3s;
+}
+
+.gift img:hover{
+transform:scale(1.1);
 }
 
 /* LETTER */
@@ -77,7 +98,9 @@ cursor:pointer;
 position:relative;
 width:300px;height:420px;
 }
-.letter img{width:100%;height:100%;}
+.letter img{
+width:100%;height:100%;
+}
 .text{
 position:absolute;
 top:15%;
@@ -120,15 +143,28 @@ color:#fff;
 <button class="btn" onclick="go(1)">Back</button>
 </div>
 
-<!-- GIFTS -->
+<!-- GIFTS PAGE -->
 <div class="page" id="p3">
 <div class="bg"></div>
 
 <div class="gifts">
-<div onclick="openGift(1)"><img src="assets/gift.png"></div>
-<div onclick="openGift(2)"><img src="assets/gift.png"></div>
-<div onclick="openGift(3)"><img src="assets/gift.png"></div>
-<div onclick="openGift(4)"><img src="assets/gift.png"></div>
+
+<div class="gift" onclick="openGift(1)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(2)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(3)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(4)">
+<img src="assets/gift.png">
+</div>
+
 </div>
 
 <button class="btn" onclick="go(1)">Back</button>
@@ -163,7 +199,7 @@ color:#fff;
 
 <script>
 
-/* MUSIC SYSTEM */
+/* MUSIC */
 let song=document.getElementById("song");
 
 function playMusic(){
@@ -191,43 +227,36 @@ resumeMusic();
 if(n===8) startTyping();
 }
 
-/* BACK */
+/* BACK TO CAKE */
 function goCake(){
 window.location.href="index.html#p3";
 }
 
-/* GIFT TRACK FIX */
+/* GIFT TRACK */
 let opened={};
 
 function openGift(id){
 
-// 🔥 mark opened FIRST
 opened[id]=true;
 checkFinal();
 
-// Gift 1
+// flipbook
 if(id===1){
 pauseMusic();
 window.location.href="flipbook.html";
 return;
 }
 
-// Gift 2
+// video
 if(id===2){
 pauseMusic();
-window.location.href="video2.html";
+window.location.href="video1.html";
 return;
 }
 
-// Gift 3
-if(id===3){
-go(6);
-}
-
-// Gift 4
-if(id===4){
-go(7);
-}
+// normal gifts
+if(id===3){go(6);}
+if(id===4){go(7);}
 }
 
 function checkFinal(){
