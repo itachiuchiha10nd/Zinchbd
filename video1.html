@@ -14,8 +14,9 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:url("assets/bg.jpg") center/cover no-repeat;
+background:url("/Zinchbd/assets/bg.jpg") center/cover no-repeat;
 font-family:sans-serif;
+overflow:hidden;
 }
 
 /* BACK BUTTON */
@@ -30,6 +31,7 @@ border-radius:20px;
 color:white;
 font-weight:bold;
 cursor:pointer;
+z-index:5;
 }
 
 /* VIDEO BOX */
@@ -55,23 +57,51 @@ width:100%;
 height:100%;
 object-fit:contain;
 }
+
+/* TOUCH SCREEN */
+.start-screen{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,0.9);
+color:white;
+font-size:22px;
+font-weight:bold;
+z-index:10;
+text-align:center;
+padding:20px;
+animation:fadeIn .5s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 BG MUSIC (ADDED) -->
+<!-- 🎵 BG MUSIC -->
 <audio id="bgMusic" src="/Zinchbd/assets/bg.mp3" loop></audio>
 
 <button class="back" onclick="goBack()">Back</button>
 
+<!-- TOUCH SCREEN -->
+<div id="startScreen" class="start-screen">
+Touch to Play 💖
+</div>
+
+<!-- VIDEO -->
 <div class="video-box">
-<video id="vid" src="assets/video.mp4" autoplay playsinline loop muted></video>
+<video id="vid" src="/Zinchbd/assets/video.mp4" loop preload="auto"></video>
 </div>
 
 <script>
 
-/* 🎵 MUSIC SYSTEM (ADDED ONLY) */
+/* 🎵 MUSIC SYSTEM */
 let bg;
 
 window.addEventListener("load",()=>{
@@ -80,32 +110,39 @@ bg = document.getElementById("bgMusic");
 let t = localStorage.getItem("bgTime") || 0;
 bg.currentTime = t;
 
-bg.pause(); // 🔥 video page → pause
+bg.pause(); // video page → pause bg music
 });
 
-/* BACK → RESUME */
+/* 🔙 BACK FUNCTION */
 function goBack(){
 let t = localStorage.getItem("bgTime") || 0;
 bg.currentTime = t;
 
-bg.play().catch(()=>{});
-
+bg.play().then(()=>{
 window.location.href="video.html";
+});
 }
 
-/* 🎥 VIDEO AUTOPLAY FIX */
+/* 🎬 VIDEO CONTROL */
 const v = document.getElementById("vid");
+const screen = document.getElementById("startScreen");
 
-v.muted = true;
-v.play().then(()=>{
-document.body.addEventListener("click", ()=>{
+/* iPhone FIX */
+v.setAttribute("playsinline", "");
+v.setAttribute("webkit-playsinline", "");
+
+/* TOUCH TO PLAY */
+screen.addEventListener("click", ()=>{
+
+if(screen.style.display === "none") return;
+
 v.muted = false;
-});
-}).catch(()=>{
-document.body.addEventListener("click", ()=>{
-v.muted = false;
+v.volume = 1;
+v.currentTime = 0;
 v.play();
-});
+
+screen.style.display = "none";
+
 });
 
 </script>
