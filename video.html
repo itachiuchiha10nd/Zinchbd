@@ -30,7 +30,7 @@ z-index:-1;
 
 /* FINAL BG */
 #p8 .bg{
-background:url("assets/final-bg.jpg") center/cover no-repeat;
+background:url("assets/final-bg.png") center/cover no-repeat;
 }
 
 /* GIF BOX */
@@ -63,12 +63,11 @@ cursor:pointer;
 /* 🎁 PERFECT GRID */
 .gifts{
 display:grid;
-grid-template-columns:repeat(2, 1fr);
+grid-template-columns:repeat(2,1fr);
 gap:25px;
 width:100%;
 max-width:340px;
 justify-content:center;
-align-items:center;
 }
 
 .gift{
@@ -81,11 +80,6 @@ width:140px;
 height:140px;
 object-fit:contain;
 cursor:pointer;
-transition:.3s;
-}
-
-.gift img:hover{
-transform:scale(1.1);
 }
 
 /* LETTER */
@@ -93,9 +87,7 @@ transform:scale(1.1);
 position:relative;
 width:300px;height:420px;
 }
-.letter img{
-width:100%;height:100%;
-}
+.letter img{width:100%;height:100%;}
 .text{
 position:absolute;
 top:15%;
@@ -143,34 +135,14 @@ color:#fff;
 <div class="bg"></div>
 
 <div class="gifts">
-
-<div class="gift" onclick="openGift(1)">
-<img src="assets/gift.png">
-</div>
-
-<div class="gift" onclick="openGift(2)">
-<img src="assets/gift.png">
-</div>
-
-<div class="gift" onclick="openGift(3)">
-<img src="assets/gift.png">
-</div>
-
-<div class="gift" onclick="openGift(4)">
-<img src="assets/gift.png">
-</div>
-
+<div class="gift" onclick="openGift(1)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(2)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(3)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(4)"><img src="assets/gift.png"></div>
 </div>
 
 <button class="btn" onclick="go(1)">Back</button>
 <button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words 💌</button>
-</div>
-
-<!-- GIFT 3 -->
-<div class="page" id="p6">
-<div class="bg"></div>
-<h2 style="color:white;">Gift 3 🎁</h2>
-<button class="btn" onclick="go(3)">Back</button>
 </div>
 
 <!-- GIFT 4 -->
@@ -180,7 +152,7 @@ color:#fff;
 <button class="btn" onclick="go(3)">Back</button>
 </div>
 
-<!-- FINAL -->
+<!-- FINAL PAGE -->
 <div class="page" id="p8">
 <div class="bg"></div>
 
@@ -194,7 +166,7 @@ color:#fff;
 
 <script>
 
-/* MUSIC */
+/* 🎵 MUSIC SYSTEM */
 let song=document.getElementById("song");
 
 function playMusic(){
@@ -227,7 +199,7 @@ function goCake(){
 window.location.href="index.html#p3";
 }
 
-/* 🔥 FIXED GIFT TRACK (LOCAL STORAGE) */
+/* 🎁 GIFT TRACK (FIXED) */
 let opened = JSON.parse(localStorage.getItem("gifts")) || {};
 
 function openGift(id){
@@ -235,23 +207,31 @@ function openGift(id){
 opened[id]=true;
 localStorage.setItem("gifts", JSON.stringify(opened));
 
-// flipbook
+// Gift 1
 if(id===1){
 pauseMusic();
 window.location.href="flipbook.html";
 return;
 }
 
-// video
+// Gift 2
 if(id===2){
 pauseMusic();
-window.location.href="video1.html";
+window.location.href="video2.html";
 return;
 }
 
-// normal gifts
-if(id===3){go(6);}
-if(id===4){go(7);}
+// 🔥 Gift 3 (NEW)
+if(id===3){
+pauseMusic();
+window.location.href="cardbook.html";
+return;
+}
+
+// Gift 4
+if(id===4){
+go(7);
+}
 
 checkFinal();
 }
