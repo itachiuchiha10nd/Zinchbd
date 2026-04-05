@@ -4,22 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Card Book 💌</title>
+<title>Card Stack 💌</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 height:100vh;
+overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
 background:url("assets/card-bg.png") center/cover no-repeat;
-overflow:hidden;
 font-family:sans-serif;
 }
 
-/* BACK BUTTON */
+/* BACK */
 .back{
 position:absolute;
 top:20px;
@@ -29,40 +29,50 @@ background:#ff6eb4;
 color:white;
 border:none;
 border-radius:20px;
-cursor:pointer;
-z-index:5;
+z-index:10;
+}
+
+/* CARD AREA */
+.card-area{
+position:relative;
+width:320px;
+height:220px;
 }
 
 /* CARD */
-.card-container{
+.card{
 position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:300px;
-height:200px;
-display:flex;
-justify-content:center;
-align-items:center;
+width:100%;
+height:100%;
+border-radius:15px;
+overflow:hidden;
+transition:0.5s ease;
 }
 
-.card-img{
-width:90%;
-height:85%;
+.card img{
+width:100%;
+height:100%;
 object-fit:contain;
 }
 
-/* SWIPE TEXT */
-.swipe-text{
-position:absolute;
-bottom:15px;
-left:50%;
-transform:translateX(-50%);
-font-size:14px;
-color:#555;
-background:rgba(255,255,255,0.6);
-padding:5px 12px;
-border-radius:12px;
+/* STACK LEFT */
+.card{
+transform:translateX(-60px) scale(0.8);
+opacity:0.5;
+}
+
+/* ACTIVE */
+.card.active{
+transform:translateX(0) scale(1);
+opacity:1;
+z-index:5;
+}
+
+/* NEXT */
+.card.next{
+transform:translateX(40px) scale(0.9);
+opacity:0.7;
+z-index:4;
 }
 </style>
 </head>
@@ -70,19 +80,24 @@ border-radius:12px;
 <body>
 
 <!-- 🎵 MUSIC -->
-<audio id="bgMusic" src="assets/bg.mp3" loop></audio>
+<audio id="bgMusic" src="assets/song.mp3" loop></audio>
 
 <button class="back" onclick="goBack()">Back</button>
 
-<div class="card-container">
-<img id="cardPage" class="card-img" src="assets/page1.png">
-</div>
+<div class="card-area" id="cardArea">
 
-<div class="swipe-text">Swipe 👉</div>
+<div class="card"><img src="assets/page1.png"></div>
+<div class="card"><img src="assets/page2.png"></div>
+<div class="card"><img src="assets/page3.png"></div>
+<div class="card"><img src="assets/page4.png"></div>
+<div class="card"><img src="assets/page5.png"></div>
+<div class="card"><img src="assets/page6.png"></div>
+
+</div>
 
 <script>
 
-/* 🎵 MUSIC SYSTEM (SAME AS VIDEO) */
+/* 🎵 MUSIC SYSTEM */
 let bg = document.getElementById("bgMusic");
 
 window.onload = ()=>{
@@ -90,7 +105,7 @@ window.onload = ()=>{
 let t = localStorage.getItem("time") || 0;
 bg.currentTime = t;
 
-// autoplay try
+// autoplay
 bg.play().catch(()=>{
 document.body.addEventListener("click", ()=>{
 bg.play();
@@ -101,71 +116,106 @@ bg.play();
 setInterval(()=>{
 localStorage.setItem("time", bg.currentTime);
 },1000);
-
 };
 
-/* 📄 PNG PAGES */
-const images = [
-"assets/page1.png",
-"assets/page2.png",
-"assets/page3.png",
-"assets/page4.png",
-"assets/page5.png",
-"assets/page6.png"
-];
+/* CARD SYSTEM */
+let cards = document.querySelectorAll(".card");
+let index = 0;
 
-let current = 0;
+function updateCards(){
+cards.forEach((card,i)=>{
+card.style.transition="0.5s";
+card.classList.remove("active","next");
 
-function showImage(){
-document.getElementById("cardPage").src = images[current];
+if(i === index){
+card.classList.add("active");
+}
+else if(i === index+1){
+card.classList.add("next");
+}
+});
 }
 
-/* 👉👈 SWIPE */
-let startX=0,endX=0;
-const card=document.querySelector(".card-container");
+updateCards();
 
-card.addEventListener("touchstart",e=>{
+/* 🔥 REAL DRAG */
+let startX=0,currentX=0,isDragging=false;
+
+const area=document.getElementById("cardArea");
+
+/* TOUCH */
+area.addEventListener("touchstart",e=>{
 startX=e.touches[0].clientX;
+isDragging=true;
 });
 
-card.addEventListener("touchmove",e=>{
-endX=e.touches[0].clientX;
+area.addEventListener("touchmove",e=>{
+if(!isDragging) return;
+
+currentX=e.touches[0].clientX;
+let diff=currentX-startX;
+
+let active=cards[index];
+active.style.transition="none";
+active.style.transform=`translateX(${diff}px) scale(1)`;
 });
 
-card.addEventListener("touchend",()=>{
-let diff=startX-endX;
+area.addEventListener("touchend",()=>{
+if(!isDragging) return;
 
-if(diff>50 && current < images.length-1){
-current++;
-showImage();
+let diff=currentX-startX;
+isDragging=false;
+
+let active=cards[index];
+active.style.transition="0.5s";
+
+if(diff<-80 && index<cards.length-1){
+index++;
+}
+else if(diff>80 && index>0){
+index--;
 }
 
-if(diff<-50 && current > 0){
-current--;
-showImage();
-}
+updateCards();
 });
 
-/* 🖱️ MOUSE */
-card.addEventListener("mousedown",e=>{
+/* MOUSE */
+area.addEventListener("mousedown",e=>{
 startX=e.clientX;
+isDragging=true;
 });
 
-card.addEventListener("mouseup",e=>{
-let diff=startX-e.clientX;
+area.addEventListener("mousemove",e=>{
+if(!isDragging) return;
 
-if(diff>50 && current < images.length-1){
-current++;
-showImage();
-}
+currentX=e.clientX;
+let diff=currentX-startX;
 
-if(diff<-50 && current > 0){
-current--;
-showImage();
-}
+let active=cards[index];
+active.style.transition="none";
+active.style.transform=`translateX(${diff}px) scale(1)`;
 });
 
-/* 🔙 BACK */
+area.addEventListener("mouseup",()=>{
+if(!isDragging) return;
+
+let diff=currentX-startX;
+isDragging=false;
+
+let active=cards[index];
+active.style.transition="0.5s";
+
+if(diff<-80 && index<cards.length-1){
+index++;
+}
+else if(diff>80 && index>0){
+index--;
+}
+
+updateCards();
+});
+
+/* BACK */
 function goBack(){
 window.location.href="video.html";
 }
