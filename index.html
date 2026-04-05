@@ -11,7 +11,6 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;font-family:'Poppins';}
 
-/* PAGE */
 .page{
 position:fixed;inset:0;
 display:flex;flex-direction:column;
@@ -21,11 +20,9 @@ transition:.4s;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
-/* BG */
 .bg{position:absolute;inset:0;background:url("/Zinchbd/assets/bg.jpg") center/cover no-repeat;z-index:-1;}
 #p0{background:url("/Zinchbd/assets/entry-bg.jpg") center/cover no-repeat;}
 
-/* PASSWORD */
 .pass-box{
 position:absolute;top:50%;right:5%;
 transform:translateY(-50%);
@@ -47,7 +44,6 @@ padding:10px;border:none;border-radius:10px;
 background:#ff6eb4;color:#fff;
 }
 
-/* ENVELOPE */
 .envelope{width:260px;cursor:pointer;}
 .open-text{
 font-family:'Dancing Script';
@@ -56,9 +52,9 @@ font-size:22px;
 margin-top:10px;
 }
 
-/* LETTER */
 .paper{position:relative;width:90vw;max-width:320px;height:65vh;}
 .paper img{width:100%;height:100%;}
+
 .text{
 position:absolute;
 top:15%;left:50%;
@@ -67,16 +63,15 @@ width:80%;height:70%;
 display:flex;justify-content:center;align-items:center;
 text-align:center;
 font-family:'Dancing Script';
+font-weight:bold;
 }
 
-/* BUTTON */
 .btn{
 margin:10px;padding:10px 20px;
 background:#ff6eb4;color:#fff;
 border:none;border-radius:20px;
 }
 
-/* CAKE */
 .cake-box{position:relative;width:220px;}
 .cake-box img{width:100%;}
 
@@ -101,7 +96,19 @@ background:radial-gradient(circle,rgba(255,200,0,.7),transparent);
 filter:blur(20px);
 }
 
-/* BLAST */
+.smoke{
+position:absolute;
+top:5%;left:50%;
+width:10px;height:10px;
+background:gray;border-radius:50%;
+animation:smoke 2s forwards;
+}
+@keyframes smoke{
+to{opacity:0;transform:translate(-50%,-120px) scale(3);}
+}
+
+.balloon{position:fixed;width:40px;}
+
 .blast{
 position:fixed;
 top:50%;left:50%;
@@ -115,7 +122,6 @@ display:none;
 
 <body>
 
-<!-- 🎵 MUSIC -->
 <audio id="bgMusic" src="/Zinchbd/assets/bg.mp3" loop></audio>
 <audio id="blastSound" src="/Zinchbd/assets/blast.mp3"></audio>
 
@@ -175,7 +181,7 @@ display:none;
 
 <script>
 
-/* 🎵 MUSIC SYSTEM */
+/* MUSIC */
 let bg;
 let started=false;
 
@@ -185,7 +191,6 @@ let t=localStorage.getItem("bgTime")||0;
 bg.currentTime=t;
 });
 
-/* START ONLY AFTER PASSWORD */
 function startBG(){
 if(!started){
 started=true;
@@ -193,7 +198,7 @@ bg.play().catch(()=>{});
 }
 }
 
-/* PASSWORD FIX */
+/* PASSWORD */
 let input="";
 let display=document.getElementById("display");
 
@@ -219,43 +224,88 @@ clearPass();
 }
 }
 
-/* NAV SAFE */
+/* NAV */
 function goTo(n){
 let next=document.getElementById("p"+n);
-if(!next){alert("Page missing");return;}
+if(!next) return;
 
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 next.classList.add("active");
 
 if(n===2) startTyping();
+if(n===3) startBalloons();
 }
 
-/* TYPING */
-const msg="Happy Birthday Zinc 🎉 Stay happy always 💖";
+/* LETTER */
+const msg=`Happy Birthday, Zinc! 🎉✨ Always stay happy, keep smiling, and enjoy your day to the fullest 😄 Be truly happy, because you deserve all the good things in life. And thank you for coming into my life and becoming my friend — it really means a lot to me 🤝 I also hope you always stay as beautiful as you are ✨ Just a little wish from my side 😆 I hope we stay together at least until my birthday 😂 Once again, Happy Birthday! 🎂🎈 Stay amazing ✨ -Akarsh❤️`;
+
+function autoFit(el){
+let size=24;
+el.style.fontSize=size+"px";
+while(el.scrollHeight>el.clientHeight && size>10){
+size--;
+el.style.fontSize=size+"px";
+}
+}
 
 function startTyping(){
 let el=document.getElementById("typing");
 el.innerHTML="";
 let i=0;
-function t(){
+
+function type(){
 if(i<msg.length){
 el.innerHTML+=msg[i++];
-setTimeout(t,20);
+setTimeout(type,10);
+}else autoFit(el);
+}
+type();
+}
+
+/* BALLOONS */
+function startBalloons(){
+for(let i=0;i<5;i++){
+let b=document.createElement("img");
+b.src="/Zinchbd/assets/balloon.png";
+b.className="balloon";
+document.body.appendChild(b);
+
+setInterval(()=>{
+b.style.left=Math.random()*100+"vw";
+b.style.top=Math.random()*100+"vh";
+},3000);
 }
 }
-t();
-}
+
+/* FLOWERS */
+setInterval(()=>{
+let f=document.createElement("div");
+f.innerHTML="🌸";
+f.style.position="fixed";
+f.style.left=Math.random()*100+"vw";
+f.style.top="-20px";
+f.style.animation="fall 4s linear";
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),4000);
+},800);
 
 /* BLOW */
 function blow(){
 bg.pause();
+
 document.getElementById("flame").style.display="none";
+
+for(let i=0;i<3;i++){
+let s=document.createElement("div");
+s.className="smoke";
+document.getElementById("cake").appendChild(s);
+setTimeout(()=>s.remove(),2000);
+}
 
 document.getElementById("blastSound").play();
 
 let b=document.getElementById("blast");
 b.style.display="block";
-
 setTimeout(()=>b.style.display="none",2000);
 
 document.getElementById("surpriseBtn").style.display="inline-block";
