@@ -32,7 +32,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* VIDEO BOX (9:16) */
+/* VIDEO BOX */
 .video-box{
 width:80vw;
 max-width:360px;
@@ -60,8 +60,8 @@ object-fit:contain;
 
 <body>
 
-<!-- 🎵 BACKGROUND MUSIC -->
-<audio id="bgMusic" src="assets/bg.mp3" loop></audio>
+<!-- 🎵 BG MUSIC (ADDED) -->
+<audio id="bgMusic" src="/Zinchbd/assets/bg.mp3" loop></audio>
 
 <button class="back" onclick="goBack()">Back</button>
 
@@ -71,43 +71,41 @@ object-fit:contain;
 
 <script>
 
-/* 🎵 BG MUSIC SYSTEM */
-const bg = document.getElementById("bgMusic");
+/* 🎵 MUSIC SYSTEM (ADDED ONLY) */
+let bg;
 
-/* PAGE LOAD → PAUSE BG */
-window.onload = ()=>{
+window.addEventListener("load",()=>{
+bg = document.getElementById("bgMusic");
+
 let t = localStorage.getItem("bgTime") || 0;
 bg.currentTime = t;
-bg.pause(); // 🔥 video open → pause music
-};
 
-/* BACK → RESUME MUSIC */
+bg.pause(); // 🔥 video page → pause
+});
+
+/* BACK → RESUME */
 function goBack(){
 let t = localStorage.getItem("bgTime") || 0;
 bg.currentTime = t;
+
 bg.play().catch(()=>{});
 
-window.location.href="video.html?page=3";
+window.location.href="video.html";
 }
 
 /* 🎥 VIDEO AUTOPLAY FIX */
 const v = document.getElementById("vid");
 
-/* try autoplay */
 v.muted = true;
 v.play().then(()=>{
-// after start → unmute if user interacts
 document.body.addEventListener("click", ()=>{
 v.muted = false;
 });
 }).catch(()=>{
-
-/* mobile fallback */
 document.body.addEventListener("click", ()=>{
 v.muted = false;
 v.play();
 });
-
 });
 
 </script>
