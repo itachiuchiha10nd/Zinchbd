@@ -17,7 +17,7 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:url("/Zinchbd/assets/flip-bg.jpg") center/cover no-repeat;
+background:url("assets/flip-bg.jpg") center/cover no-repeat;
 overflow:hidden;
 font-family:sans-serif;
 }
@@ -44,7 +44,6 @@ height:85vh;
 display:flex;
 justify-content:center;
 align-items:center;
-padding:15px;
 }
 
 /* BOOK */
@@ -89,17 +88,17 @@ to{opacity:1;}
 <body>
 
 <!-- 🎵 MUSIC -->
-<audio id="bgMusic" src="/Zinchbd/assets/bg.mp3" loop></audio>
+<audio id="bgMusic" src="assets/bg.mp3" loop></audio>
 
 <button class="back" onclick="goBack()">Back</button>
 
 <div class="container">
 <div id="book">
 
-<div class="page"><img src="/Zinchbd/assets/page1.jpg"></div>
-<div class="page"><img src="/Zinchbd/assets/page2.jpg"></div>
-<div class="page"><img src="/Zinchbd/assets/page3.jpg"></div>
-<div class="page"><img src="/Zinchbd/assets/page4.jpg"></div>
+<div class="page"><img src="assets/page1.jpg"></div>
+<div class="page"><img src="assets/page2.jpg"></div>
+<div class="page"><img src="assets/page3.jpg"></div>
+<div class="page"><img src="assets/page4.jpg"></div>
 
 </div>
 </div>
@@ -108,41 +107,34 @@ to{opacity:1;}
 
 <script>
 
-/* 🎵 PERFECT MUSIC SYSTEM */
+/* 🎵 MUSIC SYSTEM */
 let bg = document.getElementById("bgMusic");
 
 window.addEventListener("load",()=>{
 
-// restore time
 let t = localStorage.getItem("bgTime") || 0;
 bg.currentTime = t;
 
-// try autoplay
-bg.play().then(()=>{
-console.log("Music autoplay success");
-}).catch(()=>{
-console.log("Autoplay blocked, waiting click");
-
-// mobile fix
-document.body.addEventListener("click",()=>{
+// autoplay try
+bg.play().catch(()=>{
+document.body.addEventListener("click", ()=>{
 bg.play();
 },{once:true});
-
 });
 
-// save time continuously
+// save time
 setInterval(()=>{
 localStorage.setItem("bgTime", bg.currentTime);
 },1000);
 
 });
 
-/* 🔙 BACK */
+/* BACK */
 function goBack(){
 window.location.href="video.html";
 }
 
-/* 📖 BOOK */
+/* FLIPBOOK */
 $("#book").turn({
 width:"100%",
 height:"100%",
@@ -150,21 +142,48 @@ autoCenter:true,
 gradients:true
 });
 
-/* 📱 SWIPE */
-let startX=0;
+/* 📱 TOUCH SWIPE */
+let startX = 0;
+let endX = 0;
+const book = document.getElementById("book");
 
-document.getElementById("book").addEventListener("touchstart",e=>{
-startX=e.touches[0].clientX;
+book.addEventListener("touchstart", (e)=>{
+startX = e.touches[0].clientX;
 });
 
-document.getElementById("book").addEventListener("touchend",e=>{
-let endX=e.changedTouches[0].clientX;
+book.addEventListener("touchmove", (e)=>{
+endX = e.touches[0].clientX;
+});
 
-if(startX-endX>50){
+book.addEventListener("touchend", ()=>{
+let diff = startX - endX;
+
+if(diff > 50){
 $("#book").turn("next");
 playFlipSound();
 }
-if(endX-startX>50){
+
+if(diff < -50){
+$("#book").turn("previous");
+playFlipSound();
+}
+});
+
+/* 🖱️ MOUSE SWIPE */
+let mouseStart = 0;
+
+book.addEventListener("mousedown", e=>{
+mouseStart = e.clientX;
+});
+
+book.addEventListener("mouseup", e=>{
+let diff = mouseStart - e.clientX;
+
+if(diff > 50){
+$("#book").turn("next");
+playFlipSound();
+}
+if(diff < -50){
 $("#book").turn("previous");
 playFlipSound();
 }
@@ -172,7 +191,7 @@ playFlipSound();
 
 /* 🔊 SOUND */
 function playFlipSound(){
-let s = new Audio("/Zinchbd/assets/flip.mp3");
+let s = new Audio("assets/flip.mp3");
 s.volume = 0.5;
 s.play();
 }
