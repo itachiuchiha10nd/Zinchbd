@@ -33,12 +33,26 @@ z-index:-1;
 background:url("assets/final-bg.png") center/cover no-repeat;
 }
 
-/* GIF BOX */
+/* GIF BOX FIX */
 .box{
-width:240px;height:150px;
-border-radius:12px;
+width:240px;
+height:150px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:transparent;
 overflow:hidden;
-margin-bottom:15px;
+}
+
+/* IMAGE FIT */
+.box img{
+max-width:100%;
+max-height:100%;
+width:auto;
+height:auto;
+object-fit:contain; /* 🔥 main fix */
 }
 
 /* BUTTON */
