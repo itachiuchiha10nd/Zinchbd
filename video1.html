@@ -32,11 +32,11 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* 🔥 VERTICAL VIDEO BOX (9:16) */
+/* VIDEO BOX (9:16) */
 .video-box{
-width:80vw;             /* responsive */
-max-width:360px;        /* mobile perfect */
-aspect-ratio:9/16;      /* 🔥 720x1280 ratio */
+width:80vw;
+max-width:360px;
+aspect-ratio:9/16;
 
 border-radius:20px;
 overflow:hidden;
@@ -49,32 +49,60 @@ background:black;
 box-shadow:0 0 25px rgba(255,105,180,0.8);
 }
 
-/* 🎥 VIDEO (NO CUT) */
+/* VIDEO */
 video{
 width:100%;
 height:100%;
-object-fit:contain;   /* पूरा video दिखे */
+object-fit:contain;
 }
 </style>
 </head>
 
 <body>
 
-<button class="back" onclick="window.location.href='video.html?page=3'">Back</button>
+<!-- 🎵 BACKGROUND MUSIC -->
+<audio id="bgMusic" src="assets/bg.mp3" loop></audio>
+
+<button class="back" onclick="goBack()">Back</button>
 
 <div class="video-box">
-<video id="vid" src="assets/video.mp4" autoplay playsinline loop></video>
+<video id="vid" src="assets/video.mp4" autoplay playsinline loop muted></video>
 </div>
 
 <script>
 
+/* 🎵 BG MUSIC SYSTEM */
+const bg = document.getElementById("bgMusic");
+
+/* PAGE LOAD → PAUSE BG */
+window.onload = ()=>{
+let t = localStorage.getItem("bgTime") || 0;
+bg.currentTime = t;
+bg.pause(); // 🔥 video open → pause music
+};
+
+/* BACK → RESUME MUSIC */
+function goBack(){
+let t = localStorage.getItem("bgTime") || 0;
+bg.currentTime = t;
+bg.play().catch(()=>{});
+
+window.location.href="video.html?page=3";
+}
+
+/* 🎥 VIDEO AUTOPLAY FIX */
 const v = document.getElementById("vid");
 
-/* TRY AUTOPLAY WITH SOUND */
+/* try autoplay */
+v.muted = true;
+v.play().then(()=>{
+// after start → unmute if user interacts
+document.body.addEventListener("click", ()=>{
 v.muted = false;
-v.play().catch(()=>{
+});
+}).catch(()=>{
 
-/* fallback for mobile */
+/* mobile fallback */
 document.body.addEventListener("click", ()=>{
 v.muted = false;
 v.play();
