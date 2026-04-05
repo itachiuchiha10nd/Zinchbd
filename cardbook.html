@@ -12,14 +12,11 @@
 body{
 height:100vh;
 overflow:hidden;
-display:flex;
-justify-content:center;
-align-items:center;
 background:url("assets/card-bg.png") center/cover no-repeat;
 font-family:sans-serif;
 }
 
-/* BACK */
+/* BACK BUTTON */
 .back{
 position:absolute;
 top:20px;
@@ -32,19 +29,24 @@ border-radius:20px;
 z-index:10;
 }
 
-/* CARD AREA */
+/* 🎯 CARD AREA (WHITE CARD POSITION) */
 .card-area{
-position:relative;
-width:320px;
-height:220px;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+
+/* adjust if needed */
+width:270px;
+height:180px;
 }
 
-/* CARD BASE */
+/* CARD */
 .card{
 position:absolute;
 width:100%;
 height:100%;
-border-radius:15px;
+border-radius:12px;
 overflow:hidden;
 transition:transform 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.5s;
 }
@@ -55,22 +57,22 @@ height:100%;
 object-fit:contain;
 }
 
-/* 🔥 LEFT (SMALL) */
+/* LEFT SMALL */
 .card{
-transform:translateX(-60px) scale(0.8);
+transform:translateX(-50px) scale(0.8);
 opacity:0.5;
 }
 
-/* 🔥 CENTER (BIG) */
+/* CENTER BIG */
 .card.active{
 transform:translateX(0) scale(1);
 opacity:1;
 z-index:5;
 }
 
-/* 🔥 RIGHT */
+/* RIGHT SMALL */
 .card.next{
-transform:translateX(60px) scale(0.85);
+transform:translateX(50px) scale(0.85);
 opacity:0.7;
 z-index:4;
 }
@@ -97,17 +99,21 @@ z-index:4;
 
 <script>
 
-/* 🎵 MUSIC */
+/* 🎵 MUSIC SYSTEM (SYNC WITH VIDEO.HTML) */
 let bg = document.getElementById("bgMusic");
 
 window.onload = ()=>{
 let t = localStorage.getItem("time") || 0;
 bg.currentTime = t;
 
+// autoplay
 bg.play().catch(()=>{
-document.body.addEventListener("click", ()=>bg.play(), {once:true});
+document.body.addEventListener("click", ()=>{
+bg.play();
+},{once:true});
 });
 
+// save time
 setInterval(()=>{
 localStorage.setItem("time", bg.currentTime);
 },1000);
@@ -144,7 +150,7 @@ isDragging=true;
 });
 
 area.addEventListener("touchmove",e=>{
-if(!isDragging) return;
+if(!isDragging)return;
 
 currentX=e.touches[0].clientX;
 let diff=currentX-startX;
@@ -155,20 +161,11 @@ active.style.transform=`translateX(${diff}px) scale(1)`;
 });
 
 area.addEventListener("touchend",()=>{
-if(!isDragging) return;
-
 let diff=currentX-startX;
 isDragging=false;
 
-let active=cards[index];
-active.style.transition="0.5s";
-
-if(diff<-80 && index<cards.length-1){
-index++;
-}
-else if(diff>80 && index>0){
-index--;
-}
+if(diff<-80 && index<cards.length-1) index++;
+else if(diff>80 && index>0) index--;
 
 updateCards();
 });
@@ -180,7 +177,7 @@ isDragging=true;
 });
 
 area.addEventListener("mousemove",e=>{
-if(!isDragging) return;
+if(!isDragging)return;
 
 currentX=e.clientX;
 let diff=currentX-startX;
@@ -191,20 +188,11 @@ active.style.transform=`translateX(${diff}px) scale(1)`;
 });
 
 area.addEventListener("mouseup",()=>{
-if(!isDragging) return;
-
 let diff=currentX-startX;
 isDragging=false;
 
-let active=cards[index];
-active.style.transition="0.5s";
-
-if(diff<-80 && index<cards.length-1){
-index++;
-}
-else if(diff>80 && index>0){
-index--;
-}
+if(diff<-80 && index<cards.length-1) index++;
+else if(diff>80 && index>0) index--;
 
 updateCards();
 });
