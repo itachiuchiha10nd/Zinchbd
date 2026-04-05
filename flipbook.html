@@ -36,21 +36,18 @@ cursor:pointer;
 z-index:5;
 }
 
-/* CENTER CONTAINER */
+/* CONTAINER */
 .container{
 width:90vw;
 max-width:700px;
 height:85vh;
-
 display:flex;
 justify-content:center;
 align-items:center;
-
 padding:15px;
-z-index:1;
 }
 
-/* BOOK BOX */
+/* BOOK */
 #book{
 width:100%;
 height:100%;
@@ -66,12 +63,32 @@ width:100%;
 height:100%;
 object-fit:cover;
 }
+
+/* SWIPE TEXT */
+.swipe-text{
+position:absolute;
+bottom:15px;
+left:50%;
+transform:translateX(-50%);
+color:white;
+font-size:16px;
+font-weight:bold;
+background:rgba(0,0,0,0.4);
+padding:6px 12px;
+border-radius:20px;
+animation:fade 1.5s infinite alternate;
+}
+
+@keyframes fade{
+from{opacity:0.6;}
+to{opacity:1;}
+}
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 GLOBAL MUSIC -->
+<!-- 🎵 MUSIC -->
 <audio id="bgMusic" src="/Zinchbd/assets/bg.mp3" loop></audio>
 
 <button class="back" onclick="goBack()">Back</button>
@@ -87,27 +104,33 @@ object-fit:cover;
 </div>
 </div>
 
+<div class="swipe-text">Swipe the page for view 👉</div>
+
 <script>
 
-/* 🎵 GLOBAL MUSIC ENGINE */
-let bg;
+/* 🎵 PERFECT MUSIC SYSTEM */
+let bg = document.getElementById("bgMusic");
 
 window.addEventListener("load",()=>{
 
-bg = document.getElementById("bgMusic");
-
-/* restore time */
+// restore time
 let t = localStorage.getItem("bgTime") || 0;
 bg.currentTime = t;
 
-/* play */
-bg.play().catch(()=>{
-document.body.addEventListener("click", ()=>{
+// try autoplay
+bg.play().then(()=>{
+console.log("Music autoplay success");
+}).catch(()=>{
+console.log("Autoplay blocked, waiting click");
+
+// mobile fix
+document.body.addEventListener("click",()=>{
 bg.play();
 },{once:true});
+
 });
 
-/* save time continuously */
+// save time continuously
 setInterval(()=>{
 localStorage.setItem("bgTime", bg.currentTime);
 },1000);
@@ -119,7 +142,7 @@ function goBack(){
 window.location.href="video.html";
 }
 
-/* 📖 INIT BOOK */
+/* 📖 BOOK */
 $("#book").turn({
 width:"100%",
 height:"100%",
@@ -127,7 +150,7 @@ autoCenter:true,
 gradients:true
 });
 
-/* 📱 SWIPE SUPPORT */
+/* 📱 SWIPE */
 let startX=0;
 
 document.getElementById("book").addEventListener("touchstart",e=>{
@@ -147,7 +170,7 @@ playFlipSound();
 }
 });
 
-/* 🔊 FLIP SOUND */
+/* 🔊 SOUND */
 function playFlipSound(){
 let s = new Audio("/Zinchbd/assets/flip.mp3");
 s.volume = 0.5;
