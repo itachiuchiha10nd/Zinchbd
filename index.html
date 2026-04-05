@@ -9,217 +9,255 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins';}
+html,body{height:100%;overflow:hidden;font-family:'Poppins';}
 
-/* PAGE */
 .page{
 position:fixed;inset:0;
-display:flex;justify-content:center;align-items:center;
-flex-direction:column;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
 opacity:0;pointer-events:none;
 transition:.4s;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
-/* BG */
-.bg{position:absolute;inset:0;background:url("assets/bg.jpg") center/cover no-repeat;z-index:-1;}
-#p0{background:url("assets/entry-bg.jpg") center/cover no-repeat;}
+.bg{position:absolute;inset:0;background:url("/Zinchbd/assets/bg.jpg") center/cover no-repeat;z-index:-1;}
+#p0{background:url("/Zinchbd/assets/entry-bg.jpg") center/cover no-repeat;}
 
-/* PASSWORD */
 .pass-box{
-position:absolute;
-top:50%;
-right:4%;
+position:absolute;top:50%;right:5%;
 transform:translateY(-50%);
 padding:18px;
-background:rgba(255,255,255,0.15);
-border-radius:18px;
-}
-
-@media(max-width:600px){
-.pass-box{
-right:50%;
-top:65%;
-transform:translate(50%,-50%) scale(.9);
-}
+background:rgba(255,255,255,0.2);
+border-radius:15px;
 }
 
 .display{
 color:#ff6eb4;
-font-size:32px;
-letter-spacing:8px;
-margin-bottom:15px;
+font-size:30px;
+margin-bottom:10px;
 text-align:center;
 }
 
-.pad{
-display:grid;
-grid-template-columns:repeat(3,55px);
-gap:10px;
-}
+.pad{display:grid;grid-template-columns:repeat(3,50px);gap:10px;}
 .pad button{
-padding:12px;border:none;border-radius:10px;
+padding:10px;border:none;border-radius:10px;
 background:#ff6eb4;color:#fff;font-weight:bold;
 }
 
 /* ENVELOPE */
-.envelope{width:290px;cursor:pointer;}
-
+.envelope{width:280px;}
 .open-text{
 margin-top:10px;
 font-family:'Dancing Script';
 font-size:22px;
 color:#ff6eb4;
-text-shadow:0 0 5px #fff;
 }
 
 /* LETTER */
-.paper{
-position:relative;
-width:90vw;max-width:320px;
-height:65vh;max-height:450px;
-}
+.paper{position:relative;width:90vw;max-width:320px;height:65vh;}
 .paper img{width:100%;height:100%;}
-
 .text{
-position:absolute;
-top:15%;left:50%;
+position:absolute;top:15%;left:50%;
 transform:translateX(-50%);
 width:80%;height:70%;
-display:flex;align-items:center;justify-content:center;
+display:flex;justify-content:center;align-items:center;
 text-align:center;
 font-family:'Dancing Script';
-font-weight:700;
 }
 
 /* BUTTON */
 .btn{
-margin:10px;
-padding:10px 20px;
-background:#ff6eb4;
+margin:10px;padding:10px 20px;
+background:#ff6eb4;color:#fff;
 border:none;border-radius:20px;
-color:#fff;font-weight:bold;
 }
-.surprise-btn{display:none;}
 
 /* CAKE */
-.cake-bg{position:absolute;inset:0;background:url("assets/bg2.jpg") center/cover no-repeat;z-index:-1;}
-.cake-box{position:relative;width:240px;}
+.cake-box{position:relative;width:220px;}
 .cake-box img{width:100%;}
 
-/* FLAME */
 .flame{
 position:absolute;
-top:6%;
-left:50%;
+top:5%;left:50%;
 transform:translate(-50%,-50%);
-width:12px;height:28px;
-background:radial-gradient(circle,#fff,#ffd700,orange,red);
-border-radius:50%;
-animation:flicker .12s infinite alternate;
+width:12px;height:25px;
+background:orange;border-radius:50%;
+animation:flicker .1s infinite alternate;
 }
 @keyframes flicker{
-0%{transform:translate(-50%,-50%) rotate(-6deg);}
-100%{transform:translate(-50%,-50%) rotate(6deg) scale(1.2);}
+0%{transform:translate(-50%,-50%) rotate(-5deg);}
+100%{transform:translate(-50%,-50%) rotate(5deg);}
 }
 
-/* GLOW */
 .glow{
-position:absolute;
-top:7%;
-left:50%;
+position:absolute;top:5%;left:50%;
 transform:translate(-50%,-50%);
-width:100px;height:100px;
-background:radial-gradient(circle,rgba(255,200,100,0.7),transparent);
-filter:blur(25px);
-}
-
-/* SMOKE */
-.smoke{
-position:absolute;
-top:6%;
-left:50%;
-width:10px;height:10px;
-background:gray;border-radius:50%;
-animation:smoke 2s forwards;
-}
-@keyframes smoke{
-to{opacity:0;transform:translate(-50%,-120px) scale(3);}
-}
-
-/* BALLOON */
-.balloon{position:fixed;width:45px;}
-
-/* FIREWORK */
-.firework{
-position:fixed;width:6px;height:6px;
-border-radius:50%;
-animation:boom 1s forwards;
-}
-@keyframes boom{
-to{transform:scale(10);opacity:0;}
-}
-
-/* FLOWER */
-@keyframes fall{
-to{transform:translateY(100vh);opacity:0;}
+width:80px;height:80px;
+background:radial-gradient(circle,rgba(255,200,0,.7),transparent);
+filter:blur(20px);
 }
 
 /* BLAST */
-.blastText{
+.blast{
 position:fixed;
 top:50%;left:50%;
-transform:translate(-50%,-50%) scale(0);
-font-size:60px;
-color:#fff;
-text-shadow:0 0 10px #ff6eb4;
-opacity:0;
+transform:translate(-50%,-50%);
+font-size:40px;
+color:white;
+display:none;
 }
-@keyframes blastPop{
-to{transform:translate(-50%,-50%) scale(1);opacity:1;}
-}
+
+/* BALLOON */
+.balloon{position:fixed;width:40px;}
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 BG MUSIC -->
-<audio id="bgMusic" src="assets/bg.mp3" loop></audio>
-<audio id="blastSound" src="assets/blast.mp3"></audio>
+<!-- 🎵 MUSIC -->
+<audio id="bgMusic" src="/Zinchbd/assets/bg.mp3" loop></audio>
+<audio id="blastSound" src="/Zinchbd/assets/blast.mp3"></audio>
 
-<!-- बाकी HTML SAME (no change) -->
+<!-- PASSWORD -->
+<div class="page active" id="p0">
+<div class="pass-box">
+<div id="display" class="display"></div>
+<div class="pad">
+<button onclick="press(1)">1</button>
+<button onclick="press(2)">2</button>
+<button onclick="press(3)">3</button>
+<button onclick="press(4)">4</button>
+<button onclick="press(5)">5</button>
+<button onclick="press(6)">6</button>
+<button onclick="press(7)">7</button>
+<button onclick="press(8)">8</button>
+<button onclick="press(9)">9</button>
+<button onclick="clearPass()">C</button>
+<button onclick="press(0)">0</button>
+<button onclick="checkPass()">✔</button>
+</div>
+</div>
+</div>
+
+<!-- ENVELOPE -->
+<div class="page" id="p1">
+<div class="bg"></div>
+<img src="/Zinchbd/assets/envelope.png" class="envelope" onclick="goTo(2)">
+<div class="open-text">Open it 💌</div>
+</div>
+
+<!-- LETTER -->
+<div class="page" id="p2">
+<div class="bg"></div>
+<div class="paper">
+<img src="/Zinchbd/assets/paper.png">
+<div class="text" id="typing"></div>
+</div>
+<button class="btn" onclick="goTo(3)">Next</button>
+</div>
+
+<!-- CAKE -->
+<div class="page" id="p3">
+<div class="bg"></div>
+
+<div class="cake-box" id="cake">
+<img src="/Zinchbd/assets/cake.png">
+<div class="glow"></div>
+<div class="flame" id="flame"></div>
+</div>
+
+<button class="btn" onclick="blow()">Blow Candle</button>
+<button id="surpriseBtn" class="btn" style="display:none;" onclick="window.location.href='video.html'">SURPRISE 💗</button>
+</div>
+
+<div id="blast" class="blast">HAPPY BIRTHDAY 🎉</div>
 
 <script>
 
-/* 🎵 MUSIC SYSTEM */
-const bg=document.getElementById("bgMusic");
+/* 🎵 MUSIC FIX */
+let bg;
 
 window.addEventListener("load",()=>{
+bg=document.getElementById("bgMusic");
+
 let t=localStorage.getItem("bgTime")||0;
 bg.currentTime=t;
 bg.play().catch(()=>{});
 });
 
 setInterval(()=>{
-localStorage.setItem("bgTime",bg.currentTime);
+if(bg) localStorage.setItem("bgTime",bg.currentTime);
 },1000);
 
 function pauseBG(){
+if(bg){
 localStorage.setItem("bgTime",bg.currentTime);
 bg.pause();
 }
+}
 
-/* 🔥 MODIFY BLOW */
+/* NAV */
+function goTo(n){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById("p"+n).classList.add("active");
+
+if(n===2) startTyping();
+if(n===3) startBalloons();
+}
+
+/* PASSWORD */
+let input="";
+function press(n){input+=n;display.innerText=input;}
+function clearPass(){input="";display.innerText="";}
+function checkPass(){if(input==="81206"){goTo(1);}else alert("Wrong");}
+
+/* TYPING */
+const msg="Happy Birthday Zinc 🎉 Stay happy always 💖";
+
+function startTyping(){
+let el=document.getElementById("typing");
+el.innerHTML="";
+let i=0;
+function t(){
+if(i<msg.length){
+el.innerHTML+=msg[i++];
+setTimeout(t,20);
+}
+}
+t();
+}
+
+/* BALLOONS */
+function startBalloons(){
+for(let i=0;i<5;i++){
+let b=document.createElement("img");
+b.src="/Zinchbd/assets/balloon.png";
+b.className="balloon";
+document.body.appendChild(b);
+
+setInterval(()=>{
+b.style.left=Math.random()*100+"vw";
+b.style.top=Math.random()*100+"vh";
+},3000);
+}
+}
+
+/* BLOW */
 function blow(){
-
-pauseBG(); // 🔥 important
+pauseBG();
 
 document.getElementById("flame").style.display="none";
 
-/* बाकी tera code same */
+document.getElementById("blastSound").play();
+
+let blast=document.getElementById("blast");
+blast.style.display="block";
+
+setTimeout(()=>blast.style.display="none",2000);
+
+document.getElementById("surpriseBtn").style.display="inline-block";
 }
 
-/* बाकी script same */
 </script>
 
 </body>
