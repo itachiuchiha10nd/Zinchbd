@@ -38,18 +38,18 @@ z-index:5;
 
 /* CONTAINER */
 .container{
-width:90vw;
-max-width:700px;
-height:85vh;
+width:100%;
+height:100%;
 display:flex;
 justify-content:center;
 align-items:center;
 }
 
-/* BOOK */
+/* 🔥 PERFECT SQUARE BOOK */
 #book{
-width:100%;
-height:100%;
+width:min(90vw, 90vh);
+height:min(90vw, 90vh);
+
 background:white;
 border-radius:12px;
 overflow:hidden;
@@ -57,10 +57,18 @@ box-shadow:0 0 25px rgba(0,0,0,0.5);
 }
 
 /* PAGE */
+.page{
+display:flex;
+justify-content:center;
+align-items:center;
+background:#000;
+}
+
+/* IMAGE FIX */
 .page img{
 width:100%;
 height:100%;
-object-fit:cover;
+object-fit:contain; /* 🔥 no crop */
 }
 
 /* SWIPE TEXT */
@@ -95,9 +103,10 @@ to{opacity:1;}
 <div class="container">
 <div id="book">
 
-<div class="page"><img src="assets/page1.png"></div>
-<div class="page"><img src="assets/page2.png"></div>
-<div class="page"><img src="assets/page3.png"></div>
+<div class="page"><img src="assets/page1.jpg"></div>
+<div class="page"><img src="assets/page2.jpg"></div>
+<div class="page"><img src="assets/page3.jpg"></div>
+<div class="page"><img src="assets/page4.jpg"></div>
 
 </div>
 </div>
@@ -133,56 +142,54 @@ function goBack(){
 window.location.href="video.html";
 }
 
-/* FLIPBOOK */
+/* FLIPBOOK INIT */
 $("#book").turn({
-width:"100%",
-height:"100%",
+width:$("#book").width(),
+height:$("#book").height(),
 autoCenter:true,
 gradients:true
 });
 
 /* 📱 TOUCH SWIPE */
-let startX = 0;
-let endX = 0;
-const book = document.getElementById("book");
+let startX=0,endX=0;
+const book=document.getElementById("book");
 
-book.addEventListener("touchstart", (e)=>{
-startX = e.touches[0].clientX;
+book.addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX;
 });
 
-book.addEventListener("touchmove", (e)=>{
-endX = e.touches[0].clientX;
+book.addEventListener("touchmove",e=>{
+endX=e.touches[0].clientX;
 });
 
-book.addEventListener("touchend", ()=>{
-let diff = startX - endX;
+book.addEventListener("touchend",()=>{
+let diff=startX-endX;
 
-if(diff > 50){
+if(diff>50){
 $("#book").turn("next");
 playFlipSound();
 }
-
-if(diff < -50){
+if(diff<-50){
 $("#book").turn("previous");
 playFlipSound();
 }
 });
 
 /* 🖱️ MOUSE SWIPE */
-let mouseStart = 0;
+let mouseStart=0;
 
-book.addEventListener("mousedown", e=>{
-mouseStart = e.clientX;
+book.addEventListener("mousedown",e=>{
+mouseStart=e.clientX;
 });
 
-book.addEventListener("mouseup", e=>{
-let diff = mouseStart - e.clientX;
+book.addEventListener("mouseup",e=>{
+let diff=mouseStart-e.clientX;
 
-if(diff > 50){
+if(diff>50){
 $("#book").turn("next");
 playFlipSound();
 }
-if(diff < -50){
+if(diff<-50){
 $("#book").turn("previous");
 playFlipSound();
 }
@@ -190,8 +197,8 @@ playFlipSound();
 
 /* 🔊 SOUND */
 function playFlipSound(){
-let s = new Audio("assets/flip.mp3");
-s.volume = 0.5;
+let s=new Audio("assets/flip.mp3");
+s.volume=0.5;
 s.play();
 }
 
