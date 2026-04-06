@@ -37,6 +37,20 @@ z-index:-1;
 background:url("assets/final-bg.jpg") center/cover no-repeat;
 }
 
+/* GIF BOX */
+.box{
+width:260px;height:180px;
+display:flex;
+justify-content:center;
+align-items:center;
+margin-bottom:15px;
+}
+.box img{
+width:100%;
+height:100%;
+object-fit:contain;
+}
+
 /* BUTTON */
 .btn{
 padding:10px 18px;
@@ -44,76 +58,47 @@ margin:6px;
 border:none;
 border-radius:20px;
 background:#ff6eb4;
-color:white;
+color:#fff;
 font-weight:bold;
 cursor:pointer;
 }
 
-/* 🎁 PERFECT GRID (CENTER, NOT PINK BOX) */
+/* GIFTS */
 .gifts{
 display:grid;
-grid-template-columns:repeat(2,130px);
-grid-template-rows:repeat(2,130px);
+grid-template-columns:repeat(2,140px);
+grid-template-rows:repeat(2,140px);
 gap:20px;
-justify-content:center;
-align-content:center;
-}
-
-.gift{
-display:flex;
-justify-content:center;
-align-items:center;
 }
 
 .gift img{
-width:110px;
-height:110px;
-object-fit:contain;
+width:120px;
+height:120px;
 cursor:pointer;
-transition:0.2s;
 }
 
-.gift img:active{
-transform:scale(0.9);
-}
-
-/* 💌 TEXT EXACT PINK PAPER AREA */
+/* 💌 TEXT BOX (PINK AREA) */
 .text-box{
 position:absolute;
-
-/* 🔥 EXACTLY tuned to your image */
 top:47%;
 left:50%;
 transform:translate(-50%,-50%);
-
-/* 📏 pink paper size */
-width:74%;
+width:75%;
 max-width:360px;
 aspect-ratio:2/1;
-
-/* spacing inside paper */
-padding:18px 16px;
-
+padding:18px;
 display:flex;
-justify-content:center;
 align-items:center;
-
+justify-content:center;
 overflow:hidden;
 }
 
-/* TEXT */
 .final-text{
 width:100%;
 height:100%;
-
-display:flex;
-justify-content:center;
-align-items:center;
 text-align:center;
-
 font-family:'Dancing Script', cursive;
 color:#000;
-
 line-height:1.5;
 }
 
@@ -131,23 +116,42 @@ gap:10px;
 
 <audio id="song" src="assets/bg.mp3" loop></audio>
 
-<!-- PAGE 1 -->
+<!-- PAGE 1 YES/NO -->
 <div class="page active" id="p1">
 <div class="bg"></div>
-<button class="btn" onclick="go(3)">Start 💖</button>
+
+<div class="box">
+<img src="assets/gif1.gif">
 </div>
 
-<!-- GIFTS PAGE -->
+<button class="btn" onclick="goCake()">Back</button>
+<button class="btn" onclick="go(3)">Yes 💖</button>
+<button class="btn" onclick="go(2)">No 😒</button>
+</div>
+
+<!-- PAGE 2 NO -->
+<div class="page" id="p2">
+<div class="bg"></div>
+
+<div class="box">
+<img src="assets/gif2.gif">
+</div>
+
+<button class="btn" onclick="go(1)">Back</button>
+</div>
+
+<!-- GIFTS -->
 <div class="page" id="p3">
 <div class="bg"></div>
 
 <div class="gifts">
-<div class="gift" onclick="openGift(1)"><img src="assets/gift.png"></div>
-<div class="gift" onclick="openGift(2)"><img src="assets/gift.png"></div>
-<div class="gift" onclick="openGift(3)"><img src="assets/gift.png"></div>
-<div class="gift" onclick="openGift(4)"><img src="assets/gift.png"></div>
+<div onclick="openGift(1)"><img src="assets/gift.png"></div>
+<div onclick="openGift(2)"><img src="assets/gift.png"></div>
+<div onclick="openGift(3)"><img src="assets/gift.png"></div>
+<div onclick="openGift(4)"><img src="assets/gift.png"></div>
 </div>
 
+<button class="btn" onclick="go(1)">Back</button>
 <button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final 💌</button>
 </div>
 
@@ -171,7 +175,7 @@ gap:10px;
 /* MUSIC */
 let song=document.getElementById("song");
 
-function resumeMusic(){
+function playMusic(){
 song.play().catch(()=>{});
 }
 
@@ -180,28 +184,39 @@ function go(n){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById("p"+n).classList.add("active");
 
-resumeMusic();
+playMusic();
 
 if(n===8) startTyping();
 }
 
+/* BACK CAKE */
+function goCake(){
+window.location.href="index.html#p3";
+}
+
 /* GIF TRACK */
-let opened={};
+let opened = JSON.parse(localStorage.getItem("gifts")) || {};
 
 function openGift(id){
 opened[id]=true;
+localStorage.setItem("gifts", JSON.stringify(opened));
 
 if(id===1) location.href="flipbook.html";
 if(id===2) location.href="video1.html";
 if(id===3) location.href="cardbook.html";
 if(id===4) location.href="video4.html";
 
-if(Object.keys(opened).length===4){
+checkFinal();
+}
+
+function checkFinal(){
+let data = JSON.parse(localStorage.getItem("gifts")) || {};
+if(Object.keys(data).length===4){
 document.getElementById("finalBtn").style.display="block";
 }
 }
 
-/* 💌 FULL ORIGINAL WISH (NO CUT) */
+/* FULL WISH */
 const msg = `Happy Birthday, Zinc ❤️
 
 I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it. Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
@@ -220,7 +235,7 @@ So for now, that’s it.
 
 Once again, Happy Birthday, Zinc ❤️`;
 
-/* AUTO FIT PERFECT */
+/* AUTO FIT */
 function startTyping(){
 let el=document.getElementById("typing");
 el.innerHTML="";
@@ -250,6 +265,12 @@ el.style.fontSize=size+"px";
 /* TELEGRAM */
 function openTelegram(){
 window.open("https://t.me/niconiconicotine","_blank");
+}
+
+/* LOAD */
+window.onload=function(){
+playMusic();
+checkFinal();
 }
 
 </script>
