@@ -14,33 +14,38 @@
 body{
 height:100vh;
 overflow:hidden;
-background:url("assets/card-bg.jpg") center/cover no-repeat;
+
+/* 🔥 FULL BACKGROUND FIX */
+background:url("assets/card-bg.png") no-repeat center;
+background-size:contain;
+background-color:#f7f7f7;
+
 font-family:'Dancing Script', cursive;
 }
 
-/* BACK */
+/* BACK BUTTON */
 .back{
 position:absolute;
-top:20px;
-left:20px;
-padding:8px 16px;
+top:15px;
+left:15px;
+padding:6px 14px;
 background:#ff6eb4;
 color:white;
 border:none;
 border-radius:20px;
 z-index:10;
+font-size:14px;
 }
 
-/* 🔥 CARD AREA (BIG SIZE + RESPONSIVE) */
+/* 🎯 CARD AREA (PERFECT POSITION) */
 .card-area{
 position:absolute;
-top:52%;
+
+/* 🔥 tuned for your image */
+top:48%;
 left:50%;
+transform:translate(-50%,-50%) scale(0.23);
 
-/* 🔥 SCALE RESPONSIVE */
-transform:translate(-50%,-50%) scale(calc(min(100vw/1200, 100vh/800)));
-
-/* 🔥 REAL SIZE */
 width:1070px;
 height:690px;
 }
@@ -56,9 +61,11 @@ display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
-font-size:42px;
+font-size:40px;
 color:#333;
-box-shadow:0 20px 40px rgba(0,0,0,0.25);
+
+box-shadow:0 20px 40px rgba(0,0,0,0.2);
+
 transition:transform 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.5s;
 }
 
@@ -72,7 +79,7 @@ transition:transform 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.5s;
 
 /* LEFT SMALL */
 .card{
-transform:translateX(-180px) scale(0.75);
+transform:translateX(-160px) scale(0.75);
 opacity:0.5;
 }
 
@@ -85,7 +92,7 @@ z-index:5;
 
 /* RIGHT SMALL */
 .card.next{
-transform:translateX(180px) scale(0.8);
+transform:translateX(160px) scale(0.8);
 opacity:0.7;
 z-index:4;
 }
@@ -95,7 +102,7 @@ z-index:4;
 <body>
 
 <!-- 🎵 MUSIC -->
-<audio id="bgMusic" src="assets/bg.mp3" loop></audio>
+<audio id="bgMusic" src="assets/song.mp3" loop></audio>
 
 <button class="back" onclick="goBack()">Back</button>
 
@@ -104,16 +111,16 @@ z-index:4;
 <div class="card">Happy Birthday Zinc 🎉💖</div>
 
 <div class="card">
-Stay happy always 😄<br>
+Stay happy always 😊<br>
 You deserve everything ✨
 </div>
 
 <div class="card">
-Thanks for coming into my life 🤝💖
+Thanks for being in my life 🤝💖
 </div>
 
 <div class="card">
-Keep smiling forever 😊💫
+Keep smiling forever 😄💫
 </div>
 
 <div class="card">
@@ -189,8 +196,8 @@ area.addEventListener("touchend",()=>{
 let diff=currentX-startX;
 isDragging=false;
 
-if(diff<-150 && index<cards.length-1) index++;
-else if(diff>150 && index>0) index--;
+if(diff<-120 && index<cards.length-1) index++;
+else if(diff>120 && index>0) index--;
 
 updateCards();
 });
@@ -216,8 +223,8 @@ area.addEventListener("mouseup",()=>{
 let diff=currentX-startX;
 isDragging=false;
 
-if(diff<-150 && index<cards.length-1) index++;
-else if(diff>150 && index>0) index--;
+if(diff<-120 && index<cards.length-1) index++;
+else if(diff>120 && index>0) index--;
 
 updateCards();
 });
