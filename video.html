@@ -6,7 +6,7 @@
 
 <title>Surprise 💗</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -60,7 +60,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* 🎁 PERFECT GRID */
+/* 🎁 GRID */
 .gifts{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -82,22 +82,47 @@ object-fit:contain;
 cursor:pointer;
 }
 
-/* LETTER */
+/* 🔥 LETTER (LANDSCAPE + PERFECT FIT) */
 .letter{
 position:relative;
-width:300px;height:420px;
+width:90vw;
+max-width:650px;
+height:55vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
 }
-.letter img{width:100%;height:100%;}
+
+.letter img{
+width:100%;
+height:100%;
+object-fit:contain;
+}
+
+/* TEXT */
 .text{
 position:absolute;
-top:15%;
+top:50%;
 left:50%;
-transform:translateX(-50%);
-width:80%;
+transform:translate(-50%,-50%);
+
+width:85%;
+height:75%;
+
+display:flex;
+justify-content:center;
+align-items:center;
 text-align:center;
-font-family:'Dancing Script';
-font-size:22px;
-color:#fff;
+
+font-family:'Poppins', sans-serif;
+font-weight:bold;
+color:#000;
+
+font-size:26px;
+line-height:1.4;
+
+overflow:hidden;
 }
 </style>
 </head>
@@ -166,12 +191,8 @@ color:#fff;
 
 <script>
 
-/* 🎵 MUSIC SYSTEM */
+/* 🎵 MUSIC */
 let song=document.getElementById("song");
-
-function playMusic(){
-song.play().catch(()=>{});
-}
 
 function pauseMusic(){
 localStorage.setItem("time",song.currentTime);
@@ -199,7 +220,7 @@ function goCake(){
 window.location.href="index.html#p3";
 }
 
-/* 🎁 GIFT TRACK (FIXED) */
+/* GIFTS */
 let opened = JSON.parse(localStorage.getItem("gifts")) || {};
 
 function openGift(id){
@@ -207,31 +228,11 @@ function openGift(id){
 opened[id]=true;
 localStorage.setItem("gifts", JSON.stringify(opened));
 
-// Gift 1
-if(id===1){
-pauseMusic();
-window.location.href="flipbook.html";
-return;
-}
+if(id===1){pauseMusic();window.location.href="flipbook.html";return;}
+if(id===2){pauseMusic();window.location.href="video1.html";return;}
+if(id===3){pauseMusic();window.location.href="cardbook.html";return;}
 
-// Gift 2
-if(id===2){
-pauseMusic();
-window.location.href="video1.html";
-return;
-}
-
-// 🔥 Gift 3 (NEW)
-if(id===3){
-pauseMusic();
-window.location.href="cardbook.html";
-return;
-}
-
-// Gift 4
-if(id===4){
-go(7);
-}
+if(id===4){go(7);}
 
 checkFinal();
 }
@@ -243,9 +244,26 @@ document.getElementById("finalBtn").style.display="block";
 }
 }
 
-/* TYPING */
-const msg="Happy Birthday Zinc 🎉💖 Stay happy always ✨";
+/* 🔥 FULL MESSAGE */
+const msg = `Happy Birthday, Zinc ❤️
 
+I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it. Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
+
+I also know that I’m not like your other friends. Maybe they’re better than me in many ways. Maybe they’re giving you expensive gifts, planning big surprises, or doing things that I can’t. And yeah… I’ve thought about that too.
+
+But I truly believe that money can’t buy happiness. What really matters is the effort, the intention, and the feelings behind it. And whatever this is… it comes from a real place.
+
+I just wanted to say this much — I hope you like this little surprise. I hope it makes you smile, even if just for a moment. And more than anything, I hope you always stay happy.
+
+I really want us to always remain friends, Zinc. That matters to me more than I can properly explain.
+
+There’s actually something I wanted to say… but I’ll leave it for now. I don’t want to risk ruining your day.
+
+So for now, that’s it.
+
+Once again, Happy Birthday, Zinc ❤️`;
+
+/* 🔥 TYPING + AUTO FIT */
 function startTyping(){
 let el=document.getElementById("typing");
 el.innerHTML="";
@@ -254,10 +272,22 @@ let i=0;
 function type(){
 if(i<msg.length){
 el.innerHTML+=msg[i++];
-setTimeout(type,15);
+setTimeout(type,8);
+}else{
+autoFit(el);
 }
 }
 type();
+}
+
+function autoFit(el){
+let size=26;
+el.style.fontSize=size+"px";
+
+while(el.scrollHeight > el.clientHeight && size > 14){
+size--;
+el.style.fontSize=size+"px";
+}
 }
 
 /* LOAD */
