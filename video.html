@@ -55,15 +55,38 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* GIFS */
+/* 🔥 PERFECT GIFTS GRID */
 .gifts{
 display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:25px;
-max-width:340px;
+grid-template-columns:repeat(2,140px);
+grid-template-rows:repeat(2,140px);
+gap:20px;
+justify-content:center;
+align-content:center;
+width:100%;
+max-width:320px;
+margin:auto;
 }
 
-/* 🔥 FINAL TEXT FIX */
+.gift{
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.gift img{
+width:120px;
+height:120px;
+object-fit:contain;
+cursor:pointer;
+transition:0.2s;
+}
+
+.gift img:active{
+transform:scale(0.9);
+}
+
+/* 🔥 FINAL TEXT */
 .final-text{
 position:absolute;
 top:50%;
@@ -84,7 +107,6 @@ font-size:30px;
 line-height:1.6;
 }
 
-/* hide scrollbar */
 .final-text::-webkit-scrollbar{display:none;}
 </style>
 </head>
@@ -137,7 +159,7 @@ line-height:1.6;
 
 <script>
 
-/* MUSIC */
+/* 🎵 MUSIC */
 let song=document.getElementById("song");
 
 function pauseMusic(){
@@ -188,17 +210,21 @@ document.getElementById("finalBtn").style.display="block";
 }
 }
 
-/* 🔥 FULL WISHES */
+/* 💌 FULL WISHES */
 const msg = `Happy Birthday, Zinc ❤️
 
-I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it.
-Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
-I also know that I’m not like your other friends. Maybe they’re better than me in many ways.
-But I truly believe that money can’t buy happiness.
-What really matters is the effort, the intention, and the feelings behind it.
-I just wanted to say this much — I hope you like this little surprise.
-I really want us to always remain friends, Zinc.
-There’s actually something I wanted to say… but I’ll leave it for now.
+I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it. Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
+
+I also know that I’m not like your other friends. Maybe they’re better than me in many ways. Maybe they’re giving you expensive gifts, planning big surprises, or doing things that I can’t. And yeah… I’ve thought about that too.
+
+But I truly believe that money can’t buy happiness. What really matters is the effort, the intention, and the feelings behind it. And whatever this is… it comes from a real place.
+
+I just wanted to say this much — I hope you like this little surprise. I hope it makes you smile, even if just for a moment. And more than anything, I hope you always stay happy.
+
+I really want us to always remain friends, Zinc. That matters to me more than I can properly explain.
+
+There’s actually something I wanted to say… but I’ll leave it for now. I don’t want to risk ruining your day.
+
 So for now, that’s it.
 
 Once again, Happy Birthday, Zinc ❤️`;
