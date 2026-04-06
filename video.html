@@ -57,27 +57,49 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* 🎁 GIFTS GRID */
+/* 🎁 PERFECT GIFT GRID */
 .gifts{
 display:grid;
-grid-template-columns:repeat(2,140px);
-grid-template-rows:repeat(2,140px);
+grid-template-columns:repeat(2, 150px);
 gap:40px;
 justify-content:center;
+align-items:center;
+margin-top:20px;
+}
+
+/* 🎁 GIFT BOX */
+.gift{
+width:150px;
+height:150px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:rgba(255,255,255,0.08);
+border-radius:22px;
+
+box-shadow:0 0 15px rgba(255,105,180,0.5);
+transition:0.3s;
 }
 
 .gift img{
-width:120px;height:120px;
-cursor:pointer;
+width:120px;
+height:120px;
+object-fit:contain;
 }
 
-/* 💌 LETTER SYSTEM */
+.gift:hover{
+transform:scale(1.1);
+box-shadow:0 0 30px rgba(255,105,180,0.9);
+}
+
+/* 💌 LETTER */
 .letter-container{
 position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-
 width:90%;
 max-width:600px;
 aspect-ratio:1030/580;
@@ -90,11 +112,8 @@ height:100%;
 object-fit:contain;
 }
 
-/* TEXT INSIDE LETTER */
 .letter-text{
 position:absolute;
-
-/* 🔥 perfectly inside */
 top:18%;
 left:10%;
 width:80%;
@@ -107,9 +126,10 @@ text-align:center;
 
 font-family:'Dancing Script', cursive;
 color:#000;
-line-height:1.6;
+line-height:1.5;
 
 overflow:hidden;
+padding:5px;
 }
 
 /* BUTTON GROUP */
@@ -155,10 +175,23 @@ gap:10px;
 <div class="bg"></div>
 
 <div class="gifts">
-<div onclick="openGift(1)"><img src="assets/gift.png"></div>
-<div onclick="openGift(2)"><img src="assets/gift.png"></div>
-<div onclick="openGift(3)"><img src="assets/gift.png"></div>
-<div onclick="openGift(4)"><img src="assets/gift.png"></div>
+
+<div class="gift" onclick="openGift(1)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(2)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(3)">
+<img src="assets/gift.png">
+</div>
+
+<div class="gift" onclick="openGift(4)">
+<img src="assets/gift.png">
+</div>
+
 </div>
 
 <button class="btn" onclick="go(1)">Back</button>
@@ -205,13 +238,15 @@ function goCake(){
 window.location.href="index.html#p3";
 }
 
-/* 🎁 FIXED STORAGE SYSTEM */
+/* 🎁 STORAGE */
 function openGift(id){
 
 let opened = JSON.parse(localStorage.getItem("gifts")) || {};
 
 opened[id] = true;
 localStorage.setItem("gifts", JSON.stringify(opened));
+
+checkFinal();
 
 if(id===1) location.href="flipbook.html";
 if(id===2) location.href="video1.html";
@@ -227,24 +262,26 @@ document.getElementById("finalBtn").style.display = "block";
 }
 }
 
-/* 💌 FULL TEXT */
-const msg = `Happy Birthday, Zinc ❤️
+/* 💌 FULL WISHES */
+const msg = `Happy Birthday, Zinc! 🎉✨ Always stay happy, keep smiling, and enjoy your day to the fullest 😄 
 
-I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it. Because sometimes, the simplest and most genuine things come from the heart.
+Be truly happy, because you deserve all the good things in life. 
 
-I also know that I’m not like your other friends.
+And thank you for coming into my life and becoming my friend — it really means a lot to me 🤝 
 
-But I truly believe that money can’t buy happiness.
+I also hope you always stay as beautiful as you are ✨ 
 
-What really matters is the effort, the intention, and the feelings behind it.
+Just a little wish from my side 😆 
 
-I just wanted to say this much — I hope you like this little surprise.
+I hope we stay together at least until my birthday, because my birthday comes at the end of the year 😂 
 
-I really want us to always remain friends, Zinc.
+Once again, Happy Birthday! 🎂🎈 
 
-Once again, Happy Birthday, Zinc ❤️`;
+Stay amazing and keep shining always ✨ 
 
-/* TYPE + SAFE FIT */
+- Akarsh ❤️`;
+
+/* TYPING */
 function startTyping(){
 let el=document.getElementById("typing");
 el.innerHTML="";
@@ -261,10 +298,10 @@ setTimeout(()=>autoFit(el),100);
 type();
 }
 
-/* 🔥 SAFE AUTO FIT */
+/* AUTO FIT */
 function autoFit(el){
 let size=32;
-let min=16;
+let min=12;
 
 el.style.fontSize=size+"px";
 
