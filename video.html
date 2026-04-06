@@ -15,15 +15,19 @@ body{overflow:hidden;background:#000;font-family:sans-serif;}
 /* PAGE */
 .page{
 position:fixed;inset:0;
-display:flex;flex-direction:column;
-justify-content:center;align-items:center;
-opacity:0;pointer-events:none;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+opacity:0;
+pointer-events:none;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
 /* BG */
 .bg{
-position:absolute;inset:0;
+position:absolute;
+inset:0;
 background:url("assets/bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
@@ -31,16 +35,6 @@ z-index:-1;
 /* FINAL BG */
 #p8 .bg{
 background:url("assets/final-bg.jpg") center/cover no-repeat;
-}
-
-/* GIF */
-.box{
-width:240px;height:150px;
-display:flex;justify-content:center;align-items:center;
-overflow:hidden;margin-bottom:15px;
-}
-.box img{
-max-width:100%;max-height:100%;object-fit:contain;
 }
 
 /* BUTTON */
@@ -55,43 +49,56 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* 🎁 GIFTS GRID */
+/* 🎁 PERFECT GRID (CENTER, NOT PINK BOX) */
 .gifts{
 display:grid;
-grid-template-columns:repeat(2,140px);
-grid-template-rows:repeat(2,140px);
+grid-template-columns:repeat(2,130px);
+grid-template-rows:repeat(2,130px);
 gap:20px;
 justify-content:center;
 align-content:center;
 }
 
-.gift img{
-width:120px;height:120px;
-object-fit:contain;
-cursor:pointer;
+.gift{
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-/* 🔥 PERFECT TEXT BOX (ALIGNED TO PAPER) */
+.gift img{
+width:110px;
+height:110px;
+object-fit:contain;
+cursor:pointer;
+transition:0.2s;
+}
+
+.gift img:active{
+transform:scale(0.9);
+}
+
+/* 💌 TEXT EXACT PINK PAPER AREA */
 .text-box{
 position:absolute;
 
-/* 🔥 tuned for your background */
-top:46%;
+/* 🔥 EXACTLY tuned to your image */
+top:47%;
 left:50%;
 transform:translate(-50%,-50%);
 
-/* 🔥 paper size fit */
-width:72%;
-max-width:340px;
-aspect-ratio:1/1;
+/* 📏 pink paper size */
+width:74%;
+max-width:360px;
+aspect-ratio:2/1;
 
-padding:18px;
+/* spacing inside paper */
+padding:18px 16px;
 
 display:flex;
 justify-content:center;
 align-items:center;
 
-border-radius:12px;
+overflow:hidden;
 }
 
 /* TEXT */
@@ -108,14 +115,12 @@ font-family:'Dancing Script', cursive;
 color:#000;
 
 line-height:1.5;
-overflow:hidden;
 }
 
 /* BUTTON GROUP */
 .btn-group{
 position:absolute;
-bottom:30px;
-
+bottom:25px;
 display:flex;
 gap:10px;
 }
@@ -129,32 +134,21 @@ gap:10px;
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
 <div class="bg"></div>
-<div class="box"><img src="assets/gif1.gif"></div>
-<button class="btn" onclick="goCake()">Back</button>
-<button class="btn" onclick="go(3)">Yes 💖</button>
-<button class="btn" onclick="go(2)">No 😒</button>
+<button class="btn" onclick="go(3)">Start 💖</button>
 </div>
 
-<!-- PAGE 2 -->
-<div class="page" id="p2">
-<div class="bg"></div>
-<div class="box"><img src="assets/gif2.gif"></div>
-<button class="btn" onclick="go(1)">Back</button>
-</div>
-
-<!-- GIFTS -->
+<!-- GIFTS PAGE -->
 <div class="page" id="p3">
 <div class="bg"></div>
 
 <div class="gifts">
-<div onclick="openGift(1)"><img src="assets/gift.png"></div>
-<div onclick="openGift(2)"><img src="assets/gift.png"></div>
-<div onclick="openGift(3)"><img src="assets/gift.png"></div>
-<div onclick="openGift(4)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(1)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(2)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(3)"><img src="assets/gift.png"></div>
+<div class="gift" onclick="openGift(4)"><img src="assets/gift.png"></div>
 </div>
 
-<button class="btn" onclick="go(1)">Back</button>
-<button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words 💌</button>
+<button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final 💌</button>
 </div>
 
 <!-- FINAL PAGE -->
@@ -177,14 +171,7 @@ gap:10px;
 /* MUSIC */
 let song=document.getElementById("song");
 
-function pauseMusic(){
-localStorage.setItem("time",song.currentTime);
-song.pause();
-}
-
 function resumeMusic(){
-let t=localStorage.getItem("time");
-if(t){song.currentTime=t;}
 song.play().catch(()=>{});
 }
 
@@ -198,57 +185,42 @@ resumeMusic();
 if(n===8) startTyping();
 }
 
-/* BACK */
-function goCake(){
-window.location.href="index.html#p3";
-}
-
-/* GIF LOGIC */
-let opened = JSON.parse(localStorage.getItem("gifts")) || {};
+/* GIF TRACK */
+let opened={};
 
 function openGift(id){
 opened[id]=true;
-localStorage.setItem("gifts", JSON.stringify(opened));
 
-if(id===1){pauseMusic();window.location.href="flipbook.html";return;}
-if(id===2){pauseMusic();window.location.href="video1.html";return;}
-if(id===3){pauseMusic();window.location.href="cardbook.html";return;}
-if(id===4){pauseMusic();window.location.href="video4.html";return;}
+if(id===1) location.href="flipbook.html";
+if(id===2) location.href="video1.html";
+if(id===3) location.href="cardbook.html";
+if(id===4) location.href="video4.html";
 
-checkFinal();
-}
-
-function checkFinal(){
-let data = JSON.parse(localStorage.getItem("gifts")) || {};
-if(Object.keys(data).length===4){
+if(Object.keys(opened).length===4){
 document.getElementById("finalBtn").style.display="block";
 }
 }
 
-/* 💌 FULL WISHES */
+/* 💌 FULL ORIGINAL WISH (NO CUT) */
 const msg = `Happy Birthday, Zinc ❤️
 
-I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it.
+I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it. Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
 
-Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
+I also know that I’m not like your other friends. Maybe they’re better than me in many ways. Maybe they’re giving you expensive gifts, planning big surprises, or doing things that I can’t. And yeah… I’ve thought about that too.
 
-I also know that I’m not like your other friends. Maybe they’re better than me in many ways.
+But I truly believe that money can’t buy happiness. What really matters is the effort, the intention, and the feelings behind it. And whatever this is… it comes from a real place.
 
-But I truly believe that money can’t buy happiness.
+I just wanted to say this much — I hope you like this little surprise. I hope it makes you smile, even if just for a moment. And more than anything, I hope you always stay happy.
 
-What really matters is the effort, the intention, and the feelings behind it.
+I really want us to always remain friends, Zinc. That matters to me more than I can properly explain.
 
-I just wanted to say this much — I hope you like this little surprise.
-
-I really want us to always remain friends, Zinc.
-
-There’s actually something I wanted to say… but I’ll leave it for now.
+There’s actually something I wanted to say… but I’ll leave it for now. I don’t want to risk ruining your day.
 
 So for now, that’s it.
 
 Once again, Happy Birthday, Zinc ❤️`;
 
-/* AUTO FIT */
+/* AUTO FIT PERFECT */
 function startTyping(){
 let el=document.getElementById("typing");
 el.innerHTML="";
@@ -266,10 +238,10 @@ type();
 }
 
 function autoFit(el){
-let size=32;
+let size=28;
 el.style.fontSize=size+"px";
 
-while(el.scrollHeight>el.clientHeight && size>14){
+while(el.scrollHeight>el.clientHeight && size>12){
 size--;
 el.style.fontSize=size+"px";
 }
@@ -278,12 +250,6 @@ el.style.fontSize=size+"px";
 /* TELEGRAM */
 function openTelegram(){
 window.open("https://t.me/niconiconicotine","_blank");
-}
-
-/* LOAD */
-window.onload=function(){
-resumeMusic();
-checkFinal();
 }
 
 </script>
