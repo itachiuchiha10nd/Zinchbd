@@ -12,7 +12,10 @@
 body{
 height:100vh;
 overflow:hidden;
-background:#000;
+
+/* 🔥 SAME BACKGROUND ALWAYS */
+background:url("assets/letter-pop.jpg") center/cover no-repeat;
+
 display:flex;
 justify-content:center;
 align-items:center;
@@ -37,22 +40,14 @@ object-fit:cover;
 border-radius:20px;
 }
 
-/* 💌 LETTER BG */
-.letter-bg{
-position:fixed;
-inset:0;
-background:url("assets/letter-pop.jpg") center/cover no-repeat;
-
-display:none;
-justify-content:center;
-align-items:center;
-}
-
-/* LETTER */
+/* 💌 LETTER */
 .letter{
-width:80vw;
-max-width:420px;
-height:300px;
+position:absolute;
+
+/* 🔥 6:8 RATIO */
+width:60vw;
+max-width:360px;
+aspect-ratio:6/8;
 
 background:#fff;
 border-radius:15px;
@@ -102,18 +97,16 @@ z-index:10;
 <button class="back" onclick="goBack()">Back</button>
 
 <!-- 🎥 VIDEO -->
-<div class="video-box">
+<div class="video-box" id="videoBox">
 <video id="vid" src="assets/video4.mp4" autoplay playsinline></video>
 </div>
 
 <!-- 💌 LETTER -->
-<div class="letter-bg" id="letterBg">
 <div class="letter" id="letter">
 <div class="text">
 You are really special to me 💖<br><br>
 I hope you always stay happy 😊<br><br>
 Thank you for being in my life 💌
-</div>
 </div>
 </div>
 
@@ -125,19 +118,16 @@ Thank you for being in my life 💌
 let video=document.getElementById("vid");
 let bg=document.getElementById("bgMusic");
 
-/* 🎥 VIDEO AUTOPLAY WITH SOUND FIX */
+/* VIDEO PLAY FIX */
 video.play().catch(()=>{
 document.body.addEventListener("click",()=>video.play(),{once:true});
 });
 
-/* 🎬 VIDEO END */
+/* VIDEO END */
 video.onended=()=>{
 
-document.querySelector(".video-box").style.display="none";
-
-/* SHOW BG */
-let bgDiv=document.getElementById("letterBg");
-bgDiv.style.display="flex";
+/* HIDE VIDEO */
+document.getElementById("videoBox").style.display="none";
 
 /* 🎵 START MUSIC */
 let t=localStorage.getItem("time")||0;
@@ -147,7 +137,7 @@ bg.play().catch(()=>{
 document.body.addEventListener("click",()=>bg.play(),{once:true});
 });
 
-/* 💌 POP LETTER */
+/* 💌 SHOW LETTER */
 setTimeout(()=>{
 document.getElementById("letter").classList.add("show");
 },300);
