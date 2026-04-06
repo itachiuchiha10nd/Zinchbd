@@ -60,19 +60,13 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* 🎁 GRID */
+/* GIFTS */
 .gifts{
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:25px;
 width:100%;
 max-width:340px;
-justify-content:center;
-}
-
-.gift{
-display:flex;
-justify-content:center;
 }
 
 .gift img{
@@ -82,13 +76,12 @@ object-fit:contain;
 cursor:pointer;
 }
 
-/* 🔥 LETTER (LANDSCAPE + PERFECT FIT) */
+/* 🔥 LETTER FIXED */
 .letter{
 position:relative;
 width:90vw;
 max-width:650px;
 height:55vh;
-
 display:flex;
 justify-content:center;
 align-items:center;
@@ -100,7 +93,7 @@ height:100%;
 object-fit:contain;
 }
 
-/* TEXT */
+/* 🔥 PERFECT TEXT FIT */
 .text{
 position:absolute;
 top:50%;
@@ -108,19 +101,16 @@ left:50%;
 transform:translate(-50%,-50%);
 
 width:85%;
-height:75%;
+max-height:80%;
 
-display:flex;
-justify-content:center;
-align-items:center;
 text-align:center;
 
 font-family:'Poppins', sans-serif;
 font-weight:bold;
 color:#000;
 
-font-size:26px;
-line-height:1.4;
+font-size:28px;
+line-height:1.6;
 
 overflow:hidden;
 }
@@ -134,11 +124,7 @@ overflow:hidden;
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
 <div class="bg"></div>
-
-<div class="box">
-<img src="assets/gif1.gif">
-</div>
-
+<div class="box"><img src="assets/gif1.gif"></div>
 <button class="btn" onclick="goCake()">Back</button>
 <button class="btn" onclick="go(3)">Yes 💖</button>
 <button class="btn" onclick="go(2)">No 😒</button>
@@ -147,25 +133,19 @@ overflow:hidden;
 <!-- PAGE 2 -->
 <div class="page" id="p2">
 <div class="bg"></div>
-
-<div class="box">
-<img src="assets/gif2.gif">
-</div>
-
+<div class="box"><img src="assets/gif2.gif"></div>
 <button class="btn" onclick="go(1)">Back</button>
 </div>
 
 <!-- GIFTS -->
 <div class="page" id="p3">
 <div class="bg"></div>
-
 <div class="gifts">
 <div class="gift" onclick="openGift(1)"><img src="assets/gift.png"></div>
 <div class="gift" onclick="openGift(2)"><img src="assets/gift.png"></div>
 <div class="gift" onclick="openGift(3)"><img src="assets/gift.png"></div>
 <div class="gift" onclick="openGift(4)"><img src="assets/gift.png"></div>
 </div>
-
 <button class="btn" onclick="go(1)">Back</button>
 <button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words 💌</button>
 </div>
@@ -180,18 +160,16 @@ overflow:hidden;
 <!-- FINAL PAGE -->
 <div class="page" id="p8">
 <div class="bg"></div>
-
 <div class="letter">
 <img src="assets/fina-box.png">
 <div class="text" id="typing"></div>
 </div>
-
 <button class="btn" onclick="go(3)">Back</button>
 </div>
 
 <script>
 
-/* 🎵 MUSIC */
+/* MUSIC */
 let song=document.getElementById("song");
 
 function pauseMusic(){
@@ -220,11 +198,10 @@ function goCake(){
 window.location.href="index.html#p3";
 }
 
-/* GIFTS */
+/* GIF TRACK */
 let opened = JSON.parse(localStorage.getItem("gifts")) || {};
 
 function openGift(id){
-
 opened[id]=true;
 localStorage.setItem("gifts", JSON.stringify(opened));
 
@@ -244,26 +221,28 @@ document.getElementById("finalBtn").style.display="block";
 }
 }
 
-/* 🔥 FULL MESSAGE */
+/* 🔥 MESSAGE */
 const msg = `Happy Birthday, Zinc ❤️
 
-I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it. Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
+I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it.
 
-I also know that I’m not like your other friends. Maybe they’re better than me in many ways. Maybe they’re giving you expensive gifts, planning big surprises, or doing things that I can’t. And yeah… I’ve thought about that too.
+Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
 
-But I truly believe that money can’t buy happiness. What really matters is the effort, the intention, and the feelings behind it. And whatever this is… it comes from a real place.
+I also know that I’m not like your other friends.
 
-I just wanted to say this much — I hope you like this little surprise. I hope it makes you smile, even if just for a moment. And more than anything, I hope you always stay happy.
+Maybe they’re better than me in many ways. Maybe they’re giving you expensive gifts, planning big surprises, or doing things that I can’t.
 
-I really want us to always remain friends, Zinc. That matters to me more than I can properly explain.
+But I truly believe that money can’t buy happiness.
 
-There’s actually something I wanted to say… but I’ll leave it for now. I don’t want to risk ruining your day.
+What really matters is the effort, the intention, and the feelings behind it.
 
-So for now, that’s it.
+I just wanted to say this much — I hope you like this little surprise.
+
+I really want us to always remain friends, Zinc.
 
 Once again, Happy Birthday, Zinc ❤️`;
 
-/* 🔥 TYPING + AUTO FIT */
+/* 🔥 PERFECT TYPING + FIT */
 function startTyping(){
 let el=document.getElementById("typing");
 el.innerHTML="";
@@ -272,21 +251,21 @@ let i=0;
 function type(){
 if(i<msg.length){
 el.innerHTML+=msg[i++];
-setTimeout(type,8);
+setTimeout(type,10);
 }else{
-autoFit(el);
+setTimeout(()=>autoFit(el),100);
 }
 }
 type();
 }
 
 function autoFit(el){
-let size=26;
-el.style.fontSize=size+"px";
+let size = 28;
+el.style.fontSize = size + "px";
 
-while(el.scrollHeight > el.clientHeight && size > 14){
+while(el.scrollHeight > el.parentElement.clientHeight * 0.8 && size > 12){
 size--;
-el.style.fontSize=size+"px";
+el.style.fontSize = size + "px";
 }
 }
 
