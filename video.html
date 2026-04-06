@@ -12,7 +12,6 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{overflow:hidden;background:#000;font-family:sans-serif;}
 
-/* PAGE */
 .page{
 position:fixed;inset:0;
 display:flex;
@@ -24,10 +23,8 @@ pointer-events:none;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
-/* BG */
 .bg{
-position:absolute;
-inset:0;
+position:absolute;inset:0;
 background:url("assets/bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
@@ -45,9 +42,7 @@ align-items:center;
 margin-bottom:15px;
 }
 .box img{
-width:100%;
-height:100%;
-object-fit:contain;
+width:100%;height:100%;object-fit:contain;
 }
 
 /* BUTTON */
@@ -62,14 +57,13 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* 🎁 PERFECT GRID */
+/* 🎁 GIFTS GRID */
 .gifts{
 display:grid;
-grid-template-columns:repeat(2, 130px);
-grid-template-rows:repeat(2, 130px);
-gap:40px; /* 🔥 proper distance */
+grid-template-columns:repeat(2,140px);
+grid-template-rows:repeat(2,140px);
+gap:35px;
 justify-content:center;
-align-content:center;
 }
 
 .gift{
@@ -79,39 +73,41 @@ align-items:center;
 }
 
 .gift img{
-width:110px;
-height:110px;
-object-fit:contain;
+width:120px;
+height:120px;
 cursor:pointer;
+transition:0.2s;
 }
 
-/* 💌 LETTER POSITION (TUNED) */
-.text-box{
-position:absolute;
+.gift img:active{
+transform:scale(0.9);
+}
 
-/* 🔥 ADJUSTED FOR YOUR IMAGE */
+/* 💌 LETTER SYSTEM */
+.letter-container{
+position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
 
-/* 📏 correct size */
-width:78%;
-max-width:500px;
+width:85%;
+max-width:520px;
 aspect-ratio:1030/580;
-
-padding:25px 30px;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-overflow:hidden;
 }
 
-/* TEXT */
-.final-text{
+.letter-img{
+position:absolute;
 width:100%;
 height:100%;
+object-fit:contain;
+}
+
+.letter-text{
+position:absolute;
+top:15%;
+left:8%;
+width:84%;
+height:70%;
 
 display:flex;
 justify-content:center;
@@ -120,8 +116,9 @@ text-align:center;
 
 font-family:'Dancing Script', cursive;
 color:#000;
-
 line-height:1.6;
+
+overflow:hidden;
 }
 
 /* BUTTON GROUP */
@@ -181,8 +178,9 @@ gap:10px;
 <div class="page" id="p8">
 <div class="bg"></div>
 
-<div class="text-box">
-<div class="final-text" id="typing"></div>
+<div class="letter-container">
+<img src="assets/letter.png" class="letter-img">
+<div class="letter-text" id="typing"></div>
 </div>
 
 <div class="btn-group">
@@ -194,6 +192,7 @@ gap:10px;
 
 <script>
 
+/* MUSIC */
 let song=document.getElementById("song");
 
 function playMusic(){
@@ -207,10 +206,7 @@ document.getElementById("p"+n).classList.add("active");
 
 playMusic();
 
-if(n===8){
-showText();
-autoFit();
-}
+if(n===8) startTyping();
 }
 
 /* BACK */
@@ -218,7 +214,7 @@ function goCake(){
 window.location.href="index.html#p3";
 }
 
-/* GIF OPEN */
+/* GIFT OPEN */
 function openGift(id){
 
 if(id===1) location.href="flipbook.html";
@@ -233,6 +229,7 @@ localStorage.setItem("gifts", JSON.stringify(opened));
 checkFinal();
 }
 
+/* FINAL BUTTON */
 function checkFinal(){
 let data = JSON.parse(localStorage.getItem("gifts")) || {};
 if(Object.keys(data).length===4){
@@ -240,12 +237,10 @@ document.getElementById("finalBtn").style.display="block";
 }
 }
 
-/* TEXT */
+/* 💌 FULL TEXT */
 const msg = `Happy Birthday, Zinc ❤️
 
-I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it.
-
-Because sometimes, the simplest and most genuine things come from the heart.
+I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it. Because sometimes, the simplest and most genuine things come from the heart.
 
 I also know that I’m not like your other friends.
 
@@ -259,21 +254,36 @@ I really want us to always remain friends, Zinc.
 
 Once again, Happy Birthday, Zinc ❤️`;
 
-function showText(){
-document.getElementById("typing").innerText = msg;
+/* TYPE + FIT */
+function startTyping(){
+let el=document.getElementById("typing");
+el.innerHTML="";
+let i=0;
+
+function type(){
+if(i<msg.length){
+el.innerHTML+=msg[i++];
+setTimeout(type,8);
+}else{
+setTimeout(()=>autoFit(el),100);
+}
+}
+type();
 }
 
-/* PERFECT FIT */
-function autoFit(){
-let el=document.getElementById("typing");
-let size=30;
+function autoFit(el){
+let size=32;
+let min=14;
 
-while(el.scrollHeight > el.clientHeight && size > 14){
+el.style.fontSize=size+"px";
+
+while(el.scrollHeight > el.clientHeight && size > min){
 size--;
 el.style.fontSize=size+"px";
 }
 }
 
+/* TELEGRAM */
 function openTelegram(){
 window.open("https://t.me/niconiconicotine","_blank");
 }
