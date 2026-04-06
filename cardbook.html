@@ -6,7 +6,7 @@
 
 <title>Card Wishes 💌</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -15,12 +15,12 @@ body{
 height:100vh;
 overflow:hidden;
 
-/* 🔥 FULL BACKGROUND FIX */
-background:url("assets/card-bg.jpg") no-repeat center;
+/* 🔥 FULL BG FIX */
+background:url("assets/card-bg.png") no-repeat center;
 background-size:contain;
 background-color:#f7f7f7;
 
-font-family:'Dancing Script', cursive;
+font-family:'Poppins', sans-serif;
 }
 
 /* BACK BUTTON */
@@ -28,20 +28,17 @@ font-family:'Dancing Script', cursive;
 position:absolute;
 top:15px;
 left:15px;
-padding:6px 14px;
+padding:8px 16px;
 background:#ff6eb4;
-color:white;
+color:#fff;
 border:none;
 border-radius:20px;
 z-index:10;
-font-size:14px;
 }
 
-/* 🎯 CARD AREA (PERFECT POSITION) */
+/* CARD AREA */
 .card-area{
 position:absolute;
-
-/* 🔥 tuned for your image */
 top:48%;
 left:50%;
 transform:translate(-50%,-50%) scale(0.23);
@@ -56,12 +53,15 @@ position:absolute;
 width:100%;
 height:100%;
 border-radius:25px;
-padding:40px;
+padding:50px;
+
 display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
-font-size:40px;
+
+font-size:32px;
+line-height:1.5;
 color:#333;
 
 box-shadow:0 20px 40px rgba(0,0,0,0.2);
@@ -70,27 +70,26 @@ transition:transform 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.5s;
 }
 
 /* COLORS */
-.card:nth-child(1){background:#ffffff;}
+.card:nth-child(1){background:#e0f2fe;}
 .card:nth-child(2){background:#ffd1dc;}
 .card:nth-child(3){background:#d4f8e8;}
 .card:nth-child(4){background:#fff4b8;}
 .card:nth-child(5){background:#e6ccff;}
-.card:nth-child(6){background:#ffe0cc;}
 
-/* LEFT SMALL */
+/* LEFT */
 .card{
 transform:translateX(-160px) scale(0.75);
 opacity:0.5;
 }
 
-/* CENTER BIG */
+/* CENTER */
 .card.active{
 transform:translateX(0) scale(1);
 opacity:1;
 z-index:5;
 }
 
-/* RIGHT SMALL */
+/* RIGHT */
 .card.next{
 transform:translateX(160px) scale(0.8);
 opacity:0.7;
@@ -102,80 +101,93 @@ z-index:4;
 <body>
 
 <!-- 🎵 MUSIC -->
-<audio id="bgMusic" src="assets/bg.mp3" loop></audio>
+<audio id="bgMusic" src="assets/song.mp3" loop></audio>
 
 <button class="back" onclick="goBack()">Back</button>
 
 <div class="card-area" id="cardArea">
 
-<div class="card">Happy Birthday Zinc 🎉💖</div>
-
 <div class="card">
-Stay happy always 😊<br>
-You deserve everything ✨
+<b>🎀 Wish 1 –</b><br><br>
+Happy Birthday, Zinc ❤️<br><br>
+Playing games with you all genuinely makes me happy.<br>
+Those random moments mean more than they look.<br><br>
+You became one of the few people I truly connected with.<br>
+And I’m really glad you’re part of my life.
 </div>
 
 <div class="card">
-Thanks for being in my life 🤝💖
+<b>🎀 Wish 2 –</b><br><br>
+Happy Birthday, Zinc ❤️<br><br>
+Sometimes I feel a bit outside in the group.<br>
+Like maybe I haven’t fully fit in yet.<br><br>
+But I still want to feel like I belong there too.<br>
+I hope things slowly become more comfortable.
 </div>
 
 <div class="card">
-Keep smiling forever 😄💫
+<b>🎀 Wish 3 –</b><br><br>
+Happy Birthday, Zinc ❤️<br><br>
+I want our friendship to grow stronger.<br>
+Something real and meaningful over time.<br><br>
+I just hope this bond keeps getting better.
 </div>
 
 <div class="card">
-I hope we stay together always 😂💌
+<b>🎀 Wish 4 –</b><br><br>
+Happy Birthday, Zinc ❤️<br><br>
+If someday something happens,<br>
+I hope you’d try to understand me first.<br><br>
+That kind of support matters a lot.
 </div>
 
 <div class="card">
-Enjoy your special day 🎂🎈
+<b>🎀 Wish 5 –</b><br><br>
+Happy Birthday, Zinc ❤️<br><br>
+I didn’t want to make this complicated.<br>
+Just wanted to say what I felt.<br><br>
+I’m really glad you’re my friend 💌
 </div>
 
 </div>
 
 <script>
 
-/* 🎵 MUSIC */
-let bg = document.getElementById("bgMusic");
+/* 🎵 MUSIC SYSTEM */
+let bg=document.getElementById("bgMusic");
 
-window.onload = ()=>{
-let t = localStorage.getItem("time") || 0;
-bg.currentTime = t;
+window.onload=()=>{
+let t=localStorage.getItem("time")||0;
+bg.currentTime=t;
 
 bg.play().catch(()=>{
-document.body.addEventListener("click", ()=>bg.play(), {once:true});
+document.body.addEventListener("click",()=>bg.play(),{once:true});
 });
 
 setInterval(()=>{
-localStorage.setItem("time", bg.currentTime);
+localStorage.setItem("time",bg.currentTime);
 },1000);
 };
 
 /* CARD SYSTEM */
-let cards = document.querySelectorAll(".card");
-let index = 0;
+let cards=document.querySelectorAll(".card");
+let index=0;
 
 function updateCards(){
 cards.forEach((card,i)=>{
 card.style.transition="0.5s";
 card.classList.remove("active","next");
 
-if(i === index){
-card.classList.add("active");
-}
-else if(i === index+1){
-card.classList.add("next");
-}
+if(i===index) card.classList.add("active");
+else if(i===index+1) card.classList.add("next");
 });
 }
-
 updateCards();
 
-/* 🔥 DRAG */
+/* DRAG */
 let startX=0,currentX=0,isDragging=false;
 const area=document.getElementById("cardArea");
 
-/* TOUCH */
 area.addEventListener("touchstart",e=>{
 startX=e.touches[0].clientX;
 isDragging=true;
