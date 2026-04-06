@@ -13,13 +13,12 @@ body{
 height:100vh;
 overflow:hidden;
 background:#000;
-
 display:flex;
 justify-content:center;
 align-items:center;
 }
 
-/* 🎥 VIDEO BOX (SQUARE CENTER) */
+/* 🎥 VIDEO BOX */
 .video-box{
 width:85vw;
 max-width:500px;
@@ -42,7 +41,7 @@ border-radius:20px;
 .letter-bg{
 position:fixed;
 inset:0;
-background:url("assets/final-bg.jpg") center/cover no-repeat;
+background:url("assets/letter-pop.jpg") center/cover no-repeat;
 
 display:none;
 justify-content:center;
@@ -52,7 +51,7 @@ align-items:center;
 /* LETTER */
 .letter{
 width:80vw;
-max-width:400px;
+max-width:420px;
 height:300px;
 
 background:#fff;
@@ -67,7 +66,7 @@ padding:20px;
 
 transform:scale(0);
 opacity:0;
-transition:0.5s;
+transition:0.5s ease;
 }
 
 .letter.show{
@@ -102,9 +101,9 @@ z-index:10;
 
 <button class="back" onclick="goBack()">Back</button>
 
-<!-- 🎥 VIDEO BOX -->
+<!-- 🎥 VIDEO -->
 <div class="video-box">
-<video id="vid" src="assets/video4.mp4" autoplay muted playsinline></video>
+<video id="vid" src="assets/video4.mp4" autoplay playsinline></video>
 </div>
 
 <!-- 💌 LETTER -->
@@ -126,12 +125,12 @@ Thank you for being in my life 💌
 let video=document.getElementById("vid");
 let bg=document.getElementById("bgMusic");
 
-/* AUTO PLAY FIX (mobile) */
+/* 🎥 VIDEO AUTOPLAY WITH SOUND FIX */
 video.play().catch(()=>{
 document.body.addEventListener("click",()=>video.play(),{once:true});
 });
 
-/* VIDEO END */
+/* 🎬 VIDEO END */
 video.onended=()=>{
 
 document.querySelector(".video-box").style.display="none";
@@ -140,7 +139,7 @@ document.querySelector(".video-box").style.display="none";
 let bgDiv=document.getElementById("letterBg");
 bgDiv.style.display="flex";
 
-/* MUSIC RESUME */
+/* 🎵 START MUSIC */
 let t=localStorage.getItem("time")||0;
 bg.currentTime=t;
 
@@ -148,13 +147,13 @@ bg.play().catch(()=>{
 document.body.addEventListener("click",()=>bg.play(),{once:true});
 });
 
-/* POP LETTER */
+/* 💌 POP LETTER */
 setTimeout(()=>{
 document.getElementById("letter").classList.add("show");
 },300);
 };
 
-/* SAVE TIME */
+/* SAVE MUSIC TIME */
 setInterval(()=>{
 localStorage.setItem("time", bg.currentTime);
 },1000);
