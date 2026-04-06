@@ -6,11 +6,11 @@
 
 <title>Surprise 💗</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{overflow:hidden;font-family:sans-serif;background:#000;}
+body{overflow:hidden;background:#000;font-family:sans-serif;}
 
 /* PAGE */
 .page{
@@ -36,16 +36,11 @@ background:url("assets/final-bg.jpg") center/cover no-repeat;
 /* GIF BOX */
 .box{
 width:240px;height:150px;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-margin-bottom:15px;
+display:flex;justify-content:center;align-items:center;
+overflow:hidden;margin-bottom:15px;
 }
 .box img{
-max-width:100%;
-max-height:100%;
-object-fit:contain;
+max-width:100%;max-height:100%;object-fit:contain;
 }
 
 /* BUTTON */
@@ -60,60 +55,37 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* GIFTS */
+/* GIFS */
 .gifts{
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:25px;
-width:100%;
 max-width:340px;
 }
 
-.gift img{
-width:140px;
-height:140px;
-object-fit:contain;
-cursor:pointer;
-}
-
-/* 🔥 LETTER FIXED */
-.letter{
-position:relative;
-width:90vw;
-max-width:650px;
-height:55vh;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-.letter img{
-width:100%;
-height:100%;
-object-fit:contain;
-}
-
-/* 🔥 PERFECT TEXT FIT */
-.text{
+/* 🔥 FINAL TEXT FIX */
+.final-text{
 position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
 
 width:85%;
-max-height:80%;
+height:70%;
+
+overflow-y:auto;
 
 text-align:center;
 
-font-family:'Poppins', sans-serif;
-font-weight:bold;
+font-family:'Dancing Script', cursive;
 color:#000;
 
-font-size:28px;
+font-size:30px;
 line-height:1.6;
-
-overflow:hidden;
 }
+
+/* hide scrollbar */
+.final-text::-webkit-scrollbar{display:none;}
 </style>
 </head>
 
@@ -140,31 +112,27 @@ overflow:hidden;
 <!-- GIFTS -->
 <div class="page" id="p3">
 <div class="bg"></div>
+
 <div class="gifts">
 <div class="gift" onclick="openGift(1)"><img src="assets/gift.png"></div>
 <div class="gift" onclick="openGift(2)"><img src="assets/gift.png"></div>
 <div class="gift" onclick="openGift(3)"><img src="assets/gift.png"></div>
 <div class="gift" onclick="openGift(4)"><img src="assets/gift.png"></div>
 </div>
+
 <button class="btn" onclick="go(1)">Back</button>
 <button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final Words 💌</button>
-</div>
-
-<!-- GIFT 4 -->
-<div class="page" id="p7">
-<div class="bg"></div>
-<h2 style="color:white;">Gift 4 🎁</h2>
-<button class="btn" onclick="go(3)">Back</button>
 </div>
 
 <!-- FINAL PAGE -->
 <div class="page" id="p8">
 <div class="bg"></div>
-<div class="letter">
-<img src="assets/fina-box.png">
-<div class="text" id="typing"></div>
-</div>
+
+<div class="final-text" id="typing"></div>
+
 <button class="btn" onclick="go(3)">Back</button>
+<button class="btn" onclick="openTelegram()">❤️🧿🎀</button>
+
 </div>
 
 <script>
@@ -208,8 +176,7 @@ localStorage.setItem("gifts", JSON.stringify(opened));
 if(id===1){pauseMusic();window.location.href="flipbook.html";return;}
 if(id===2){pauseMusic();window.location.href="video1.html";return;}
 if(id===3){pauseMusic();window.location.href="cardbook.html";return;}
-
-if(id===4){go(7);}
+if(id===4){pauseMusic();window.location.href="video4.html";return;}
 
 checkFinal();
 }
@@ -221,21 +188,22 @@ document.getElementById("finalBtn").style.display="block";
 }
 }
 
-/* 🔥 MESSAGE */
+/* 🔥 FULL WISHES */
 const msg = `Happy Birthday, Zinc ❤️
 
 I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it.
 Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
-I also know that I’m not like your other friends.
-Maybe they’re better than me in many ways. Maybe they’re giving you expensive gifts, planning big surprises, or doing things that I can’t.
+I also know that I’m not like your other friends. Maybe they’re better than me in many ways.
 But I truly believe that money can’t buy happiness.
 What really matters is the effort, the intention, and the feelings behind it.
 I just wanted to say this much — I hope you like this little surprise.
 I really want us to always remain friends, Zinc.
+There’s actually something I wanted to say… but I’ll leave it for now.
+So for now, that’s it.
 
 Once again, Happy Birthday, Zinc ❤️`;
 
-/* 🔥 PERFECT TYPING + FIT */
+/* TYPING */
 function startTyping(){
 let el=document.getElementById("typing");
 el.innerHTML="";
@@ -244,22 +212,15 @@ let i=0;
 function type(){
 if(i<msg.length){
 el.innerHTML+=msg[i++];
-setTimeout(type,10);
-}else{
-setTimeout(()=>autoFit(el),100);
+setTimeout(type,8);
 }
 }
 type();
 }
 
-function autoFit(el){
-let size = 25;
-el.style.fontSize = size + "px";
-
-while(el.scrollHeight > el.parentElement.clientHeight * 0.8 && size > 9){
-size--;
-el.style.fontSize = size + "px";
-}
+/* TELEGRAM */
+function openTelegram(){
+window.open("https://t.me/niconiconicotine","_blank");
 }
 
 /* LOAD */
