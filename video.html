@@ -256,7 +256,7 @@ function autoFit(el){
 let size = 28;
 el.style.fontSize = size + "px";
 
-while(el.scrollHeight > el.parentElement.clientHeight * 0.8 && size > 12){
+while(el.scrollHeight > el.parentElement.clientHeight * 0.8 && size > 9){
 size--;
 el.style.fontSize = size + "px";
 }
