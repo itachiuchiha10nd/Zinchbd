@@ -12,31 +12,28 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{overflow:hidden;background:#000;font-family:sans-serif;}
 
-/* PAGE */
 .page{
 position:fixed;inset:0;
 display:flex;
-flex-direction:column;
 justify-content:center;
 align-items:center;
+flex-direction:column;
 opacity:0;
 pointer-events:none;
 }
 .page.active{opacity:1;pointer-events:auto;}
 
-/* BG */
 .bg{
-position:absolute;
-inset:0;
-background:url("assets/bg.jpg") center/cover no-repeat;
+position:absolute;inset:0;
+background:url("assets/final-bg.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
 #p8 .bg{
-background:url("assets/final-bg.jpg") center/cover no-repeat;
+background:url("assets/fina-box.png") center/cover no-repeat;
 }
 
-/* GIF BOX */
+/* GIF */
 .box{
 width:260px;height:180px;
 display:flex;
@@ -45,9 +42,7 @@ align-items:center;
 margin-bottom:15px;
 }
 .box img{
-width:100%;
-height:100%;
-object-fit:contain;
+width:100%;height:100%;object-fit:contain;
 }
 
 /* BUTTON */
@@ -62,39 +57,31 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* 🎁 GRID */
+/* 🎁 GIF GRID */
 .gifts{
 display:grid;
 grid-template-columns:repeat(2,150px);
-grid-template-rows:repeat(2,150px);
 gap:30px;
-justify-content:center;
-}
-
-.gift{
-display:flex;
-justify-content:center;
-align-items:center;
 }
 
 .gift img{
-width:120px;
-height:120px;
+width:120px;height:120px;
 cursor:pointer;
 }
 
-/* 💌 TEXT BOX */
+/* 💌 LETTER BOX EXACT */
 .text-box{
 position:absolute;
-top:47%;
+top:48%;
 left:50%;
 transform:translate(-50%,-50%);
 
-width:75%;
-max-width:360px;
-aspect-ratio:2/1;
+/* 🔥 exact ratio */
+width:85%;
+max-width:520px;
+aspect-ratio:1030 / 580;
 
-padding:15px;
+padding:25px;
 
 display:flex;
 justify-content:center;
@@ -103,6 +90,7 @@ align-items:center;
 overflow:hidden;
 }
 
+/* TEXT */
 .final-text{
 width:100%;
 height:100%;
@@ -115,14 +103,14 @@ text-align:center;
 font-family:'Dancing Script', cursive;
 color:#000;
 
-line-height:1.5;
-overflow:hidden;
+line-height:1.6;
+word-wrap:break-word;
 }
 
 /* BUTTON GROUP */
 .btn-group{
 position:absolute;
-bottom:20px;
+bottom:25px;
 display:flex;
 gap:10px;
 }
@@ -162,17 +150,17 @@ gap:10px;
 <div class="bg"></div>
 
 <div class="gifts">
-<div class="gift" onclick="openGift(1)"><img src="assets/gift.png"></div>
-<div class="gift" onclick="openGift(2)"><img src="assets/gift.png"></div>
-<div class="gift" onclick="openGift(3)"><img src="assets/gift.png"></div>
-<div class="gift" onclick="openGift(4)"><img src="assets/gift.png"></div>
+<div onclick="openGift(1)"><img src="assets/gift.png"></div>
+<div onclick="openGift(2)"><img src="assets/gift.png"></div>
+<div onclick="openGift(3)"><img src="assets/gift.png"></div>
+<div onclick="openGift(4)"><img src="assets/gift.png"></div>
 </div>
 
 <button class="btn" onclick="go(1)">Back</button>
 <button id="finalBtn" class="btn" style="display:none;" onclick="go(8)">Final 💌</button>
 </div>
 
-<!-- FINAL -->
+<!-- FINAL PAGE -->
 <div class="page" id="p8">
 <div class="bg"></div>
 
@@ -189,7 +177,6 @@ gap:10px;
 
 <script>
 
-/* MUSIC */
 let song=document.getElementById("song");
 
 function playMusic(){
@@ -214,10 +201,10 @@ window.location.href="index.html#p3";
 /* GIF OPEN */
 function openGift(id){
 
-if(id===1) window.location.href="flipbook.html";
-if(id===2) window.location.href="video1.html";
-if(id===3) window.location.href="cardbook.html";
-if(id===4) window.location.href="video4.html";
+if(id===1) location.href="flipbook.html";
+if(id===2) location.href="video1.html";
+if(id===3) location.href="cardbook.html";
+if(id===4) location.href="video4.html";
 
 let opened = JSON.parse(localStorage.getItem("gifts")) || {};
 opened[id]=true;
@@ -226,7 +213,6 @@ localStorage.setItem("gifts", JSON.stringify(opened));
 checkFinal();
 }
 
-/* FINAL BUTTON */
 function checkFinal(){
 let data = JSON.parse(localStorage.getItem("gifts")) || {};
 if(Object.keys(data).length===4){
@@ -237,15 +223,21 @@ document.getElementById("finalBtn").style.display="block";
 /* FULL TEXT */
 const msg = `Happy Birthday, Zinc ❤️
 
-I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it. Because sometimes, the simplest and most genuine things come from the heart, even if they’re not perfect.
-I also know that I’m not like your other friends. Maybe they’re better than me in many ways. Maybe they’re giving you expensive gifts, planning big surprises, or doing things that I can’t.But I truly believe that money can’t buy happiness.What really matters is the effort, the intention, and the feelings behind it.
+I know all of this might feel a little cringe… maybe even childish. But honestly, I still wanted to do it. Because sometimes, the simplest and most genuine things come from the heart.
+
+I also know that I’m not like your other friends.
+
+But I truly believe that money can’t buy happiness.
+
+What really matters is the effort, the intention, and the feelings behind it.
+
 I just wanted to say this much — I hope you like this little surprise.
-I really want us to always remain friends, Zinc.There’s actually something I wanted to say… but I’ll leave it for now.
-So for now, that’s it.
+
+I really want us to always remain friends, Zinc.
 
 Once again, Happy Birthday, Zinc ❤️`;
 
-/* TYPE + FIT */
+/* TYPE + SAFE FIT */
 function startTyping(){
 let el=document.getElementById("typing");
 el.innerHTML="";
@@ -262,22 +254,23 @@ setTimeout(()=>autoFit(el),100);
 type();
 }
 
+/* 🔥 SAFE AUTO FIT (NO VANISH) */
 function autoFit(el){
-let size=30;
+let size=32;
+let min=14;
+
 el.style.fontSize=size+"px";
 
-while(el.scrollHeight > el.clientHeight && size > 12){
+while(el.scrollHeight > el.clientHeight && size > min){
 size--;
 el.style.fontSize=size+"px";
 }
 }
 
-/* TELEGRAM */
 function openTelegram(){
 window.open("https://t.me/niconiconicotine","_blank");
 }
 
-/* LOAD */
 window.onload=function(){
 playMusic();
 checkFinal();
