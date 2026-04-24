@@ -62,10 +62,6 @@ You can easily modify:
 - Videos and flipbook content
 - Colors and styles (CSS)
 
-👤 Author
-
-Made with ❤️ by Akarsh for Zinc 💖
-
 ⭐ Special
 
 This project is designed as a personalized digital birthday surprise.
